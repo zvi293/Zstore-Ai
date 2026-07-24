@@ -539,6 +539,17 @@ body::after {
   .fc-3 { left: -6px; }
 }
 
+@media (max-width: 640px) {
+  .float-card { padding: 7px 10px; gap: 7px; border-radius: 12px; font-size: .7rem; }
+  .float-card strong { font-size: .74rem; }
+  .float-card small { font-size: .65rem; }
+  .float-card .dot-icon { width: 26px; height: 26px; border-radius: 8px; }
+  .float-card .dot-icon svg { width: 14px; height: 14px; }
+  .fc-1 { top: 4%; right: -4px; }
+  .fc-2 { bottom: 8%; right: 5%; }
+  .fc-3 { top: 50%; left: -4px; }
+}
+
 /* ---------- Logo strip / stats ---------- */
 .stats-strip {
   position: relative;

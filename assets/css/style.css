@@ -1147,10 +1147,19 @@ body::after {
 .pkg-hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); max-width: 15em; }
 .pkg-hero p { color: var(--muted); font-size: 1.15rem; max-width: 38em; }
 .breadcrumbs { font-size: .875rem; color: var(--muted); margin-bottom: 18px; }
-.breadcrumbs ol { display: flex; flex-wrap: wrap; gap: 6px; }
+.breadcrumbs ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+}
 .breadcrumbs a { color: var(--muted); text-decoration: none; }
 .breadcrumbs a:hover { color: var(--violet-deep); text-decoration: underline; }
-.breadcrumbs li:not(:last-child)::after { content: "‹"; margin-inline-start: 6px; color: rgba(23,20,32,.35); }
+.breadcrumbs li { display: flex; align-items: center; gap: 10px; }
+.breadcrumbs li:not(:last-child)::after { content: "‹"; color: rgba(23, 20, 32, .35); }
 .breadcrumbs [aria-current] { color: var(--ink); font-weight: 500; }
 
 .pkg-detail {
@@ -1596,6 +1605,67 @@ body::after {
 }
 .wa-float:hover { transform: scale(1.08); }
 .wa-float svg { width: 30px; height: 30px; }
+/* breathing ring */
+.wa-float::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(29, 168, 81, .4);
+  z-index: -1;
+  animation: wa-pulse 2.6s ease-out infinite;
+}
+@keyframes wa-pulse {
+  0% { transform: scale(1); opacity: .7; }
+  70% { transform: scale(1.75); opacity: 0; }
+  100% { transform: scale(1.75); opacity: 0; }
+}
+/* hover label */
+.wa-float::after {
+  content: "דברו איתנו";
+  position: absolute;
+  inset-inline-start: calc(100% + 12px);
+  top: 50%;
+  transform: translateY(-50%) scale(.95);
+  background: var(--ink);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: .8rem;
+  font-weight: 700;
+  padding: 7px 14px;
+  border-radius: 10px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease, transform .2s ease;
+}
+.wa-float:hover::after, .wa-float:focus-visible::after { opacity: 1; transform: translateY(-50%) scale(1); }
+
+/* ---------- Back to top ---------- */
+.to-top {
+  position: fixed;
+  bottom: 94px;
+  inset-inline-end: 24px;
+  z-index: 899;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, .92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--ink);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-soft);
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition: opacity .25s ease, transform .25s ease, background .2s ease;
+}
+.to-top.show { opacity: 1; transform: none; pointer-events: auto; }
+.to-top:hover { background: #fff; transform: translateY(-3px); box-shadow: var(--shadow-pop); }
 
 /* ---------- Accessibility widget (in header) ---------- */
 .a11y-btn {
@@ -1733,13 +1803,48 @@ html.a11y-cursor, html.a11y-cursor a, html.a11y-cursor button, html.a11y-cursor 
   pointer-events: none;
 }
 
-/* ---------- Reveal on scroll ---------- */
-.reveal {
+/* ---------- Reveal on scroll ----------
+   hidden state is scoped to html.js so content is always visible without JavaScript */
+html.js .reveal {
   opacity: 0;
   transform: translateY(26px);
   transition: opacity .7s cubic-bezier(.2, .65, .3, 1), transform .7s cubic-bezier(.2, .65, .3, 1);
 }
-.reveal.visible { opacity: 1; transform: none; }
+html.js .reveal.visible { opacity: 1; transform: none; }
+
+/* gentle page entrance */
+html.js body { animation: page-in .45s ease-out; }
+@keyframes page-in { from { opacity: 0; } }
+
+/* ---------- Smooth page-to-page transitions ---------- */
+/* modern browsers: cross-document view transitions (Chrome/Edge/Safari) */
+@view-transition { navigation: auto; }
+/* calm, movement-free cross-fade — no sliding, no jumpiness */
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root) { animation: vt-fade-out .2s ease-out both; }
+  ::view-transition-new(root) { animation: vt-fade-in .3s ease-in both; }
+}
+@keyframes vt-fade-out { to { opacity: 0; } }
+@keyframes vt-fade-in { from { opacity: 0; } }
+/* the header stays perfectly still while the content fades */
+@supports (view-transition-name: none) {
+  .site-header { view-transition-name: site-header; }
+  .wa-float { view-transition-name: wa-float; }
+  /* the entrance fade is redundant when view transitions handle navigation */
+  html.js body { animation: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root), ::view-transition-new(root),
+  ::view-transition-old(site-header), ::view-transition-new(site-header),
+  ::view-transition-old(wa-float), ::view-transition-new(wa-float) { animation: none !important; }
+}
+html.a11y-motion::view-transition-old(root),
+html.a11y-motion::view-transition-new(root) { animation: none !important; }
+/* fallback browsers: quick fade-out before navigating */
+html.page-leave body { opacity: 0; transition: opacity .22s ease; }
+
+/* anchored sections never hide under the sticky header */
+[id] { scroll-margin-top: calc(var(--header-h) + 16px); }
 .reveal-d1 { transition-delay: .08s; }
 .reveal-d2 { transition-delay: .16s; }
 .reveal-d3 { transition-delay: .24s; }

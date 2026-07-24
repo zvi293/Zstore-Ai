@@ -4,7 +4,9 @@
 User-agent: *
 Allow: /
 
-# AI crawlers — explicitly welcome (GEO/AEO)
+# ===== AI crawlers — explicitly welcome (GEO / AEO / LLMO) =====
+
+# OpenAI (ChatGPT)
 User-agent: GPTBot
 Allow: /
 
@@ -14,19 +16,70 @@ Allow: /
 User-agent: ChatGPT-User
 Allow: /
 
-User-agent: PerplexityBot
-Allow: /
-
-User-agent: Google-Extended
-Allow: /
-
+# Anthropic (Claude)
 User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Claude-SearchBot
 Allow: /
 
 User-agent: anthropic-ai
 Allow: /
 
+# Google (Gemini / AI Overviews)
+User-agent: Google-Extended
+Allow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# Microsoft / Bing Copilot
+User-agent: bingbot
+Allow: /
+
+# Apple (Siri / Apple Intelligence)
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# Meta AI
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: Meta-ExternalFetcher
+Allow: /
+
+# Amazon (Alexa / Rufus)
+User-agent: Amazonbot
+Allow: /
+
+# DuckDuckGo AI
+User-agent: DuckAssistBot
+Allow: /
+
+# Mistral
+User-agent: MistralAI-User
+Allow: /
+
+# Cohere
 User-agent: cohere-ai
 Allow: /
 
+# You.com
+User-agent: YouBot
+Allow: /
+
+# ===== Discovery =====
 Sitemap: https://zstore-ai.co.il/sitemap.xml
+
+# AI-readable site summary: https://zstore-ai.co.il/llms.txt
+# Full AI-readable content:  https://zstore-ai.co.il/llms-full.txt

@@ -2,6 +2,9 @@
 (function () {
   'use strict';
 
+  /* flag JS availability — reveal-hiding styles only apply under html.js */
+  document.documentElement.classList.add('js');
+
   /* ---------- header scroll state ---------- */
   var header = document.querySelector('.site-header');
   if (header) {
@@ -238,6 +241,51 @@
     });
     hero.addEventListener('pointerleave', function () {
       heroVisual.style.transform = 'translate3d(0,0,0)';
+    });
+  }
+
+  /* ---------- back to top ---------- */
+  var toTop = document.createElement('button');
+  toTop.className = 'to-top';
+  toTop.setAttribute('aria-label', 'חזרה לראש העמוד');
+  toTop.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';
+  document.body.appendChild(toTop);
+  toTop.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' });
+  });
+  var toTopTicking = false;
+  window.addEventListener('scroll', function () {
+    if (!toTopTicking) {
+      toTopTicking = true;
+      requestAnimationFrame(function () {
+        toTopTicking = false;
+        toTop.classList.toggle('show', window.scrollY > 650);
+      });
+    }
+  }, { passive: true });
+
+  /* ---------- page transition fallback (browsers without view transitions) ---------- */
+  var supportsVT = typeof CSS !== 'undefined' && CSS.supports && CSS.supports('view-transition-name: x');
+  if (!supportsVT && !reduced) {
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest('a');
+      if (!a || e.defaultPrevented || e.button !== 0) return;
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      if (a.target && a.target !== '_self') return;
+      if (a.hasAttribute('download')) return;
+      var url;
+      try { url = new URL(a.href, location.href); } catch (err) { return; }
+      if (url.origin !== location.origin) return;
+      if (url.protocol !== 'http:' && url.protocol !== 'https:') return;
+      // same-page anchors keep native smooth scrolling
+      if (url.pathname === location.pathname && url.hash) return;
+      e.preventDefault();
+      document.documentElement.classList.add('page-leave');
+      setTimeout(function () { location.href = url.href; }, 210);
+    });
+    // returning via back/forward cache — make sure the page is visible again
+    window.addEventListener('pageshow', function () {
+      document.documentElement.classList.remove('page-leave');
     });
   }
 

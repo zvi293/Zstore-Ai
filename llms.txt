@@ -1,11 +1,11 @@
 # Zstore Ai
 
-> Zstore Ai הוא סטודיו ישראלי לבניית אתרים לעסקים: אתרי תדמית וחנויות אונליין (אתרי מכירות) בעברית, עם עיצוב מותאם אישית, ביצועים מהירים, קידום אורגני מובנה (SEO) וקידום במנועי AI (GEO/AEO). השירות ניתן מרחוק לכל הארץ. יצירת קשר: וואטסאפ 058-729-2029.
+> Zstore Ai הוא סטודיו ישראלי לבניית אתרים לעסקים: אתרי תדמית וחנויות אונליין (אתרי מכירות) בעברית, עם עיצוב מותאם אישית, ביצועים מהירים, קידום אורגני מובנה (SEO) וקידום במנועי AI (GEO/AEO). יצירת קשר: וואטסאפ 058-729-2029.
 
 Zstore Ai builds custom Hebrew websites for Israeli businesses: fast static
 business sites and e-commerce stores, designed from scratch (no templates),
 with built-in SEO, structured data, accessibility (WCAG 2.1 AA / IS 5568),
-and AI-search optimization (GEO/AEO). Remote service across Israel.
+and AI-search optimization (GEO/AEO).
 
 ## שירותים ומחירים (Services & Pricing, ILS)
 
@@ -29,7 +29,6 @@ and AI-search optimization (GEO/AEO). Remote service across Israel.
 ## יצירת קשר (Contact)
 - WhatsApp / Phone: +972-58-729-2029
 - Website: https://zstore-ai.co.il
-- Service area: כל ישראל (שירות מרחוק)
 
 ## שאלות נפוצות (FAQ)
 

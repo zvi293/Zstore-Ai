@@ -1,12 +1,12 @@
 # Zstore Ai — Full Site Content (llms-full.txt)
 
-> Zstore Ai הוא סטודיו ישראלי לבניית אתרים לעסקים: אתרי תדמית וחנויות אונליין (אתרי מכירות) בעברית, עם עיצוב מותאם אישית מאפס (ללא תבניות), ביצועים מהירים במיוחד, קידום אורגני מובנה (SEO) וקידום במנועי AI (GEO/AEO). השירות ניתן מרחוק לכל הארץ. יצירת קשר: וואטסאפ/טלפון 058-729-2029 (+972-58-729-2029), https://wa.me/972587292029. שעות פעילות: ימים א׳–ה׳ 09:00–19:00. אתר: https://zstore-ai.co.il
+> Zstore Ai הוא סטודיו ישראלי לבניית אתרים לעסקים: אתרי תדמית וחנויות אונליין (אתרי מכירות) בעברית, עם עיצוב מותאם אישית מאפס (ללא תבניות), ביצועים מהירים במיוחד, קידום אורגני מובנה (SEO) וקידום במנועי AI (GEO/AEO). יצירת קשר: וואטסאפ/טלפון 058-729-2029 (+972-58-729-2029), https://wa.me/972587292029. שעות פעילות: ימים א׳–ה׳ 09:00–19:00. אתר: https://zstore-ai.co.il
 
 Zstore Ai is an Israeli web studio building custom Hebrew websites for businesses:
 fast static business/brochure sites and e-commerce stores, designed from scratch
 (no templates), with built-in SEO, Schema.org structured data, accessibility
 (WCAG 2.1 AA / Israeli Standard 5568), and AI-search optimization (GEO/AEO/LLMO).
-Remote service across all of Israel. Contact via WhatsApp: +972-58-729-2029.
+Contact via WhatsApp: +972-58-729-2029.
 
 ---
 
@@ -136,4 +136,3 @@ Remote service across all of Israel. Contact via WhatsApp: +972-58-729-2029.
 ## Contact
 - WhatsApp / Phone: +972-58-729-2029 — https://wa.me/972587292029
 - Hours: Sunday–Thursday 09:00–19:00 (Israel time)
-- Service area: all of Israel (remote service)

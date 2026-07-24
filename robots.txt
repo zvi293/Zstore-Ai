@@ -1,0 +1,32 @@
+# Zstore Ai — robots.txt
+# https://zstore-ai.co.il
+
+User-agent: *
+Allow: /
+
+# AI crawlers — explicitly welcome (GEO/AEO)
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+Sitemap: https://zstore-ai.co.il/sitemap.xml

@@ -15,21 +15,54 @@
   /* ---------- mobile nav ---------- */
   var navToggle = document.querySelector('.nav-toggle');
   var nav = document.getElementById('main-nav');
+  var closeNav = null;
   if (navToggle && nav) {
+    // a history entry is pushed when the menu opens, so the device back
+    // button closes the menu instead of leaving the page
+    var menuStatePushed = false;
+    var openNav = function () {
+      nav.classList.add('open');
+      navToggle.setAttribute('aria-expanded', 'true');
+      try {
+        history.pushState({ zsMenu: true }, '');
+        menuStatePushed = true;
+      } catch (err) { menuStatePushed = false; }
+    };
+    closeNav = function (viaHistory) {
+      if (!nav.classList.contains('open')) return;
+      nav.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+      if (menuStatePushed && !viaHistory) {
+        menuStatePushed = false;
+        history.back();
+      } else {
+        menuStatePushed = false;
+      }
+    };
     navToggle.addEventListener('click', function () {
-      var open = nav.classList.toggle('open');
-      navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (nav.classList.contains('open')) closeNav(false);
+      else openNav();
     });
     nav.addEventListener('click', function (e) {
       if (e.target.closest('a')) {
+        // navigation takes over — just close, leave history to the link
         nav.classList.remove('open');
         navToggle.setAttribute('aria-expanded', 'false');
+        menuStatePushed = false;
       }
+    });
+    // tap anywhere outside the open menu closes it
+    document.addEventListener('click', function (e) {
+      if (nav.classList.contains('open') && !nav.contains(e.target) && !navToggle.contains(e.target)) {
+        closeNav(false);
+      }
+    });
+    window.addEventListener('popstate', function () {
+      if (nav.classList.contains('open')) closeNav(true);
     });
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && nav.classList.contains('open')) {
-        nav.classList.remove('open');
-        navToggle.setAttribute('aria-expanded', 'false');
+        closeNav(false);
         navToggle.focus();
       }
     });
@@ -125,10 +158,7 @@
         if (willOpen) {
           applyA11y(a11yState);
           // opening from the hamburger menu — close the menu behind it
-          if (nav && nav.classList.contains('open')) {
-            nav.classList.remove('open');
-            if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
-          }
+          if (closeNav) closeNav(false);
         }
       });
     });
@@ -164,6 +194,50 @@
       }
       saveA11y(a11yState);
       applyA11y(a11yState);
+    });
+  }
+
+  /* ---------- scroll progress bar ---------- */
+  var progress = document.createElement('div');
+  progress.className = 'scroll-progress';
+  progress.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(progress);
+  var progressTicking = false;
+  var updateProgress = function () {
+    progressTicking = false;
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    var p = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
+    progress.style.transform = 'scaleX(' + p + ')';
+  };
+  window.addEventListener('scroll', function () {
+    if (!progressTicking) {
+      progressTicking = true;
+      requestAnimationFrame(updateProgress);
+    }
+  }, { passive: true });
+  updateProgress();
+
+  /* ---------- hero mouse parallax (desktop pointers only) ---------- */
+  var hero = document.querySelector('.hero');
+  var heroVisual = document.querySelector('.hero-visual');
+  if (hero && heroVisual && !reduced && window.matchMedia('(pointer: fine)').matches) {
+    heroVisual.classList.add('hero-parallax');
+    var parallaxTicking = false;
+    var px = 0, py = 0;
+    hero.addEventListener('pointermove', function (e) {
+      var r = hero.getBoundingClientRect();
+      px = (e.clientX - r.left) / r.width - 0.5;
+      py = (e.clientY - r.top) / r.height - 0.5;
+      if (!parallaxTicking) {
+        parallaxTicking = true;
+        requestAnimationFrame(function () {
+          parallaxTicking = false;
+          heroVisual.style.transform = 'translate3d(' + (px * -14) + 'px,' + (py * -10) + 'px,0)';
+        });
+      }
+    });
+    hero.addEventListener('pointerleave', function () {
+      heroVisual.style.transform = 'translate3d(0,0,0)';
     });
   }
 

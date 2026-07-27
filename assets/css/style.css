@@ -3,72 +3,28 @@
    עיצוב: פורצלן חם + סגול חשמלי + לילה עמוק
    ============================================================ */
 
-/* ---------- Fonts (self-hosted) ---------- */
-/* note: U+20AA (₪) is deliberately excluded so the shekel sign renders
-   from a clean standard font instead of Suez One's stylized glyph */
+/* ---------- Fonts (self-hosted): Leon Regular (body) + Leon Heavy (headings) ---------- */
 @font-face {
-  font-family: 'Suez One';
+  font-family: 'Leon';
   font-style: normal;
   font-weight: 400;
   font-display: block;
-  src: url('../fonts/suez-one-400-hebrew.woff2') format('woff2');
-  unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+25CC, U+FB1D-FB4F;
+  src: url('../fonts/Leon-Regular.woff2') format('woff2'), url('../fonts/Leon-Regular.woff') format('woff');
+}
+/* bold running text maps to the real Heavy cut instead of a synthesized faux-bold */
+@font-face {
+  font-family: 'Leon';
+  font-style: normal;
+  font-weight: 600 900;
+  font-display: block;
+  src: url('../fonts/Leon-Heavy.woff2') format('woff2'), url('../fonts/Leon-Heavy.woff') format('woff');
 }
 @font-face {
-  font-family: 'Suez One';
+  font-family: 'Leon Heavy';
   font-style: normal;
   font-weight: 400;
   font-display: block;
-  src: url('../fonts/suez-one-400-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122;
-}
-@font-face {
-  font-family: 'IBM Plex Sans Hebrew';
-  font-style: normal;
-  font-weight: 400;
-  font-display: block;
-  src: url('../fonts/plex-hebrew-400-hebrew.woff2') format('woff2');
-  unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
-}
-@font-face {
-  font-family: 'IBM Plex Sans Hebrew';
-  font-style: normal;
-  font-weight: 400;
-  font-display: block;
-  src: url('../fonts/plex-hebrew-400-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122;
-}
-@font-face {
-  font-family: 'IBM Plex Sans Hebrew';
-  font-style: normal;
-  font-weight: 500;
-  font-display: block;
-  src: url('../fonts/plex-hebrew-500-hebrew.woff2') format('woff2');
-  unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
-}
-@font-face {
-  font-family: 'IBM Plex Sans Hebrew';
-  font-style: normal;
-  font-weight: 500;
-  font-display: block;
-  src: url('../fonts/plex-hebrew-500-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122;
-}
-@font-face {
-  font-family: 'IBM Plex Sans Hebrew';
-  font-style: normal;
-  font-weight: 700;
-  font-display: block;
-  src: url('../fonts/plex-hebrew-700-hebrew.woff2') format('woff2');
-  unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
-}
-@font-face {
-  font-family: 'IBM Plex Sans Hebrew';
-  font-style: normal;
-  font-weight: 700;
-  font-display: block;
-  src: url('../fonts/plex-hebrew-700-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122;
+  src: url('../fonts/Leon-Heavy.woff2') format('woff2'), url('../fonts/Leon-Heavy.woff') format('woff');
 }
 
 /* ---------- Design tokens ---------- */
@@ -94,8 +50,8 @@
   --night-line: rgba(255, 255, 255, 0.1);
   --night-text: #B9B4D0;
   --grad: linear-gradient(135deg, #6847F4 0%, #8B5CF6 55%, #A78BFA 100%);
-  --font-display: 'Suez One', 'IBM Plex Sans Hebrew', 'Arial Hebrew', system-ui, serif;
-  --font-body: 'IBM Plex Sans Hebrew', 'Segoe UI', system-ui, sans-serif;
+  --font-display: 'Leon Heavy', 'Leon', 'Arial Hebrew', system-ui, sans-serif;
+  --font-body: 'Leon', 'Segoe UI', system-ui, sans-serif;
   --r-lg: 26px;
   --r-md: 18px;
   --r-sm: 12px;
@@ -442,10 +398,17 @@ body::after {
   align-items: center;
   z-index: 1;
 }
+/* grid children never force their track wider than the screen */
+.hero-grid > *, .split > *, .faq-grid > *, .pkg-hero-grid > * { min-width: 0; }
 .hero h1 {
   font-size: clamp(2.3rem, 6vw, 4.4rem);
   margin-bottom: 22px;
   text-wrap: balance;
+}
+/* narrow phones: scale the title with the screen so the highlighted
+   phrase (kept on one line for its underline) never gets clipped */
+@media (max-width: 374px) {
+  .hero h1 { font-size: clamp(1.3rem, calc((100vw - 48px) * .115), 2.3rem); }
 }
 /* the highlighted word gets a living gradient */
 .hero .mark {

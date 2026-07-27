@@ -1823,6 +1823,33 @@ html.js .reveal {
 }
 html.js .reveal.visible { opacity: 1; transform: none; }
 
+/* ---------- Section titles: letter-by-letter scroll reveal ----------
+   letters rise in with a stagger when the title enters the viewport and
+   melt away (quicker, same order) when it leaves — both directions replay */
+.st-split .stw { display: inline-block; white-space: nowrap; }
+html.js .st-split .stc {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(.45em);
+  transition: opacity .4s cubic-bezier(.2, .65, .3, 1), transform .5s cubic-bezier(.2, .65, .3, 1);
+  transition-delay: calc(var(--d, 0ms) * .35);
+}
+html.js .st-split.st-in .stc {
+  opacity: 1;
+  transform: none;
+  transition-delay: var(--d, 0ms);
+}
+/* the hand-drawn underline inside .mark fades in after its letters */
+html.js .st-split .mark svg { opacity: 0; transition: opacity .45s ease; }
+html.js .st-split.st-in .mark svg { opacity: .55; transition-delay: .45s; }
+/* motion off (system preference or the site's accessibility toggle): letters always visible */
+html.a11y-motion .st-split .stc { opacity: 1 !important; transform: none !important; }
+html.a11y-motion .st-split .mark svg { opacity: .55 !important; }
+@media (prefers-reduced-motion: reduce) {
+  .st-split .stc { opacity: 1 !important; transform: none !important; }
+  .st-split .mark svg { opacity: .55 !important; }
+}
+
 /* gentle page entrance */
 html.js body { animation: page-in .45s ease-out; }
 @keyframes page-in { from { opacity: 0; } }

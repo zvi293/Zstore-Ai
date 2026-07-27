@@ -123,6 +123,61 @@
     statEls.forEach(function (el) { statIO.observe(el); });
   }
 
+  /* ---------- section titles: letter-by-letter reveal, re-triggered in both scroll directions ---------- */
+  if (!reduced && 'IntersectionObserver' in window) {
+    var titleEls = document.querySelectorAll('main h1, main h2, main .eyebrow');
+    var toChars = function (str) {
+      return Array.from ? Array.from(str) : str.split('');
+    };
+    var splitTitle = function (el) {
+      var label = (el.innerText || el.textContent || '').replace(/\s+/g, ' ').trim();
+      var chars = [];
+      var walk = function (node) {
+        if (node.nodeType === 3) {
+          if (!node.nodeValue.trim()) return; // whitespace-only nodes stay untouched
+          var frag = document.createDocumentFragment();
+          node.nodeValue.split(/(\s+)/).forEach(function (part) {
+            if (!part) return;
+            if (/^\s+$/.test(part)) {
+              frag.appendChild(document.createTextNode(' '));
+              return;
+            }
+            // word wrapper keeps line-breaking intact once letters become inline-block
+            var word = document.createElement('span');
+            word.className = 'stw';
+            toChars(part).forEach(function (ch) {
+              var c = document.createElement('span');
+              c.className = 'stc';
+              c.textContent = ch;
+              chars.push(c);
+              word.appendChild(c);
+            });
+            frag.appendChild(word);
+          });
+          node.parentNode.replaceChild(frag, node);
+        } else if (node.nodeType === 1 && node.nodeName.toLowerCase() !== 'svg') {
+          Array.prototype.slice.call(node.childNodes).forEach(walk);
+        }
+      };
+      Array.prototype.slice.call(el.childNodes).forEach(walk);
+      if (!chars.length) return;
+      // long titles get a tighter stagger so the whole reveal stays under ~0.9s
+      var step = Math.min(30, Math.max(12, Math.round(620 / chars.length)));
+      chars.forEach(function (c, i) { c.style.setProperty('--d', (i * step) + 'ms'); });
+      if (label) el.setAttribute('aria-label', label);
+      el.classList.add('st-split');
+    };
+    var titleIO = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        entry.target.classList.toggle('st-in', entry.isIntersecting);
+      });
+    }, { threshold: 0.2, rootMargin: '0px 0px -6% 0px' });
+    titleEls.forEach(function (el) {
+      splitTitle(el);
+      if (el.classList.contains('st-split')) titleIO.observe(el);
+    });
+  }
+
   /* ---------- accessibility widget ---------- */
   var A11Y_KEY = 'zstore-a11y';
   var modes = ['fs-1', 'fs-2', 'contrast', 'dark', 'gray', 'links', 'motion', 'font', 'cursor'];

@@ -10,7 +10,7 @@
   font-family: 'Suez One';
   font-style: normal;
   font-weight: 400;
-  font-display: swap;
+  font-display: block;
   src: url('../fonts/suez-one-400-hebrew.woff2') format('woff2');
   unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+25CC, U+FB1D-FB4F;
 }
@@ -18,7 +18,7 @@
   font-family: 'Suez One';
   font-style: normal;
   font-weight: 400;
-  font-display: swap;
+  font-display: block;
   src: url('../fonts/suez-one-400-latin.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122;
 }
@@ -26,7 +26,7 @@
   font-family: 'IBM Plex Sans Hebrew';
   font-style: normal;
   font-weight: 400;
-  font-display: swap;
+  font-display: block;
   src: url('../fonts/plex-hebrew-400-hebrew.woff2') format('woff2');
   unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
 }
@@ -34,7 +34,7 @@
   font-family: 'IBM Plex Sans Hebrew';
   font-style: normal;
   font-weight: 400;
-  font-display: swap;
+  font-display: block;
   src: url('../fonts/plex-hebrew-400-latin.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122;
 }
@@ -42,7 +42,7 @@
   font-family: 'IBM Plex Sans Hebrew';
   font-style: normal;
   font-weight: 500;
-  font-display: swap;
+  font-display: block;
   src: url('../fonts/plex-hebrew-500-hebrew.woff2') format('woff2');
   unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
 }
@@ -50,7 +50,7 @@
   font-family: 'IBM Plex Sans Hebrew';
   font-style: normal;
   font-weight: 500;
-  font-display: swap;
+  font-display: block;
   src: url('../fonts/plex-hebrew-500-latin.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122;
 }
@@ -58,7 +58,7 @@
   font-family: 'IBM Plex Sans Hebrew';
   font-style: normal;
   font-weight: 700;
-  font-display: swap;
+  font-display: block;
   src: url('../fonts/plex-hebrew-700-hebrew.woff2') format('woff2');
   unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
 }
@@ -66,7 +66,7 @@
   font-family: 'IBM Plex Sans Hebrew';
   font-style: normal;
   font-weight: 700;
-  font-display: swap;
+  font-display: block;
   src: url('../fonts/plex-hebrew-700-latin.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122;
 }
@@ -107,7 +107,7 @@
 
 /* ---------- Reset / base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; overflow-x: clip; }
 body {
   margin: 0;
   font-family: var(--font-body);
@@ -115,7 +115,7 @@ body {
   line-height: 1.65;
   color: var(--ink);
   background: var(--paper);
-  overflow-x: hidden;
+  overflow-x: clip;
   text-rendering: optimizeLegibility;
 }
 img { max-width: 100%; height: auto; display: block; }
@@ -1011,6 +1011,7 @@ body::after {
   position: relative;
   display: flex;
   flex-direction: column;
+  min-width: 0; /* very narrow screens: shrink to the grid track instead of overflowing */
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: var(--r-lg);
@@ -1060,6 +1061,7 @@ body::after {
 }
 .price-box .price-row {
   display: flex;
+  flex-wrap: wrap; /* very narrow screens: the price drops below the label instead of clipping */
   justify-content: space-between;
   align-items: center;
   gap: 12px;
@@ -1200,6 +1202,7 @@ body::after {
 .pkg-kicker { font-weight: 700; color: var(--violet-deep); font-size: .95rem; }
 .pkg-price-box {
   display: flex;
+  flex-wrap: wrap; /* very narrow screens: the two price cells stack instead of clipping */
   gap: 0;
   background: var(--paper);
   border: 1px solid var(--line);
@@ -1209,6 +1212,7 @@ body::after {
 .pkg-price-box .pp {
   padding: 12px 22px;
   text-align: center;
+  flex: 1 1 auto;
 }
 .pkg-price-box .pp + .pp { border-inline-start: 1px dashed var(--line); }
 .pkg-price-box .pp span {

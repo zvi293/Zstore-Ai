@@ -145,12 +145,39 @@
             // word wrapper keeps line-breaking intact once letters become inline-block
             var word = document.createElement('span');
             word.className = 'stw';
-            toChars(part).forEach(function (ch) {
+            // per-letter boxes break the browser's bidi ordering, so words are
+            // rebuilt as direction runs: Hebrew runs stay rtl, Latin/digit runs
+            // get dir="ltr" (otherwise "ChatGPT" renders reversed as "TPGtahC")
+            var cs = toChars(part);
+            var dirs = cs.map(function (ch) {
+              if (/[֐-׿יִ-ﭏ]/.test(ch)) return 'r';
+              if (/[A-Za-z0-9]/.test(ch)) return 'l';
+              return 'n';
+            });
+            // neutrals (hyphens, punctuation) join equal neighbours, edges fall back to rtl
+            for (var ni = 0; ni < dirs.length; ni++) {
+              if (dirs[ni] !== 'n') continue;
+              var nj = ni;
+              while (nj < dirs.length && dirs[nj] === 'n') nj++;
+              var prev = ni > 0 ? dirs[ni - 1] : null;
+              var next = nj < dirs.length ? dirs[nj] : null;
+              var resolved = (prev && prev === next) ? prev : 'r';
+              for (; ni < nj; ni++) dirs[ni] = resolved;
+            }
+            var run = null, runDir = '';
+            cs.forEach(function (ch, k) {
+              if (!run || dirs[k] !== runDir) {
+                runDir = dirs[k];
+                run = document.createElement('span');
+                run.className = 'str';
+                run.dir = runDir === 'l' ? 'ltr' : 'rtl';
+                word.appendChild(run);
+              }
               var c = document.createElement('span');
               c.className = 'stc';
               c.textContent = ch;
               chars.push(c);
-              word.appendChild(c);
+              run.appendChild(c);
             });
             frag.appendChild(word);
           });
@@ -159,7 +186,14 @@
           Array.prototype.slice.call(node.childNodes).forEach(walk);
         }
       };
-      Array.prototype.slice.call(el.childNodes).forEach(walk);
+      // flex titles (like the eyebrow pills) must stay a single flex item,
+      // otherwise every word becomes its own unwrappable item and the line
+      // overflows on mobile — so the split lives inside one wrapper span
+      var wrap = document.createElement('span');
+      wrap.className = 'stx';
+      while (el.firstChild) wrap.appendChild(el.firstChild);
+      el.appendChild(wrap);
+      Array.prototype.slice.call(wrap.childNodes).forEach(walk);
       if (!chars.length) return;
       // long titles get a tighter stagger so the whole reveal stays under ~0.9s
       var step = Math.min(30, Math.max(12, Math.round(620 / chars.length)));

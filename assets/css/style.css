@@ -238,6 +238,8 @@ body::after {
   color: var(--ink);
   box-shadow: 0 14px 30px -14px rgba(0, 0, 0, .5);
 }
+/* the WhatsApp glyph inside light buttons keeps its brand green */
+.btn-light svg { color: var(--wa); }
 .btn-light:hover { transform: translateY(-2px); }
 .btn-sm { padding: 11px 22px; font-size: .9375rem; }
 

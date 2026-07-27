@@ -125,7 +125,7 @@
 
   /* ---------- section titles: letter-by-letter reveal, re-triggered in both scroll directions ---------- */
   if (!reduced && 'IntersectionObserver' in window) {
-    var titleEls = document.querySelectorAll('main h1, main h2, main .eyebrow');
+    var titleEls = document.querySelectorAll('main h1, main h2, main .eyebrow, main .plan-name, main .plan-title');
     var toChars = function (str) {
       return Array.from ? Array.from(str) : str.split('');
     };

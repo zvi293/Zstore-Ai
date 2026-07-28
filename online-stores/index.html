@@ -49,42 +49,79 @@
         "description": "הקמת חנויות אונליין מקצועיות בעברית: סליקה מאובטחת, חשבונית דיגיטלית, ניהול מלאי והזמנות, קידום אורגני ו-Google Shopping.",
         "provider": { "@id": "https://zstore-ai.co.il/#business" },
         "areaServed": { "@type": "Country", "name": "ישראל" },
+        "inLanguage": "he",
         "url": "https://zstore-ai.co.il/online-stores/",
+        "mainEntityOfPage": { "@id": "https://zstore-ai.co.il/online-stores/#webpage" },
+        "offers": {
+          "@type": "AggregateOffer",
+          "@id": "https://zstore-ai.co.il/online-stores/#aggregateoffer",
+          "priceCurrency": "ILS",
+          "lowPrice": "4600",
+          "highPrice": "6000",
+          "offerCount": 3,
+          "availability": "https://schema.org/InStock",
+          "offers": [
+            { "@id": "https://zstore-ai.co.il/online-stores/#basic-offer" },
+            { "@id": "https://zstore-ai.co.il/online-stores/#standard-offer" },
+            { "@id": "https://zstore-ai.co.il/online-stores/#premium-offer" }
+          ]
+        },
         "hasOfferCatalog": {
           "@type": "OfferCatalog",
           "name": "חבילות חנויות אונליין",
           "itemListElement": [
             {
               "@type": "Offer",
+              "@id": "https://zstore-ai.co.il/online-stores/#basic-offer",
               "name": "חבילת חנות ראשונה (סמארט)",
               "url": "https://zstore-ai.co.il/online-stores/#basic",
               "price": "4600",
               "priceCurrency": "ILS",
               "availability": "https://schema.org/InStock",
+              "businessFunction": "https://purl.org/goodrelations/v1#ProvideService",
+              "eligibleRegion": { "@type": "Country", "name": "ישראל" },
               "seller": { "@id": "https://zstore-ai.co.il/#business" },
               "itemOffered": { "@type": "Service", "name": "חנות אונליין, חבילת חנות ראשונה (סמארט)" },
+              "priceSpecification": [
+                { "@type": "UnitPriceSpecification", "name": "הקמה חד־פעמית", "price": "4600", "priceCurrency": "ILS" },
+                { "@type": "UnitPriceSpecification", "name": "מנוי חודשי", "price": "290", "priceCurrency": "ILS", "unitCode": "MON", "billingIncrement": 1, "referenceQuantity": { "@type": "QuantitativeValue", "value": 1, "unitCode": "MON" } }
+              ],
               "description": "עד 5 מוצרים, סליקה מאובטחת, חשבונית דיגיטלית, ניהול הזמנות ומלאי. 4,600₪ הקמה + 290₪ לחודש."
             },
             {
               "@type": "Offer",
+              "@id": "https://zstore-ai.co.il/online-stores/#standard-offer",
               "name": "חבילת חנות מובילה (פרו)",
               "url": "https://zstore-ai.co.il/online-stores/#standard",
               "price": "5600",
               "priceCurrency": "ILS",
               "availability": "https://schema.org/InStock",
+              "businessFunction": "https://purl.org/goodrelations/v1#ProvideService",
+              "eligibleRegion": { "@type": "Country", "name": "ישראל" },
               "seller": { "@id": "https://zstore-ai.co.il/#business" },
               "itemOffered": { "@type": "Service", "name": "חנות אונליין, חבילת חנות מובילה (פרו)" },
+              "priceSpecification": [
+                { "@type": "UnitPriceSpecification", "name": "הקמה חד־פעמית", "price": "5600", "priceCurrency": "ILS" },
+                { "@type": "UnitPriceSpecification", "name": "מנוי חודשי", "price": "590", "priceCurrency": "ILS", "unitCode": "MON", "billingIncrement": 1, "referenceQuantity": { "@type": "QuantitativeValue", "value": 1, "unitCode": "MON" } }
+              ],
               "description": "מוצרים ללא הגבלה, קופונים, ביקורות, Google Shopping ודוח מכירות חודשי. 5,600₪ הקמה + 590₪ לחודש."
             },
             {
               "@type": "Offer",
+              "@id": "https://zstore-ai.co.il/online-stores/#premium-offer",
               "name": "חבילת חנות פסגה (עילית)",
               "url": "https://zstore-ai.co.il/online-stores/#premium",
               "price": "6000",
               "priceCurrency": "ILS",
               "availability": "https://schema.org/InStock",
+              "businessFunction": "https://purl.org/goodrelations/v1#ProvideService",
+              "eligibleRegion": { "@type": "Country", "name": "ישראל" },
               "seller": { "@id": "https://zstore-ai.co.il/#business" },
               "itemOffered": { "@type": "Service", "name": "חנות אונליין, חבילת חנות פסגה (עילית)" },
+              "priceSpecification": [
+                { "@type": "UnitPriceSpecification", "name": "הקמה חד־פעמית", "price": "6000", "priceCurrency": "ILS" },
+                { "@type": "UnitPriceSpecification", "name": "מנוי חודשי", "price": "890", "priceCurrency": "ILS", "unitCode": "MON", "billingIncrement": 1, "referenceQuantity": { "@type": "QuantitativeValue", "value": 1, "unitCode": "MON" } }
+              ],
               "description": "אוטומציה מלאה, קידום במנועי AI, ניטור מיקומים שבועי וליווי מורחב. 6,000₪ הקמה + 890₪ לחודש."
             }
           ]
@@ -96,7 +133,9 @@
         "name": "Zstore Ai",
         "url": "https://zstore-ai.co.il/",
         "telephone": "+972-58-729-2029",
+        "email": "nzweb295@gmail.com",
         "logo": "https://zstore-ai.co.il/favicon-512.png",
+        "priceRange": "₪₪",
         "areaServed": { "@type": "Country", "name": "ישראל" }
       },
       {
@@ -124,7 +163,9 @@
         "isPartOf": { "@id": "https://zstore-ai.co.il/#website" },
         "about": { "@id": "https://zstore-ai.co.il/online-stores/#service" },
         "breadcrumb": { "@id": "https://zstore-ai.co.il/online-stores/#breadcrumb" },
+        "hasPart": { "@id": "https://zstore-ai.co.il/online-stores/#faq" },
         "primaryImageOfPage": { "@type": "ImageObject", "url": "https://zstore-ai.co.il/assets/img/og.jpg", "width": 1200, "height": 630 },
+        "speakable": { "@type": "SpeakableSpecification", "cssSelector": ["h1", ".pkg-hero p"] },
         "datePublished": "2026-07-24",
         "dateModified": "2026-07-28",
         "inLanguage": "he"
@@ -132,6 +173,9 @@
       {
         "@type": "FAQPage",
         "@id": "https://zstore-ai.co.il/online-stores/#faq",
+        "inLanguage": "he",
+        "isPartOf": { "@id": "https://zstore-ai.co.il/online-stores/#webpage" },
+        "about": { "@id": "https://zstore-ai.co.il/online-stores/#service" },
         "mainEntity": [
           {
             "@type": "Question",

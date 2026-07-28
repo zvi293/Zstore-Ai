@@ -1,22 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://zstore-ai.co.il/</loc>
     <lastmod>2026-07-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image><image:loc>https://zstore-ai.co.il/assets/img/brand/hero-app-1280.webp</image:loc></image:image>
+    <image:image><image:loc>https://zstore-ai.co.il/assets/img/brand/dark-phone-1280.webp</image:loc></image:image>
+    <image:image><image:loc>https://zstore-ai.co.il/assets/img/brand/panel-tablet-1280.webp</image:loc></image:image>
+    <image:image><image:loc>https://zstore-ai.co.il/assets/img/brand/desk-dashboard-1280.webp</image:loc></image:image>
+    <image:image><image:loc>https://zstore-ai.co.il/assets/img/brand/store-desktop-1280.webp</image:loc></image:image>
+    <image:image><image:loc>https://zstore-ai.co.il/assets/img/brand/store-velora-1280.webp</image:loc></image:image>
+    <image:image><image:loc>https://zstore-ai.co.il/assets/img/brand/store-terra-1280.webp</image:loc></image:image>
+    <image:image><image:loc>https://zstore-ai.co.il/assets/img/brand/store-aurora-1280.webp</image:loc></image:image>
+    <image:image><image:loc>https://zstore-ai.co.il/assets/img/brand/store-tablet-1280.webp</image:loc></image:image>
+    <image:image><image:loc>https://zstore-ai.co.il/assets/img/brand/apps-grid-1280.webp</image:loc></image:image>
+    <image:image><image:loc>https://zstore-ai.co.il/assets/img/brand/flow-laptop-1280.webp</image:loc></image:image>
+    <image:image><image:loc>https://zstore-ai.co.il/assets/img/examples/ex-01.webp</image:loc></image:image>
+    <image:image><image:loc>https://zstore-ai.co.il/assets/img/examples/ex-03.webp</image:loc></image:image>
+    <image:image><image:loc>https://zstore-ai.co.il/assets/img/examples/ex-05.webp</image:loc></image:image>
+    <image:image><image:loc>https://zstore-ai.co.il/assets/img/examples/ex-07.webp</image:loc></image:image>
+    <image:image><image:loc>https://zstore-ai.co.il/assets/img/examples/ex-09.webp</image:loc></image:image>
+    <image:image><image:loc>https://zstore-ai.co.il/assets/img/examples/ex-11.webp</image:loc></image:image>
+    <image:image><image:loc>https://zstore-ai.co.il/assets/img/examples/ex-13.webp</image:loc></image:image>
+    <image:image><image:loc>https://zstore-ai.co.il/assets/img/examples/ex-15.webp</image:loc></image:image>
+    <image:image><image:loc>https://zstore-ai.co.il/assets/img/og.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://zstore-ai.co.il/business-sites/</loc>
     <lastmod>2026-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+    <image:image><image:loc>https://zstore-ai.co.il/assets/img/brand/phone-purple-1280.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://zstore-ai.co.il/online-stores/</loc>
     <lastmod>2026-07-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+    <image:image><image:loc>https://zstore-ai.co.il/assets/img/brand/store-laptop-1280.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://zstore-ai.co.il/accessibility/</loc>

@@ -40,8 +40,18 @@ Allow: /
 User-agent: Perplexity-User
 Allow: /
 
+# Google (other AI surfaces)
+User-agent: GoogleOther
+Allow: /
+
+User-agent: Google-CloudVertexBot
+Allow: /
+
 # Microsoft / Bing Copilot
 User-agent: bingbot
+Allow: /
+
+User-agent: BingPreview
 Allow: /
 
 # Apple (Siri / Apple Intelligence)
@@ -76,6 +86,62 @@ Allow: /
 
 # You.com
 User-agent: YouBot
+Allow: /
+
+# Common Crawl (מאגר האימון והאחזור הנפוץ ביותר של מודלי שפה)
+User-agent: CCBot
+Allow: /
+
+# AI2 (OLMo)
+User-agent: AI2Bot
+Allow: /
+
+User-agent: ai2bot-dolma
+Allow: /
+
+# Diffbot / Timpi / Webz (ספקי אינדוקס למנועי AI)
+User-agent: Diffbot
+Allow: /
+
+User-agent: Timpibot
+Allow: /
+
+User-agent: Webzio-Extended
+Allow: /
+
+User-agent: omgili
+Allow: /
+
+# Firecrawl / כלי אחזור בזמן אמת של סוכני AI
+User-agent: FirecrawlAgent
+Allow: /
+
+# ByteDance (Doubao)
+User-agent: Bytespider
+Allow: /
+
+# Huawei (Petal / Xiaoyi)
+User-agent: PetalBot
+Allow: /
+
+# ===== Social & messaging preview bots (תצוגה מקדימה של קישורים) =====
+
+User-agent: WhatsApp
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: TelegramBot
+Allow: /
+
+User-agent: Slackbot-LinkExpanding
 Allow: /
 
 # ===== Discovery =====

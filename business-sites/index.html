@@ -49,42 +49,79 @@
         "description": "עיצוב ובנייה של אתרי תדמית מהירים ומקודמים לעסקים בישראל, כולל SEO מובנה, פאנל ניהול בעברית וקידום במנועי AI.",
         "provider": { "@id": "https://zstore-ai.co.il/#business" },
         "areaServed": { "@type": "Country", "name": "ישראל" },
+        "inLanguage": "he",
         "url": "https://zstore-ai.co.il/business-sites/",
+        "mainEntityOfPage": { "@id": "https://zstore-ai.co.il/business-sites/#webpage" },
+        "offers": {
+          "@type": "AggregateOffer",
+          "@id": "https://zstore-ai.co.il/business-sites/#aggregateoffer",
+          "priceCurrency": "ILS",
+          "lowPrice": "2500",
+          "highPrice": "5000",
+          "offerCount": 3,
+          "availability": "https://schema.org/InStock",
+          "offers": [
+            { "@id": "https://zstore-ai.co.il/business-sites/#basic-offer" },
+            { "@id": "https://zstore-ai.co.il/business-sites/#standard-offer" },
+            { "@id": "https://zstore-ai.co.il/business-sites/#premium-offer" }
+          ]
+        },
         "hasOfferCatalog": {
           "@type": "OfferCatalog",
           "name": "חבילות אתרי תדמית",
           "itemListElement": [
             {
               "@type": "Offer",
+              "@id": "https://zstore-ai.co.il/business-sites/#basic-offer",
               "name": "חבילת נוכחות (סמארט)",
               "url": "https://zstore-ai.co.il/business-sites/#basic",
               "price": "2500",
               "priceCurrency": "ILS",
               "availability": "https://schema.org/InStock",
+              "businessFunction": "https://purl.org/goodrelations/v1#ProvideService",
+              "eligibleRegion": { "@type": "Country", "name": "ישראל" },
               "seller": { "@id": "https://zstore-ai.co.il/#business" },
               "itemOffered": { "@type": "Service", "name": "אתר תדמית, חבילת נוכחות (סמארט)" },
+              "priceSpecification": [
+                { "@type": "UnitPriceSpecification", "name": "הקמה חד־פעמית", "price": "2500", "priceCurrency": "ILS" },
+                { "@type": "UnitPriceSpecification", "name": "מנוי חודשי", "price": "199", "priceCurrency": "ILS", "unitCode": "MON", "billingIncrement": 1, "referenceQuantity": { "@type": "QuantitativeValue", "value": 1, "unitCode": "MON" } }
+              ],
               "description": "עד 5 עמודים, אתר סטטי מהיר, SEO בסיסי, עדכון חודשי בשירות מלא. 2,500₪ הקמה + 199₪ לחודש."
             },
             {
               "@type": "Offer",
+              "@id": "https://zstore-ai.co.il/business-sites/#standard-offer",
               "name": "חבילת מובילות (פרו)",
               "url": "https://zstore-ai.co.il/business-sites/#standard",
               "price": "4600",
               "priceCurrency": "ILS",
               "availability": "https://schema.org/InStock",
+              "businessFunction": "https://purl.org/goodrelations/v1#ProvideService",
+              "eligibleRegion": { "@type": "Country", "name": "ישראל" },
               "seller": { "@id": "https://zstore-ai.co.il/#business" },
               "itemOffered": { "@type": "Service", "name": "אתר תדמית, חבילת מובילות (פרו)" },
+              "priceSpecification": [
+                { "@type": "UnitPriceSpecification", "name": "הקמה חד־פעמית", "price": "4600", "priceCurrency": "ILS" },
+                { "@type": "UnitPriceSpecification", "name": "מנוי חודשי", "price": "390", "priceCurrency": "ILS", "unitCode": "MON", "billingIncrement": 1, "referenceQuantity": { "@type": "QuantitativeValue", "value": 1, "unitCode": "MON" } }
+              ],
               "description": "עד 8 עמודים + בלוג, פאנל ניהול, ניהול לידים, SEO מתקדם, מפות חום ודוח חודשי. 4,600₪ הקמה + 390₪ לחודש."
             },
             {
               "@type": "Offer",
+              "@id": "https://zstore-ai.co.il/business-sites/#premium-offer",
               "name": "חבילת פסגה (עילית)",
               "url": "https://zstore-ai.co.il/business-sites/#premium",
               "price": "5000",
               "priceCurrency": "ILS",
               "availability": "https://schema.org/InStock",
+              "businessFunction": "https://purl.org/goodrelations/v1#ProvideService",
+              "eligibleRegion": { "@type": "Country", "name": "ישראל" },
               "seller": { "@id": "https://zstore-ai.co.il/#business" },
               "itemOffered": { "@type": "Service", "name": "אתר תדמית, חבילת פסגה (עילית)" },
+              "priceSpecification": [
+                { "@type": "UnitPriceSpecification", "name": "הקמה חד־פעמית", "price": "5000", "priceCurrency": "ILS" },
+                { "@type": "UnitPriceSpecification", "name": "מנוי חודשי", "price": "590", "priceCurrency": "ILS", "unitCode": "MON", "billingIncrement": 1, "referenceQuantity": { "@type": "QuantitativeValue", "value": 1, "unitCode": "MON" } }
+              ],
               "description": "עד 10 עמודים + בלוג, קידום במנועי AI (GEO/AEO), עמודי אזור, דוח משולב וליווי מורחב. 5,000₪ הקמה + 590₪ לחודש."
             }
           ]
@@ -96,7 +133,9 @@
         "name": "Zstore Ai",
         "url": "https://zstore-ai.co.il/",
         "telephone": "+972-58-729-2029",
+        "email": "nzweb295@gmail.com",
         "logo": "https://zstore-ai.co.il/favicon-512.png",
+        "priceRange": "₪₪",
         "areaServed": { "@type": "Country", "name": "ישראל" }
       },
       {
@@ -124,7 +163,9 @@
         "isPartOf": { "@id": "https://zstore-ai.co.il/#website" },
         "about": { "@id": "https://zstore-ai.co.il/business-sites/#service" },
         "breadcrumb": { "@id": "https://zstore-ai.co.il/business-sites/#breadcrumb" },
+        "hasPart": { "@id": "https://zstore-ai.co.il/business-sites/#faq" },
         "primaryImageOfPage": { "@type": "ImageObject", "url": "https://zstore-ai.co.il/assets/img/og.jpg", "width": 1200, "height": 630 },
+        "speakable": { "@type": "SpeakableSpecification", "cssSelector": ["h1", ".pkg-hero p"] },
         "datePublished": "2026-07-24",
         "dateModified": "2026-07-28",
         "inLanguage": "he"
@@ -132,6 +173,9 @@
       {
         "@type": "FAQPage",
         "@id": "https://zstore-ai.co.il/business-sites/#faq",
+        "inLanguage": "he",
+        "isPartOf": { "@id": "https://zstore-ai.co.il/business-sites/#webpage" },
+        "about": { "@id": "https://zstore-ai.co.il/business-sites/#service" },
         "mainEntity": [
           {
             "@type": "Question",

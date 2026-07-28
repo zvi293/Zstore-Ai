@@ -1654,7 +1654,8 @@ body::after {
 .site-footer .logo { color: #fff; }
 .site-footer .logo .logo-ai { color: #C4B5FD; }
 .footer-about { max-width: 30em; margin-top: 14px; }
-.site-footer h3 {
+/* h2 on pages whose only preceding heading is the h1 (404), h3 elsewhere */
+.site-footer :is(h2, h3) {
   font-family: var(--font-body);
   font-weight: 700;
   color: #fff;

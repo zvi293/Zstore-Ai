@@ -252,11 +252,23 @@
       a11yTriggers.forEach(function (t) { t.setAttribute('aria-expanded', open ? 'true' : 'false'); });
     };
     var lastA11yTrigger = null;
+    var isFocusable = function (el) { return !!el && el.offsetParent !== null; };
     var closeA11yPanel = function (restoreFocus) {
       if (a11yPanel.hidden) return;
       a11yPanel.hidden = true;
       setA11yExpanded(false);
-      if (restoreFocus) (lastA11yTrigger || a11yTriggers[0]).focus();
+      if (!restoreFocus) return;
+      // the trigger that opened the panel may be hidden by now: on mobile it lives inside
+      // the hamburger menu, which closes behind the panel. focusing a hidden element fails
+      // silently and strands the keyboard user, so fall back to something actually visible.
+      var target = isFocusable(lastA11yTrigger) ? lastA11yTrigger : null;
+      if (!target) {
+        for (var i = 0; i < a11yTriggers.length; i++) {
+          if (isFocusable(a11yTriggers[i])) { target = a11yTriggers[i]; break; }
+        }
+      }
+      if (!target) target = document.querySelector('.nav-toggle');
+      if (isFocusable(target)) target.focus();
     };
     a11yTriggers.forEach(function (trigger) {
       trigger.addEventListener('click', function () {

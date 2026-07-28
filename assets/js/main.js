@@ -73,6 +73,10 @@
 
   /* ---------- reveal on scroll (auto-attached site-wide) ---------- */
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* motion is off when the OS asks for it OR the site's own accessibility toggle is on */
+  var motionOff = function () {
+    return reduced || document.documentElement.classList.contains('a11y-motion');
+  };
   var autoTargets = document.querySelectorAll(
     '.section-head, .feat, .plan, .step, .faq-item, .split-media, .split-body, ' +
     '.showcase-card, .pkg-detail, .stat, .cta-final, .pkg-jump a, .footer-grid > *'
@@ -207,8 +211,13 @@
       });
     }, { threshold: 0.2, rootMargin: '0px 0px -6% 0px' });
     titleEls.forEach(function (el) {
-      splitTitle(el);
-      if (el.classList.contains('st-split')) titleIO.observe(el);
+      // a failure in the splitter must never leave a title hidden or break the rest of the script
+      try {
+        splitTitle(el);
+        if (el.classList.contains('st-split')) titleIO.observe(el);
+      } catch (err) {
+        el.classList.remove('st-split');
+      }
     });
   }
 
@@ -242,35 +251,47 @@
     var setA11yExpanded = function (open) {
       a11yTriggers.forEach(function (t) { t.setAttribute('aria-expanded', open ? 'true' : 'false'); });
     };
+    var lastA11yTrigger = null;
+    var closeA11yPanel = function (restoreFocus) {
+      if (a11yPanel.hidden) return;
+      a11yPanel.hidden = true;
+      setA11yExpanded(false);
+      if (restoreFocus) (lastA11yTrigger || a11yTriggers[0]).focus();
+    };
     a11yTriggers.forEach(function (trigger) {
       trigger.addEventListener('click', function () {
         var willOpen = a11yPanel.hidden;
         a11yPanel.hidden = !willOpen;
         setA11yExpanded(willOpen);
         if (willOpen) {
+          lastA11yTrigger = trigger;
           applyA11y(a11yState);
           // opening from the hamburger menu — close the menu behind it
           if (closeNav) closeNav(false);
+          // the dialog receives keyboard focus so screen-reader and keyboard users land inside it
+          var firstControl = a11yPanel.querySelector('button');
+          if (firstControl) firstControl.focus();
         }
       });
     });
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && !a11yPanel.hidden) {
-        a11yPanel.hidden = true;
-        setA11yExpanded(false);
-        a11yTriggers[0].focus();
+        closeA11yPanel(true);
       }
     });
     document.addEventListener('click', function (e) {
       var onTrigger = a11yTriggers.some(function (t) { return t.contains(e.target); });
       if (!a11yPanel.hidden && !a11yPanel.contains(e.target) && !onTrigger) {
-        a11yPanel.hidden = true;
-        setA11yExpanded(false);
+        closeA11yPanel(false);
       }
     });
     a11yPanel.addEventListener('click', function (e) {
       var btn = e.target.closest('button');
       if (!btn) return;
+      if (btn.classList.contains('a11y-close')) {
+        closeA11yPanel(true);
+        return;
+      }
       if (btn.classList.contains('a11y-reset')) {
         a11yState = {};
       } else if (btn.dataset.a11y) {
@@ -317,6 +338,7 @@
     var parallaxTicking = false;
     var px = 0, py = 0;
     hero.addEventListener('pointermove', function (e) {
+      if (motionOff()) return;
       var r = hero.getBoundingClientRect();
       px = (e.clientX - r.left) / r.width - 0.5;
       py = (e.clientY - r.top) / r.height - 0.5;
@@ -340,7 +362,7 @@
   toTop.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';
   document.body.appendChild(toTop);
   toTop.addEventListener('click', function () {
-    window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' });
+    window.scrollTo({ top: 0, behavior: motionOff() ? 'auto' : 'smooth' });
   });
   var toTopTicking = false;
   window.addEventListener('scroll', function () {
@@ -357,6 +379,7 @@
   var supportsVT = typeof CSS !== 'undefined' && CSS.supports && CSS.supports('view-transition-name: x');
   if (!supportsVT && !reduced) {
     document.addEventListener('click', function (e) {
+      if (motionOff()) return;
       var a = e.target.closest('a');
       if (!a || e.defaultPrevented || e.button !== 0) return;
       if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;

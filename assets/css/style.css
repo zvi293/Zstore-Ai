@@ -65,7 +65,8 @@
   --shadow-pop: 0 4px 10px rgba(35, 20, 90, .06), 0 30px 70px -25px rgba(52, 32, 130, .35);
   --wa: #1DA851;
   /* rem floor lets the header grow with the a11y text-size modes */
-  --header-h: max(74px, 4.6rem);
+  /* total sticky rail: the floating capsule plus the gap that lets it breathe */
+  --header-h: max(86px, 5.4rem);
 }
 
 /* ---------- Reset / base ---------- */
@@ -286,6 +287,7 @@ body::after {
 .btn-sm { padding: 11px 22px; font-size: .9375rem; }
 
 /* ---------- Header ---------- */
+/* the bar itself is just a sticky rail — the visible chrome is the floating capsule inside */
 .site-header {
   position: sticky;
   top: 0;
@@ -293,14 +295,34 @@ body::after {
   height: var(--header-h);
   display: flex;
   align-items: center;
-  background: rgba(245, 243, 238, .82);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid transparent;
-  transition: border-color .25s, background .25s;
+  background: transparent;
+  pointer-events: none;
 }
-.site-header.scrolled { border-bottom-color: var(--line); background: rgba(245, 243, 238, .93); }
-.header-inner { display: flex; align-items: center; gap: 28px; }
+.header-inner {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  border-radius: 999px;
+  padding-block: 8px;
+  padding-inline: 22px 10px;
+  /* frosted glass: a light gradient over a saturated blur reads richer than a flat tint */
+  background: linear-gradient(180deg, rgba(255, 255, 255, .78), rgba(245, 243, 238, .62));
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, .75);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .85),
+    0 10px 30px -18px rgba(23, 20, 32, .5);
+  transition: background .3s ease, box-shadow .3s ease, border-color .3s ease;
+}
+.site-header.scrolled .header-inner {
+  background: linear-gradient(180deg, rgba(255, 255, 255, .95), rgba(245, 243, 238, .86));
+  border-color: rgba(104, 71, 244, .22);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .9),
+    0 18px 44px -22px rgba(23, 20, 32, .62);
+}
 .logo {
   display: inline-flex;
   align-items: center;
@@ -315,10 +337,12 @@ body::after {
   height: 44px;
   width: auto;
   display: block;
-  transition: transform .18s ease;
+  transition: transform .25s cubic-bezier(.34, 1.56, .64, 1), height .3s ease, filter .25s ease;
 }
-.logo:hover img { transform: scale(1.03); }
-@media (max-width: 920px) { .logo img { height: 36px; } }
+.logo:hover img { transform: scale(1.04); filter: drop-shadow(0 6px 14px rgba(76, 47, 216, .3)); }
+/* the mark condenses slightly once the page scrolls — the bar feels tighter without moving */
+.site-header.scrolled .logo img { height: 39px; }
+@media (max-width: 920px) { .logo img, .site-header.scrolled .logo img { height: 36px; } }
 .site-footer .logo img {
   height: 46px;
   background: #fff;
@@ -329,61 +353,167 @@ body::after {
 }
 .logo .logo-ai { color: var(--violet-deep); }
 .main-nav { margin-inline-start: auto; }
-.main-nav ul { display: flex; gap: 4px; align-items: center; }
+.main-nav ul { display: flex; gap: 2px; align-items: center; }
 .main-nav a {
+  position: relative;
+  z-index: 0;
   display: block;
-  padding: 9px 15px;
+  padding: 9px 16px;
   border-radius: 999px;
   color: var(--ink);
   text-decoration: none;
   font-weight: 500;
   font-size: 1rem;
-  transition: background .15s;
+  white-space: nowrap;
+  transition: color .2s ease;
 }
-.main-nav a:hover { background: rgba(23, 20, 32, .06); }
-.main-nav a[aria-current="page"] { background: var(--violet-soft); color: var(--violet-ink); font-weight: 700; }
+/* the hover pill springs out from behind the label instead of just switching colour */
+.main-nav a::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(180deg, #fff, rgba(255, 255, 255, .62));
+  border: 1px solid rgba(104, 71, 244, .2);
+  box-shadow: 0 6px 16px -8px rgba(76, 47, 216, .55);
+  opacity: 0;
+  transform: scale(.84);
+  transition: opacity .22s ease, transform .3s cubic-bezier(.34, 1.56, .64, 1);
+}
+.main-nav a:hover::before,
+.main-nav a:focus-visible::before { opacity: 1; transform: scale(1); }
+.main-nav a:hover { color: var(--violet-deep); }
+/* the current page wears the brand gradient — white label keeps 4.5:1 on every stop */
+.main-nav a[aria-current="page"] { color: #fff; font-weight: 700; }
+.main-nav a[aria-current="page"]::before {
+  opacity: 1;
+  transform: none;
+  background: var(--grad);
+  border-color: transparent;
+  box-shadow: 0 8px 20px -9px rgba(76, 47, 216, .8);
+}
+.main-nav a[aria-current="page"]:hover { color: #fff; }
 .header-cta { flex: none; }
 .nav-toggle {
   display: none;
   margin-inline-start: auto;
   width: 46px;
   height: 46px;
-  border: 1px solid var(--line);
-  background: #fff;
-  border-radius: 14px;
+  border: 1px solid rgba(23, 20, 32, .1);
+  background: linear-gradient(180deg, #fff, rgba(255, 255, 255, .84));
+  color: var(--ink);
+  border-radius: 15px;
   cursor: pointer;
   place-items: center;
+  box-shadow: 0 6px 16px -10px rgba(23, 20, 32, .55);
+  transition: background .25s ease, color .25s ease, border-color .25s ease, transform .2s ease;
+}
+.nav-toggle:active { transform: scale(.95); }
+.nav-toggle[aria-expanded="true"] {
+  background: var(--grad);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 10px 24px -10px rgba(76, 47, 216, .8);
 }
 .nav-toggle svg { width: 24px; height: 24px; }
 .nav-toggle .icon-close { display: none; }
 .nav-toggle[aria-expanded="true"] .icon-open { display: none; }
 .nav-toggle[aria-expanded="true"] .icon-close { display: block; }
+/* Scrim behind the open menu. It hangs off the toggle on purpose: a tap on it is a tap on
+   the toggle, so the existing handler closes the menu with no JS change and no click
+   leaking through to the page underneath. */
+.nav-toggle::after {
+  content: "";
+  position: fixed;
+  /* starts just under the floating capsule, not under the full rail, so no bright band shows */
+  inset: calc(var(--header-h) - 6px) 0 0 0;
+  background: rgba(23, 20, 32, .38);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s ease, visibility .3s;
+  cursor: default;
+}
+.nav-toggle[aria-expanded="true"]::after { opacity: 1; visibility: visible; }
 
 @media (max-width: 920px) {
-  .nav-toggle { display: grid; }
+  :root { --header-h: max(74px, 4.6rem); }
+  .header-inner {
+    gap: 12px;
+    border-radius: 22px;
+    padding: 7px 10px;
+  }
+  .logo { flex: none; }
+  .nav-toggle { display: grid; width: 42px; height: 42px; border-radius: 13px; }
   .header-cta { display: none; }
   .main-nav {
     position: fixed;
-    inset: var(--header-h) 0 auto 0;
-    background: var(--paper);
-    border-bottom: 1px solid var(--line);
-    box-shadow: 0 30px 50px -20px rgba(23, 20, 32, .25);
-    padding: 14px 20px 24px;
+    inset: calc(var(--header-h) + 2px) 14px auto 14px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, .98), rgba(245, 243, 238, .98));
+    border: 1px solid rgba(104, 71, 244, .18);
+    border-radius: 26px;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, .9),
+      0 34px 64px -24px rgba(23, 20, 32, .45);
+    padding: 14px 14px 18px;
     display: none;
   }
-  .main-nav.open { display: block; }
+  .main-nav.open { display: block; animation: nav-drop .36s cubic-bezier(.22, 1, .36, 1) both; }
+  @keyframes nav-drop {
+    from { opacity: 0; transform: translateY(-16px); }
+  }
   .main-nav ul { flex-direction: column; align-items: stretch; gap: 2px; }
-  .main-nav a { padding: 13px 16px; font-size: 1.1rem; border-radius: 14px; }
-  .main-nav .nav-cta-mobile { margin-top: 12px; }
+  /* items cascade in behind the panel so the menu unfolds rather than appears */
+  .main-nav.open li { animation: nav-item .42s cubic-bezier(.22, 1, .36, 1) both; }
+  @keyframes nav-item {
+    from { opacity: 0; transform: translateY(-10px); }
+  }
+  .main-nav.open li:nth-child(1) { animation-delay: .05s; }
+  .main-nav.open li:nth-child(2) { animation-delay: .09s; }
+  .main-nav.open li:nth-child(3) { animation-delay: .13s; }
+  .main-nav.open li:nth-child(4) { animation-delay: .17s; }
+  .main-nav.open li:nth-child(5) { animation-delay: .21s; }
+  .main-nav.open li:nth-child(6) { animation-delay: .25s; }
+  .main-nav.open li:nth-child(7) { animation-delay: .29s; }
+  .main-nav.open li:nth-child(8) { animation-delay: .33s; }
+  /* the entrance animations start at opacity 0 with fill:both, so the menu would be invisible
+     if they never ran. When motion is off, drop them entirely rather than shortening them. */
+  html.a11y-motion .main-nav.open,
+  html.a11y-motion .main-nav.open li { animation: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .main-nav.open,
+    .main-nav.open li { animation: none; }
+  }
+  .main-nav a { padding: 14px 17px; font-size: 1.1rem; border-radius: 16px; }
+  .main-nav a::before { box-shadow: 0 8px 20px -12px rgba(76, 47, 216, .6); }
+  .main-nav .nav-cta-mobile { margin-top: 14px; }
   .main-nav .nav-cta-mobile a {
-    background: var(--wa);
     color: #fff;
     text-align: center;
     font-weight: 700;
     border-radius: 999px;
   }
+  /* same living gradient the WhatsApp buttons use elsewhere on the site */
+  .main-nav .nav-cta-mobile a::before {
+    opacity: 1;
+    transform: none;
+    background: linear-gradient(135deg, #128749, #0E7C39 55%, #0B6B47);
+    border-color: transparent;
+    box-shadow: 0 14px 30px -14px rgba(29, 168, 81, .8);
+  }
+  .main-nav .nav-cta-mobile a:hover { color: #fff; }
 }
 @media (min-width: 921px) { .nav-cta-mobile { display: none; } }
+/* narrow desktops: the capsule is tighter than the old edge-to-edge bar, so the row
+   compresses instead of overflowing (labels are nowrap and cannot reflow) */
+@media (min-width: 921px) and (max-width: 1180px) {
+  .header-inner { gap: 12px; padding-inline: 16px 8px; }
+  .main-nav ul { gap: 0; }
+  .main-nav a { padding-inline: 11px; font-size: .95rem; }
+  .header-cta { padding-inline: 16px; }
+}
 
 /* ---------- Hero ---------- */
 .hero {
@@ -2156,18 +2286,21 @@ html.a11y-motion .ai-section .st-split .mark svg { opacity: .95 !important; }
   height: 42px;
   flex: none;
   border-radius: 50%;
-  border: 1px solid var(--line);
-  background: #fff;
+  border: 1px solid rgba(23, 20, 32, .1);
+  background: linear-gradient(180deg, #fff, rgba(255, 255, 255, .84));
   color: var(--ink);
   display: grid;
   place-items: center;
   cursor: pointer;
-  transition: background .18s ease, color .18s ease, transform .18s ease;
+  box-shadow: 0 6px 16px -10px rgba(23, 20, 32, .55);
+  transition: background .22s ease, color .22s ease, transform .22s cubic-bezier(.34, 1.56, .64, 1), box-shadow .22s ease;
 }
 .a11y-btn:hover, .a11y-btn[aria-expanded="true"] {
-  background: var(--ink);
+  background: var(--grad);
+  border-color: transparent;
   color: #fff;
-  transform: scale(1.05);
+  transform: scale(1.08);
+  box-shadow: 0 10px 24px -10px rgba(76, 47, 216, .8);
 }
 /* mobile: the accessibility trigger lives inside the hamburger menu instead */
 @media (max-width: 920px) { .site-header .a11y-btn { display: none; } }
@@ -2431,7 +2564,14 @@ html.js .reveal-d3 { transition-delay: .24s; }
 /* mobile: drop the most expensive paint effects (blur + grain + conic border) */
 @media (max-width: 920px) {
   body::after { display: none; }
-  .site-header { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(245, 243, 238, .97); }
+  /* no blur here, so BOTH capsule states must be opaque or the page bleeds through it */
+  .header-inner,
+  .site-header.scrolled .header-inner {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: linear-gradient(180deg, #FFFFFF, #F7F5F1);
+  }
+  .nav-toggle::after { backdrop-filter: none; -webkit-backdrop-filter: none; }
   .to-top { backdrop-filter: none; -webkit-backdrop-filter: none; background: #fff; }
   .float-card { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(255, 255, 255, .95); }
   .plan-featured { animation: plan-glow 4s ease-in-out infinite; }

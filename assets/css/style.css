@@ -449,6 +449,8 @@ body::after {
   color: var(--muted);
 }
 .hero-trust svg { color: var(--green); flex: none; }
+.hero-trust .ht-fast svg { color: var(--orange); }
+.hero-trust .ht-seo svg { color: var(--violet); }
 
 .hero-visual { position: relative; }
 .hero-parallax { will-change: transform; transition: transform .25s ease-out; }

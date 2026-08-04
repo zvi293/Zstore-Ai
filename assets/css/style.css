@@ -1217,6 +1217,27 @@ html.js .hs-panel.is-active { opacity: 1; visibility: visible; transform: none; 
 .ai-section .check-list span { color: var(--night-text); }
 .ai-section .check-list svg { color: #7EE2A8; }
 .ai-section .split-media img { border-color: rgba(255, 255, 255, .12); }
+/* the closing promise gets the hero's living-gradient treatment, re-mixed for a dark bg */
+.ai-section .mark {
+  background: linear-gradient(95deg, #C4B5FD, #FFFFFF 38%, #8B5CF6 68%, #C4B5FD);
+  background-size: 280% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradient-slide 6s ease-in-out infinite;
+}
+.ai-section .mark svg {
+  color: #A78BFA;
+  opacity: .95;
+  filter: drop-shadow(0 0 7px rgba(167, 139, 250, .5));
+}
+/* the shared .mark rules fade the stroke to .55 — too dim over --night, so re-assert it
+   at every specificity the reveal / motion-off rules use */
+html.js .ai-section .st-split.st-in .mark svg,
+html.a11y-motion .ai-section .st-split .mark svg { opacity: .95 !important; }
+@media (prefers-reduced-motion: reduce) {
+  .ai-section .st-split .mark svg { opacity: .95 !important; }
+}
 .ai-badges { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
 .ai-badges li {
   border: 1px solid var(--night-line);

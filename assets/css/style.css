@@ -212,7 +212,7 @@ body::after {
 }
 .btn:active { transform: scale(.97); }
 .btn svg { flex: none; }
-/* mobile: long CTA labels wrap — switch pills to soft full-width cards so they stay clean */
+/* mobile: CTAs go full-width but keep the desktop pill shape */
 @media (max-width: 600px) {
   .pkg-cta .btn,
   .plan-foot .btn,
@@ -222,7 +222,6 @@ body::after {
     width: 100%;
     justify-content: center;
     text-align: center;
-    border-radius: 16px;
     padding: 14px 18px;
     line-height: 1.4;
   }

@@ -1423,10 +1423,78 @@ html.a11y-motion .ai-section .st-split .mark svg { opacity: .95 !important; }
 .breadcrumbs li:not(:last-child)::after { content: "‹"; color: rgba(23, 20, 32, .35); }
 .breadcrumbs [aria-current] { color: var(--ink); font-weight: 500; }
 
+/* the long package list used to scroll over flat paper — this gives it depth and rhythm */
+.pkg-stage {
+  position: relative;
+  overflow: clip;
+  padding-block: clamp(30px, 4vw, 52px) clamp(38px, 5vw, 66px);
+  /* the stage runs several thousand pixels tall, so the colour washes tile down it.
+     three different tile heights mean the combined pattern never visibly repeats */
+  background-image:
+    radial-gradient(46% 26% at 88% 14%, rgba(104, 71, 244, .15), transparent 70%),
+    radial-gradient(44% 24% at 8% 54%, rgba(247, 178, 59, .14), transparent 70%),
+    radial-gradient(48% 26% at 94% 86%, rgba(43, 181, 105, .13), transparent 70%);
+  background-size: 100% 1500px, 100% 1700px, 100% 1300px;
+  background-repeat: repeat-y;
+  background-position: 0 0, 0 260px, 0 620px;
+}
+/* the hero's dot texture continues here, strongest at the seams so they disappear */
+.pkg-stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(23, 20, 32, .12) 1px, transparent 1.6px);
+  background-size: 26px 26px;
+  -webkit-mask-image: linear-gradient(180deg, #000, rgba(0, 0, 0, .4) 320px, rgba(0, 0, 0, .4) calc(100% - 320px), #000);
+  mask-image: linear-gradient(180deg, #000, rgba(0, 0, 0, .4) 320px, rgba(0, 0, 0, .4) calc(100% - 320px), #000);
+}
+.pkg-stage > .container { position: relative; }
+
+/* dashed thread that carries the eye from one package to the next */
+.pkg-link {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: clamp(56px, 8vw, 88px);
+  margin-top: -30px;
+}
+.pkg-link::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  width: 2px;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(104, 71, 244, .45) 0 7px,
+    transparent 7px 14px
+  );
+}
+.pkg-link-dot {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  color: var(--violet-deep);
+  background: var(--card);
+  border: 1px solid rgba(104, 71, 244, .35);
+  box-shadow: 0 6px 16px -6px rgba(76, 47, 216, .45);
+  animation: pkg-nudge 2.6s ease-in-out infinite;
+}
+@keyframes pkg-nudge {
+  0%, 100% { transform: translateY(-3px); }
+  50% { transform: translateY(3px); }
+}
+
 .pkg-detail {
   position: relative;
   overflow: clip;
-  background: var(--card);
+  /* a soft wash in the card's own accent colour keeps it from reading as a plain white slab */
+  background:
+    radial-gradient(320px 240px at 100% 0%, rgba(79, 130, 247, .10), transparent 64%),
+    var(--card);
   border: 1px solid var(--line);
   border-radius: var(--r-lg);
   box-shadow: var(--shadow-soft);
@@ -1444,6 +1512,17 @@ html.a11y-motion .ai-section .st-split .mark svg { opacity: .95 !important; }
 }
 .pkg-detail.featured::before { background: var(--grad); }
 .pkg-detail#premium::before { background: linear-gradient(90deg, #F7B23B, #8B5CF6, #4C2FD8); }
+/* each card's wash matches the accent bar above it */
+.pkg-detail.featured {
+  background:
+    radial-gradient(340px 260px at 100% 0%, rgba(104, 71, 244, .13), transparent 64%),
+    var(--card);
+}
+.pkg-detail#premium {
+  background:
+    radial-gradient(340px 260px at 100% 0%, rgba(247, 178, 59, .14), transparent 64%),
+    var(--card);
+}
 .pkg-detail.featured { border: 2px solid var(--violet); box-shadow: 0 10px 24px rgba(76, 47, 216, .08), 0 34px 80px -30px rgba(76, 47, 216, .38); }
 .pkg-top { display: flex; flex-wrap: wrap; gap: 18px 26px; align-items: flex-end; justify-content: space-between; margin-bottom: 8px; }
 .pkg-top h2 { font-size: clamp(1.55rem, 2vw + 0.75rem, 2.1rem); margin: 0; }
@@ -1536,9 +1615,17 @@ html.a11y-motion .ai-section .st-split .mark svg { opacity: .95 !important; }
 .pkg-groups {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 14px 30px;
+  gap: 14px;
   margin-top: 22px;
 }
+/* each group is its own tinted panel, so a long spec list scrolls as blocks, not one text wall */
+.pkg-group {
+  background: linear-gradient(160deg, rgba(104, 71, 244, .05), rgba(104, 71, 244, 0) 55%), var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 16px 18px 18px;
+}
+.pkg-detail.featured .pkg-group { background: linear-gradient(160deg, rgba(104, 71, 244, .1), rgba(104, 71, 244, 0) 55%), var(--paper); }
 .pkg-group h3 {
   font-family: var(--font-body);
   font-weight: 700;
@@ -2161,6 +2248,9 @@ html.a11y-contrast .plan-desc,
 html.a11y-contrast .hero-sub,
 html.a11y-contrast .section-head p { color: #000; }
 html.a11y-contrast :is(.eyebrow, .plan-name, .pkg-kicker, .plan-more, a:not(.btn)) { color: #26127E; }
+/* high contrast: strip the ambient washes so text sits on plain white */
+html.a11y-contrast :is(.pkg-stage, .pkg-stage::before, .pkg-detail, .pkg-group) { background: #fff; }
+html.a11y-contrast .pkg-group li { color: #000; }
 html.a11y-contrast :is(.stat span, .ai-section .section-head p, .ai-section .split-body > p, .ai-section .check-list span, .site-footer, .site-footer a) { color: #E8E6F5; }
 html.a11y-motion,
 html.a11y-motion *,
@@ -2329,7 +2419,8 @@ html.js .reveal-d3 { transition-delay: .24s; }
 /* print */
 @media print {
   .site-header, .wa-float, .a11y-btn, .a11y-panel, .to-top,
-  .scroll-progress, .marquee-row, .ticker-x, .orb, .deco-tile { display: none !important; }
+  .scroll-progress, .marquee-row, .ticker-x, .orb, .deco-tile, .pkg-link { display: none !important; }
+  .pkg-stage, .pkg-stage::before, .pkg-group { background: #fff !important; }
   body::after { display: none; }
   /* everything the scroll-reveal hides must print visible */
   html.js .reveal, html.js .st-split .stc, html.js .st-split .mark svg {

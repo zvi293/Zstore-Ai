@@ -78,7 +78,7 @@
     return reduced || document.documentElement.classList.contains('a11y-motion');
   };
   var autoTargets = document.querySelectorAll(
-    '.section-head, .feat, .plan, .step, .faq-item, .split-media, .split-body, ' +
+    '.section-head, .plan, .step, .faq-item, .split-media, .split-body, ' +
     '.showcase-card, .pkg-detail, .stat, .cta-final, .pkg-jump a, .footer-grid > *'
   );
   autoTargets.forEach(function (el, i) {
@@ -125,6 +125,69 @@
       });
     }, { threshold: 0.6 });
     statEls.forEach(function (el) { statIO.observe(el); });
+  }
+
+  /* ---------- why-us hotspots (tablist: click / hover / arrows, auto-cycles until touched) ---------- */
+  var hotspots = document.querySelector('.hotspots');
+  if (hotspots) {
+    var pins = [].slice.call(hotspots.querySelectorAll('.hs-pin'));
+    var panels = [].slice.call(hotspots.querySelectorAll('.hs-panel'));
+    var lines = [].slice.call(hotspots.querySelectorAll('.hs-line'));
+    var active = 0;
+    var cycle = null;
+    var userTouched = false;
+
+    var setActive = function (i, focusPin) {
+      active = (i + pins.length) % pins.length;
+      pins.forEach(function (pin, k) {
+        var on = k === active;
+        pin.classList.toggle('is-active', on);
+        pin.setAttribute('aria-selected', on ? 'true' : 'false');
+        pin.tabIndex = on ? 0 : -1;
+      });
+      panels.forEach(function (panel, k) { panel.classList.toggle('is-active', k === active); });
+      lines.forEach(function (line, k) { line.classList.toggle('is-live', k === active); });
+      if (focusPin) pins[active].focus();
+    };
+
+    var stopCycle = function () {
+      if (!cycle) return;
+      clearInterval(cycle);
+      cycle = null;
+    };
+    /* the carousel is a hint that the pins are live — any real interaction ends it for good */
+    var endCycle = function () { userTouched = true; stopCycle(); };
+    var startCycle = function () {
+      if (cycle || userTouched || motionOff()) return;
+      cycle = setInterval(function () { setActive(active + 1); }, 4200);
+    };
+
+    pins.forEach(function (pin, i) {
+      pin.addEventListener('click', function () { endCycle(); setActive(i); });
+      pin.addEventListener('mouseenter', function () { endCycle(); setActive(i); });
+      pin.addEventListener('keydown', function (e) {
+        var step = 0;
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') step = 1;
+        else if (e.key === 'ArrowRight' || e.key === 'ArrowUp') step = -1;
+        else if (e.key === 'Home') { e.preventDefault(); endCycle(); setActive(0, true); return; }
+        else if (e.key === 'End') { e.preventDefault(); endCycle(); setActive(pins.length - 1, true); return; }
+        if (!step) return;
+        e.preventDefault();
+        endCycle();
+        setActive(active + step, true);
+      });
+    });
+
+    setActive(0);
+    /* only cycle while the section is actually on screen */
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) startCycle();
+          else stopCycle();
+        });
+      }, { threshold: 0.35 }).observe(hotspots);
+    }
   }
 
   /* ---------- section titles: letter-by-letter reveal, re-triggered in both scroll directions ---------- */

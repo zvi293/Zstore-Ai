@@ -1651,101 +1651,327 @@
         </div>
       </div>
 
-      <!-- ============ WHY US ============ -->
+      <!-- ============ WHY US — interactive hotspots ============ -->
       <section class="section section-tight" aria-labelledby="why-title">
         <div class="container">
           <div class="section-head center">
             <p class="eyebrow">למה Zstore Ai</p>
             <h2 id="why-title">לא עוד אתר תבנית. נכס דיגיטלי.</h2>
-            <p>ארבעה דברים שתקבלו אצלנו, ושקשה למצוא במקום אחד.</p>
+            <p>
+              ארבעה דברים שתקבלו אצלנו, ושקשה למצוא במקום אחד.
+              <span class="hs-hint">בחרו נקודה כדי לפתוח אותה.</span>
+            </p>
           </div>
-          <div class="feat-grid">
-            <article class="feat reveal">
-              <span class="tile tile-violet" aria-hidden="true"
-                ><svg
-                  width="26"
-                  height="26"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+
+          <div class="hotspots reveal">
+            <div class="hs-stage">
+              <span class="hs-dots-bg" aria-hidden="true"></span>
+              <span class="hs-glow" aria-hidden="true"></span>
+              <svg
+                class="hs-links"
+                viewBox="0 0 100 100"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                <line class="hs-line pin-violet" x1="50" y1="50" x2="76" y2="19" />
+                <line class="hs-line pin-orange" x1="50" y1="50" x2="24" y2="19" />
+                <line class="hs-line pin-blue" x1="50" y1="50" x2="76" y2="75" />
+                <line class="hs-line pin-green" x1="50" y1="50" x2="24" y2="75" />
+              </svg>
+
+              <span class="hs-core" aria-hidden="true">
+                <span class="hs-ring"></span>
+                <span class="hs-ring hs-ring-2"></span>
+                <span class="hs-core-in">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <rect x="3" y="4" width="18" height="16" rx="3" />
+                    <path d="M3 9h18" />
+                    <circle cx="6.5" cy="6.5" r=".6" fill="currentColor" />
+                    <circle cx="9" cy="6.5" r=".6" fill="currentColor" />
+                  </svg>
+                  <b>האתר שלכם</b>
+                </span>
+              </span>
+
+              <div
+                class="hs-pins"
+                role="tablist"
+                aria-label="ארבעת היתרונות של Zstore Ai"
+              >
+                <button
+                  type="button"
+                  class="hs-pin pin-violet p1 is-active"
+                  role="tab"
+                  id="hs-tab-speed"
+                  aria-controls="hs-panel-speed"
+                  aria-selected="true"
+                  tabindex="0"
                 >
-                  <path d="m13 2-2 9h6l-8 11 2-9H5l8-11z" /></svg
-              ></span>
-              <h3>מהירות שגוגל אוהב</h3>
-              <p>
-                אתרים סטטיים המוגשים מרשת CDN: טעינה כמעט מיידית, ציוני מהירות
-                של 90+ ומשטח תקיפה מינימלי.
-              </p>
-            </article>
-            <article class="feat reveal reveal-d1">
-              <span class="tile tile-orange" aria-hidden="true"
-                ><svg
-                  width="26"
-                  height="26"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  <span class="hs-mark">
+                    <span class="hs-ping" aria-hidden="true"></span>
+                    <span class="hs-ping hs-ping-2" aria-hidden="true"></span>
+                    <span class="hs-ico" aria-hidden="true"
+                      ><svg
+                        width="26"
+                        height="26"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="m13 2-2 9h6l-8 11 2-9H5l8-11z" /></svg
+                    ></span>
+                  </span>
+                  <span class="hs-tag">מהירות</span>
+                </button>
+
+                <button
+                  type="button"
+                  class="hs-pin pin-orange p2"
+                  role="tab"
+                  id="hs-tab-design"
+                  aria-controls="hs-panel-design"
+                  aria-selected="false"
+                  tabindex="-1"
                 >
-                  <path d="M12 19l7-7 3 3-7 7-3-3z" />
-                  <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
-                  <path d="M2 2l7.586 7.586" />
-                  <circle cx="11" cy="11" r="2" /></svg
-              ></span>
-              <h3>עיצוב אישי באמת</h3>
-              <p>
-                כל אתר מעוצב מאפס סביב המותג שלכם. בלי תבניות מדף ובלי מראה
-                גנרי: אתר שמרגיש כמו העסק שלכם.
-              </p>
-            </article>
-            <article class="feat reveal reveal-d2">
-              <span class="tile tile-blue" aria-hidden="true"
-                ><svg
-                  width="26"
-                  height="26"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  <span class="hs-mark">
+                    <span class="hs-ping" aria-hidden="true"></span>
+                    <span class="hs-ping hs-ping-2" aria-hidden="true"></span>
+                    <span class="hs-ico" aria-hidden="true"
+                      ><svg
+                        width="26"
+                        height="26"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="M12 19l7-7 3 3-7 7-3-3z" />
+                        <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
+                        <path d="M2 2l7.586 7.586" />
+                        <circle cx="11" cy="11" r="2" /></svg
+                    ></span>
+                  </span>
+                  <span class="hs-tag">עיצוב</span>
+                </button>
+
+                <button
+                  type="button"
+                  class="hs-pin pin-blue p3"
+                  role="tab"
+                  id="hs-tab-seo"
+                  aria-controls="hs-panel-seo"
+                  aria-selected="false"
+                  tabindex="-1"
                 >
-                  <circle cx="11" cy="11" r="8" />
-                  <path d="m21 21-4.3-4.3" /></svg
-              ></span>
-              <h3>קידום אורגני מובנה</h3>
-              <p>
-                ‏SEO אצלנו הוא לא תוספת אלא חלק מהבנייה: מבנה תקין, Schema,
-                מילות מפתח ותוכן שמדורג.
-              </p>
-            </article>
-            <article class="feat reveal reveal-d3">
-              <span class="tile tile-green" aria-hidden="true"
-                ><svg
-                  width="26"
-                  height="26"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  <span class="hs-mark">
+                    <span class="hs-ping" aria-hidden="true"></span>
+                    <span class="hs-ping hs-ping-2" aria-hidden="true"></span>
+                    <span class="hs-ico" aria-hidden="true"
+                      ><svg
+                        width="26"
+                        height="26"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <circle cx="11" cy="11" r="8" />
+                        <path d="m21 21-4.3-4.3" />
+                        <path d="M8 12.4 10.2 10l2 2 2.9-3.2" /></svg
+                    ></span>
+                  </span>
+                  <span class="hs-tag">קידום</span>
+                </button>
+
+                <button
+                  type="button"
+                  class="hs-pin pin-green p4"
+                  role="tab"
+                  id="hs-tab-support"
+                  aria-controls="hs-panel-support"
+                  aria-selected="false"
+                  tabindex="-1"
                 >
-                  <path
-                    d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
-                  /></svg
-              ></span>
-              <h3>ליווי אנושי בוואטסאפ</h3>
-              <p>
-                בלי מוקדים ובלי כרטיסי תמיכה. שולחים הודעה ומקבלים מענה מהיר
-                מאדם שמכיר את האתר שלכם.
-              </p>
-            </article>
+                  <span class="hs-mark">
+                    <span class="hs-ping" aria-hidden="true"></span>
+                    <span class="hs-ping hs-ping-2" aria-hidden="true"></span>
+                    <span class="hs-ico" aria-hidden="true"
+                      ><svg
+                        width="26"
+                        height="26"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path
+                          d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+                        /></svg
+                    ></span>
+                  </span>
+                  <span class="hs-tag">ליווי</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="hs-panels">
+              <article
+                class="hs-panel pin-violet is-active"
+                id="hs-panel-speed"
+                role="tabpanel"
+                aria-labelledby="hs-tab-speed"
+                tabindex="0"
+              >
+                <span class="hs-num" aria-hidden="true">01</span>
+                <span class="hs-badge" aria-hidden="true"
+                  ><svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="m13 2-2 9h6l-8 11 2-9H5l8-11z" /></svg
+                ></span>
+                <h3>מהירות שגוגל אוהב</h3>
+                <p>
+                  אתרים סטטיים המוגשים מרשת CDN: טעינה כמעט מיידית, ציוני מהירות
+                  של 90+ ומשטח תקיפה מינימלי.
+                </p>
+                <ul class="hs-facts">
+                  <li>ציון 90+ ב־PageSpeed</li>
+                  <li>הגשה מרשת CDN</li>
+                  <li>בלי תוספים מיותרים</li>
+                </ul>
+              </article>
+
+              <article
+                class="hs-panel pin-orange"
+                id="hs-panel-design"
+                role="tabpanel"
+                aria-labelledby="hs-tab-design"
+                tabindex="0"
+              >
+                <span class="hs-num" aria-hidden="true">02</span>
+                <span class="hs-badge" aria-hidden="true"
+                  ><svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M12 19l7-7 3 3-7 7-3-3z" />
+                    <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
+                    <path d="M2 2l7.586 7.586" />
+                    <circle cx="11" cy="11" r="2" /></svg
+                ></span>
+                <h3>עיצוב אישי באמת</h3>
+                <p>
+                  כל אתר מעוצב מאפס סביב המותג שלכם. בלי תבניות מדף ובלי מראה
+                  גנרי: אתר שמרגיש כמו העסק שלכם.
+                </p>
+                <ul class="hs-facts">
+                  <li>עיצוב מאפס</li>
+                  <li>בלי תבניות מדף</li>
+                  <li>נאמן לשפת המותג</li>
+                </ul>
+              </article>
+
+              <article
+                class="hs-panel pin-blue"
+                id="hs-panel-seo"
+                role="tabpanel"
+                aria-labelledby="hs-tab-seo"
+                tabindex="0"
+              >
+                <span class="hs-num" aria-hidden="true">03</span>
+                <span class="hs-badge" aria-hidden="true"
+                  ><svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.3-4.3" />
+                    <path d="M8 12.4 10.2 10l2 2 2.9-3.2" /></svg
+                ></span>
+                <h3>קידום אורגני מובנה</h3>
+                <p>
+                  ‏SEO אצלנו הוא לא תוספת אלא חלק מהבנייה: מבנה תקין, Schema,
+                  מילות מפתח ותוכן שמדורג.
+                </p>
+                <ul class="hs-facts">
+                  <li>סימון Schema מלא</li>
+                  <li>מבנה כותרות תקין</li>
+                  <li>תוכן שמדורג</li>
+                </ul>
+              </article>
+
+              <article
+                class="hs-panel pin-green"
+                id="hs-panel-support"
+                role="tabpanel"
+                aria-labelledby="hs-tab-support"
+                tabindex="0"
+              >
+                <span class="hs-num" aria-hidden="true">04</span>
+                <span class="hs-badge" aria-hidden="true"
+                  ><svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path
+                      d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+                    /></svg
+                ></span>
+                <h3>ליווי אנושי בוואטסאפ</h3>
+                <p>
+                  בלי מוקדים ובלי כרטיסי תמיכה. שולחים הודעה ומקבלים מענה מהיר
+                  מאדם שמכיר את האתר שלכם.
+                </p>
+                <ul class="hs-facts">
+                  <li>בלי מוקד טלפוני</li>
+                  <li>מענה מהיר בוואטסאפ</li>
+                  <li>אדם שמכיר את האתר</li>
+                </ul>
+              </article>
+            </div>
           </div>
         </div>
       </section>

@@ -876,37 +876,301 @@ body::after {
   50% { box-shadow: 0 10px 30px rgba(76, 47, 216, .2), 0 34px 90px -26px rgba(76, 47, 216, .6); }
 }
 
-/* ---------- Feature cards ---------- */
-.feat-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
+/* ---------- Why-us hotspots (mobile-first: pin row + panel) ---------- */
+/* each pin/panel/link carries one of these colour classes; everything else reads the vars */
+.pin-violet { --pin: #6847F4; --pin-2: #8B5CF6; --pin-ink: #3B2AA6; --pin-soft: #EFEBFF; }
+.pin-orange { --pin: #C97207; --pin-2: #F7B23B; --pin-ink: #8A4E05; --pin-soft: #FDF0DC; }
+.pin-blue   { --pin: #2557D6; --pin-2: #4F82F7; --pin-ink: #1B3F9E; --pin-soft: #E7EEFE; }
+.pin-green  { --pin: #178A4C; --pin-2: #2BB569; --pin-ink: #106237; --pin-soft: #E3F5EA; }
+
+.hs-hint { display: block; font-size: .92rem; color: var(--violet-deep); font-weight: 600; margin-top: 4px; }
+.hotspots { display: grid; gap: 16px; }
+
+/* mobile: the stage is a compact rail of pins sitting above the detail card */
+.hs-stage {
+  position: relative;
+  padding: 22px 10px 18px;
+  border-radius: var(--r-lg);
+  background:
+    radial-gradient(circle at 50% -10%, rgba(104, 71, 244, .13), transparent 68%),
+    var(--card);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-soft);
 }
-.feat {
+/* core, spokes and texture only make sense once the pins scatter — desktop only */
+.hs-glow, .hs-links, .hs-core { display: none; }
+.hs-dots-bg {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: radial-gradient(rgba(23, 20, 32, .1) 1px, transparent 1px);
+  background-size: 20px 20px;
+  -webkit-mask-image: radial-gradient(circle at 50% 40%, #000, transparent 72%);
+  mask-image: radial-gradient(circle at 50% 40%, #000, transparent 72%);
+  pointer-events: none;
+}
+
+.hs-pins {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: clamp(6px, 3.5vw, 26px);
+}
+/* dashed rail threading the four pins together */
+.hs-pins::before {
+  content: "";
+  position: absolute;
+  inset-inline: 4%;
+  top: calc(clamp(54px, 16vw, 66px) / 2);
+  border-top: 2px dashed rgba(104, 71, 244, .25);
+  z-index: 0;
+}
+.hs-pin {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  gap: 9px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--muted);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.hs-mark { position: relative; display: block; }
+.hs-ico {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: clamp(54px, 16vw, 66px);
+  aspect-ratio: 1;
+  border-radius: 32%;
+  color: #fff;
+  background: linear-gradient(140deg, var(--pin-2), var(--pin));
+  box-shadow: 0 10px 22px -10px var(--pin), 0 2px 6px rgba(23, 20, 32, .12);
+  transition: transform .3s cubic-bezier(.34, 1.56, .64, 1), box-shadow .3s ease;
+}
+.hs-ico svg { width: 55%; height: 55%; }
+/* the pulse that makes a pin read as a live hotspot */
+.hs-ping {
+  position: absolute;
+  inset: 0;
+  border-radius: 32%;
+  border: 2px solid var(--pin);
+  opacity: 0;
+  pointer-events: none;
+}
+.hs-pin.is-active .hs-ping { animation: hs-ping 2.4s cubic-bezier(.2, .6, .3, 1) infinite; }
+.hs-pin.is-active .hs-ping-2 { animation-delay: 1.2s; }
+@keyframes hs-ping {
+  0% { opacity: .55; transform: scale(1); }
+  70%, 100% { opacity: 0; transform: scale(1.85); }
+}
+.hs-tag { font-size: .82rem; font-weight: 700; line-height: 1.2; transition: color .25s ease; }
+.hs-pin.is-active .hs-ico { transform: scale(1.1); }
+.hs-pin.is-active .hs-tag { color: var(--pin-ink); }
+.hs-pin:focus-visible { outline: none; }
+.hs-pin:focus-visible .hs-ico { box-shadow: 0 0 0 3px var(--paper), 0 0 0 6px var(--pin); }
+
+/* ---- panel ---- */
+.hs-panels { display: grid; gap: 16px; }
+.hs-panel {
+  position: relative;
+  overflow: hidden;
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: var(--r-md);
-  padding: 28px 24px;
+  padding: 30px 26px 26px;
   box-shadow: var(--shadow-soft);
-  transition: transform .2s ease, box-shadow .2s ease;
 }
-.feat:hover { transform: translateY(-6px) scale(1.015); box-shadow: var(--shadow-pop); border-color: rgba(104, 71, 244, .35); }
-.feat .tile {
-  width: 52px;
-  height: 52px;
-  border-radius: 15px;
+.hs-panel::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 5px;
+  background: linear-gradient(90deg, var(--pin-2), var(--pin));
+}
+/* only with JS do the panels become a single swapping stack */
+html.js .hs-panel {
+  grid-area: 1 / 1;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(14px);
+  transition: opacity .35s ease, transform .35s ease, visibility .35s;
+}
+html.js .hs-panel.is-active { opacity: 1; visibility: visible; transform: none; }
+.hs-panel:focus-visible { outline: 3px solid var(--pin); outline-offset: 3px; }
+.hs-num {
+  position: absolute;
+  top: 10px;
+  inset-inline-start: 20px;
+  font-family: var(--font-display);
+  font-size: 4.6rem;
+  line-height: 1;
+  color: var(--pin-soft);
+  pointer-events: none;
+  user-select: none;
+}
+.hs-badge {
+  position: relative;
   display: grid;
   place-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 15px;
   color: #fff;
-  margin-bottom: 18px;
-  box-shadow: 0 10px 20px -8px rgba(23, 20, 32, .35);
-  transition: transform .25s cubic-bezier(.34, 1.56, .64, 1);
+  background: linear-gradient(140deg, var(--pin-2), var(--pin));
+  box-shadow: 0 10px 20px -8px var(--pin);
+  margin-bottom: 16px;
 }
-.feat:hover .tile { transform: rotate(-7deg) scale(1.12); }
-.feat h3 { font-size: 1.22rem; margin-bottom: 8px; font-family: var(--font-body); font-weight: 700; }
-.feat p { color: var(--muted); font-size: .975rem; margin: 0; }
-@media (max-width: 980px) { .feat-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 560px) { .feat-grid { grid-template-columns: 1fr; } }
+.hs-panel h3 {
+  position: relative;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: clamp(1.2rem, 1vw + 1rem, 1.4rem);
+  margin-bottom: 8px;
+}
+.hs-panel p { position: relative; color: var(--muted); font-size: 1rem; margin: 0 0 16px; }
+.hs-facts { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 0; list-style: none; }
+.hs-facts li {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: .86rem;
+  font-weight: 600;
+  color: var(--pin-ink);
+  background: var(--pin-soft);
+  border-radius: 999px;
+  padding: 5px 13px;
+}
+.hs-facts li::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--pin);
+  flex: none;
+}
+
+/* ---- desktop: pins scatter around a glowing core ---- */
+@media (min-width: 861px) {
+  .hotspots { grid-template-columns: 1.02fr .98fr; gap: clamp(24px, 3vw, 46px); align-items: center; }
+
+  .hs-stage {
+    aspect-ratio: 1 / .94;
+    padding: 0;
+    background:
+      radial-gradient(circle at 50% 50%, rgba(255, 255, 255, .9), rgba(255, 255, 255, 0) 68%),
+      linear-gradient(150deg, rgba(104, 71, 244, .07), rgba(37, 87, 214, .05));
+    box-shadow: none;
+    overflow: hidden;
+  }
+  .hs-glow, .hs-links, .hs-core { display: block; }
+  .hs-dots-bg {
+    background-size: 22px 22px;
+    -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 28%, transparent 74%);
+    mask-image: radial-gradient(circle at 50% 50%, #000 28%, transparent 74%);
+  }
+  .hs-glow {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 62%;
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(104, 71, 244, .22), transparent 66%);
+    filter: blur(6px);
+  }
+
+  /* spokes: viewBox units map 1:1 to percentages of the stage, so they always meet the pins */
+  .hs-links { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .hs-line {
+    stroke: var(--pin);
+    stroke-width: 1.4;
+    stroke-dasharray: 5 5;
+    opacity: .22;
+    vector-effect: non-scaling-stroke;
+    transition: opacity .3s ease, stroke-width .3s ease;
+  }
+  .hs-line.is-live { opacity: .85; stroke-width: 2; animation: hs-dash 1.4s linear infinite; }
+  @keyframes hs-dash { to { stroke-dashoffset: -20; } }
+
+  .hs-core {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: clamp(112px, 24%, 148px);
+    aspect-ratio: 1;
+    z-index: 2;
+  }
+  .hs-core-in {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 4px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-pop);
+    color: var(--violet-deep);
+    text-align: center;
+  }
+  .hs-core-in b { font-size: .82rem; font-weight: 700; color: var(--ink); }
+  .hs-ring {
+    position: absolute;
+    inset: -16px;
+    border-radius: 50%;
+    border: 1.5px dashed rgba(104, 71, 244, .38);
+    animation: hs-spin 28s linear infinite;
+  }
+  .hs-ring-2 {
+    inset: -34px;
+    border-style: solid;
+    border-color: rgba(104, 71, 244, .16);
+    animation-duration: 44s;
+    animation-direction: reverse;
+  }
+  @keyframes hs-spin { to { transform: rotate(360deg); } }
+
+  .hs-pins { display: block; position: absolute; inset: 0; z-index: 3; }
+  .hs-pins::before { display: none; }
+  .hs-pin { position: absolute; transform: translate(-50%, -50%); }
+  .hs-pin.p1 { left: 76%; top: 22%; }
+  .hs-pin.p2 { left: 24%; top: 22%; }
+  .hs-pin.p3 { left: 76%; top: 78%; }
+  .hs-pin.p4 { left: 24%; top: 78%; }
+  .hs-pin:hover .hs-ico { transform: translateY(-4px) rotate(-7deg) scale(1.09); }
+  .hs-pin.is-active:hover .hs-ico { transform: translateY(-4px) rotate(-7deg) scale(1.16); }
+  .hs-tag {
+    background: rgba(255, 255, 255, .82);
+    border-radius: 999px;
+    padding: 3px 11px;
+    backdrop-filter: blur(4px);
+  }
+  .hs-panel { padding: 34px 32px 30px; }
+}
+
+/* tablets: the rail is wide but the pins have not scattered yet — spread them across it */
+@media (min-width: 560px) and (max-width: 860px) {
+  .hs-stage { padding: 30px 18px 26px; }
+  .hs-pins { gap: clamp(34px, 11vw, 90px); }
+  .hs-tag { font-size: .9rem; }
+}
+
+/* pins get roomy again once they are the only thing on the row */
+@media (max-width: 400px) {
+  .hs-tag { font-size: .74rem; }
+  .hs-panel { padding: 26px 20px 22px; }
+  .hs-num { font-size: 3.6rem; }
+}
 
 /* ---------- Split sections (image + text) ---------- */
 .split {
@@ -1871,7 +2135,7 @@ html.a11y-links a { text-decoration: underline !important; }
 html.a11y-contrast { --muted: #1A1726; --line: rgba(0, 0, 0, .45); --night-text: #EFEEF8; }
 html.a11y-contrast body { background: #fff; }
 html.a11y-contrast body,
-html.a11y-contrast .feat p,
+html.a11y-contrast .hs-panel p,
 html.a11y-contrast .plan-desc,
 html.a11y-contrast .hero-sub,
 html.a11y-contrast .section-head p { color: #000; }
@@ -2057,5 +2321,14 @@ html.js .reveal-d3 { transition-delay: .24s; }
     box-shadow: none !important;
   }
   .stats-strip *, .ai-section *, .cta-final *, .faq-cta-card *, .site-footer * { color: #000 !important; }
-  .plan, .pkg-detail, .feat, .step, .faq-item { break-inside: avoid; box-shadow: none !important; }
+  .plan, .pkg-detail, .hs-panel, .step, .faq-item { break-inside: avoid; box-shadow: none !important; }
+  /* the hotspot stage is interaction-only: print all four panels stacked */
+  .hs-stage, .hs-hint { display: none !important; }
+  .hs-panels { display: block !important; }
+  html.js .hs-panel {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    margin-bottom: 14px;
+  }
 }

@@ -1004,10 +1004,11 @@ html.js .hs-panel {
 }
 html.js .hs-panel.is-active { opacity: 1; visibility: visible; transform: none; }
 .hs-panel:focus-visible { outline: 3px solid var(--pin); outline-offset: 3px; }
+/* sits in the far corner from the badge, which opens the panel on the start side */
 .hs-num {
   position: absolute;
-  top: 10px;
-  inset-inline-start: 20px;
+  top: 14px;
+  inset-inline-end: 22px;
   font-family: var(--font-display);
   font-size: 4.6rem;
   line-height: 1;

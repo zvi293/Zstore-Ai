@@ -3,7 +3,7 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://zstore-ai.co.il/</loc>
-    <lastmod>2026-07-28</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image><image:loc>https://zstore-ai.co.il/assets/img/brand/hero-app-1280.webp</image:loc></image:image>
@@ -29,14 +29,14 @@
   </url>
   <url>
     <loc>https://zstore-ai.co.il/business-sites/</loc>
-    <lastmod>2026-07-28</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
     <image:image><image:loc>https://zstore-ai.co.il/assets/img/brand/phone-purple-1280.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://zstore-ai.co.il/online-stores/</loc>
-    <lastmod>2026-07-28</lastmod>
+    <lastmod>2026-08-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
     <image:image><image:loc>https://zstore-ai.co.il/assets/img/brand/store-laptop-1280.webp</image:loc></image:image>

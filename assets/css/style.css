@@ -3,16 +3,13 @@
    עיצוב: פורצלן חם + סגול חשמלי + לילה עמוק
    ============================================================ */
 
-/* ---------- Fonts (self-hosted): Leon Regular (body) + Leon Heavy (headings) ----------
-   note: U+20AA (₪) is deliberately excluded so the shekel sign renders
-   from a clean standard font instead of Leon's stylized glyph */
+/* ---------- Fonts (self-hosted): Leon Regular (body) + Leon Heavy (headings) ---------- */
 @font-face {
   font-family: 'Leon';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
   src: url('../fonts/Leon-Regular.woff2') format('woff2'), url('../fonts/Leon-Regular.woff') format('woff');
-  unicode-range: U+0000-20A9, U+20AB-10FFFF;
 }
 /* bold running text maps to the real Heavy cut instead of a synthesized faux-bold */
 @font-face {
@@ -21,7 +18,6 @@
   font-weight: 600 900;
   font-display: swap;
   src: url('../fonts/Leon-Heavy.woff2') format('woff2'), url('../fonts/Leon-Heavy.woff') format('woff');
-  unicode-range: U+0000-20A9, U+20AB-10FFFF;
 }
 @font-face {
   font-family: 'Leon Heavy';
@@ -29,7 +25,6 @@
   font-weight: 400;
   font-display: swap;
   src: url('../fonts/Leon-Heavy.woff2') format('woff2'), url('../fonts/Leon-Heavy.woff') format('woff');
-  unicode-range: U+0000-20A9, U+20AB-10FFFF;
 }
 
 /* ---------- Design tokens ---------- */
@@ -1453,52 +1448,28 @@ html.a11y-motion .ai-section .st-split .mark svg { opacity: .95 !important; }
 .plan-name { font-family: var(--font-body); font-weight: 700; font-size: 1.05rem; color: var(--violet-deep); margin-bottom: 2px; }
 .plan-title { font-size: 1.65rem; margin-bottom: 10px; }
 .plan-desc { color: var(--muted); font-size: .95rem; min-height: 3.2em; }
-/* clear two-part price box: one-time setup + monthly subscription */
-.price-box {
+/* no public price list: the box carries a personal-quote message instead */
+.quote-box {
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: var(--r-md);
   padding: 16px 18px;
   margin: 18px 0;
   display: grid;
-  gap: 12px;
+  gap: 6px;
 }
-.price-box .price-row {
-  display: flex;
-  flex-wrap: wrap; /* very narrow screens: the price drops below the label instead of clipping */
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-}
-.price-box .price-row + .price-row {
-  border-top: 1px dashed var(--line);
-  padding-top: 12px;
-}
-.price-box .price-lbl {
-  font-size: .85rem;
-  font-weight: 500;
-  color: var(--muted);
-  line-height: 1.35;
-}
-.price-box .price-lbl b {
-  display: block;
-  color: var(--ink);
-  font-size: .95rem;
-}
-.price-box .price-val {
+.quote-box .quote-title {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: 1.9rem;
-  letter-spacing: -.01em;
-  white-space: nowrap;
-  color: var(--ink);
+  font-size: 1.5rem;
+  line-height: 1.15;
+  color: var(--violet-deep);
 }
-.price-box .price-val small {
-  font-family: var(--font-body);
-  font-size: .8rem;
+.quote-box .quote-text {
+  font-size: .9rem;
+  line-height: 1.5;
   color: var(--muted);
 }
-.price-box .price-row.monthly .price-val { font-size: 1.45rem; color: var(--violet-deep); }
 .plan-list { display: grid; gap: 11px; padding-block: 20px; border-top: 1px dashed var(--line); margin-top: 6px; }
 .plan-list li { display: flex; gap: 10px; font-size: .95rem; align-items: flex-start; }
 .plan-list svg { flex: none; margin-top: 4px; color: var(--violet); }
@@ -1676,22 +1647,18 @@ html.a11y-motion .ai-section .st-split .mark svg { opacity: .95 !important; }
 .pkg-top { display: flex; flex-wrap: wrap; gap: 18px 26px; align-items: flex-end; justify-content: space-between; margin-bottom: 8px; }
 .pkg-top h2 { font-size: clamp(1.55rem, 2vw + 0.75rem, 2.1rem); margin: 0; }
 .pkg-kicker { font-weight: 700; color: var(--violet-deep); font-size: .95rem; }
-.pkg-price-box {
-  display: flex;
-  flex-wrap: wrap; /* very narrow screens: the two price cells stack instead of clipping */
-  gap: 0;
+/* no public price list: a single cell pointing to a personal quote */
+.pkg-quote-box {
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: var(--r-md);
   overflow: hidden;
 }
-.pkg-price-box .pp {
+.pkg-quote-box .pp {
   padding: 12px 22px;
   text-align: center;
-  flex: 1 1 auto;
 }
-.pkg-price-box .pp + .pp { border-inline-start: 1px dashed var(--line); }
-.pkg-price-box .pp span {
+.pkg-quote-box .pp span {
   display: block;
   font-size: .78rem;
   font-weight: 700;
@@ -1699,13 +1666,11 @@ html.a11y-motion .ai-section .st-split .mark svg { opacity: .95 !important; }
   letter-spacing: .02em;
   margin-bottom: 2px;
 }
-.pkg-price-box .pp b {
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: 1.7rem;
-  white-space: nowrap;
+.pkg-quote-box .pp b {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--violet-deep);
 }
-.pkg-price-box .pp.monthly b { color: var(--violet-deep); }
 .pkg-price-note {
   display: block;
   color: var(--muted);
@@ -1717,7 +1682,7 @@ html.a11y-motion .ai-section .st-split .mark svg { opacity: .95 !important; }
   border-radius: var(--r-sm);
   padding: 12px 16px;
 }
-.pkg-price-note b { color: var(--violet-ink); white-space: nowrap; }
+.pkg-price-note b { color: var(--violet-ink); }
 .pkg-price-note svg {
   display: inline-block;
   vertical-align: -3px;
@@ -2416,7 +2381,7 @@ html.a11y-motion *::after {
 }
 html.a11y-font body,
 html.a11y-font h1, html.a11y-font h2, html.a11y-font h3, html.a11y-font h4,
-html.a11y-font .price-val, html.a11y-font .step::before {
+html.a11y-font .quote-title, html.a11y-font .step::before {
   font-family: Arial, 'Segoe UI', sans-serif !important;
   letter-spacing: 0 !important;
 }

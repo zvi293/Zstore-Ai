@@ -13,7 +13,7 @@ and AI-search optimization (GEO/AEO).
 | --- | --- |
 | שם רשמי (Legal/brand name) | Zstore Ai |
 | סוג הישות (Entity type) | סטודיו לבניית אתרים (ProfessionalService) |
-| קטגוריה | בניית אתרים, בניית אתרים בבינה מלאכותית, עיצוב אתרים, קידום אתרים (SEO/GEO/AEO), חנויות אונליין |
+| קטגוריה | בניית אתרים, עיצוב אתרים, קידום אתרים (SEO/GEO/AEO), חנויות אונליין |
 | שפת השירות | עברית |
 | אזור שירות | ישראל |
 | וואטסאפ / טלפון | +972-58-729-2029 (058-729-2029), https://wa.me/972587292029 |
@@ -87,6 +87,7 @@ and AI-search optimization (GEO/AEO).
 - [דף הבית](https://zstore-ai.co.il/): סקירת השירותים, עבודות לדוגמה, כל החבילות ושאלות נפוצות
 - [אתרי תדמית](https://zstore-ai.co.il/business-sites/): פירוט מלא של שלוש חבילות אתרי התדמית
 - [חנויות אונליין](https://zstore-ai.co.il/online-stores/): פירוט מלא של שלוש חבילות אתרי המכירות
+- [קידום אתרים במנועי AI](https://zstore-ai.co.il/ai-websites/): איך Zstore Ai דואג שעסקים יופיעו בתשובות של ChatGPT, Gemini ו-Perplexity (GEO/AEO), לצד קידום מלא בגוגל
 - [הצהרת נגישות](https://zstore-ai.co.il/accessibility/)
 - [מדיניות פרטיות](https://zstore-ai.co.il/privacy/)
 

@@ -289,27 +289,42 @@
     // titles replay in both scroll directions everywhere. Desktop also melts the
     // letters away as a title leaves; on touch screens that outgoing transition
     // storm janks fast flicks, so phones reset instantly (a mobile CSS rule strips
-    // the outgoing transition) and only once the title is fully offscreen —
+    // the outgoing transition) and only once the title is well offscreen —
     // the staggered rise-in still replays every time it scrolls back in
     var meltAway = window.matchMedia('(min-width: 921px) and (pointer: fine)').matches;
-    var titleIO = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (meltAway) {
+    var observeTitle;
+    if (meltAway) {
+      var titleIO = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
           entry.target.classList.toggle('st-in', entry.isIntersecting);
-        } else if (entry.isIntersecting) {
-          // hysteresis: arm at 20% visible, disarm only when fully out of view,
-          // so tiny back-and-forth flicks near the edge don't re-trigger anything
-          if (entry.intersectionRatio >= 0.2) entry.target.classList.add('st-in');
-        } else {
-          entry.target.classList.remove('st-in');
-        }
-      });
-    }, { threshold: [0, 0.2], rootMargin: '0px 0px -6% 0px' });
+        });
+      }, { threshold: 0.2, rootMargin: '0px 0px -6% 0px' });
+      observeTitle = function (el) { titleIO.observe(el); };
+    } else {
+      // phones: two watchers with disjoint boundaries, no ratio thresholds —
+      // threshold-0 crossings fire reliably in BOTH scroll directions, where a
+      // fractional threshold can report a hair under its own value at the exact
+      // crossing moment and silently skip the reveal.
+      // showIO arms the reveal at the first visible sliver; resetIO disarms it
+      // only once the title is a full 90px outside the viewport, so the two can
+      // never fight and edge-of-screen jitter triggers nothing.
+      var showIO = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) entry.target.classList.add('st-in');
+        });
+      }, { rootMargin: '0px 0px -6% 0px' });
+      var resetIO = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) entry.target.classList.remove('st-in');
+        });
+      }, { rootMargin: '90px 0px 90px 0px' });
+      observeTitle = function (el) { showIO.observe(el); resetIO.observe(el); };
+    }
     titleEls.forEach(function (el) {
       // a failure in the splitter must never leave a title hidden or break the rest of the script
       try {
         splitTitle(el);
-        if (el.classList.contains('st-split')) titleIO.observe(el);
+        if (el.classList.contains('st-split')) observeTitle(el);
       } catch (err) {
         el.classList.remove('st-split');
       }

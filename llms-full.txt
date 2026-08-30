@@ -153,6 +153,10 @@ Contact via WhatsApp: +972-58-729-2029.
 
 ---
 
+## בניית אתרים לעסקים (Website building service): https://zstore-ai.co.il/website-building/
+
+עמוד השירות המרכזי לבניית אתרים. מסביר מה כלול בשירות (עיצוב אישי מאפס, מהירות 90+, קידום מובנה בגוגל ובמנועי AI, נגישות, אחסון ותחזוקה במנוי חודשי), עוזר לבחור בין אתר תדמית לחנות אונליין, מפרט את תהליך העבודה בארבעה שלבים, ועונה על השאלות הנפוצות: עלות (תמחור אישי בלבד, ללא מחירון פומבי), זמני אספקה (אתר תדמית 7–14 ימי עסקים, חנות 2–4 שבועות), עריכה עצמית בפאנל ניהול, ואיך בוחרים חברת בניית אתרים.
+
 ## קידום אתרים במנועי AI (GEO/AEO): https://zstore-ai.co.il/ai-websites/
 
 עמוד השירות המרכזי לקידום במנועי בינה מלאכותית. Zstore Ai מתאים אתרים למנועי AI (ChatGPT, Gemini, Perplexity) כך שהעסק יופיע בתשובות שלהם: הטמעת סכמת ישויות (Entity Schema), קובץ llms.txt, תוכן במבנה שאלה־תשובה, פתיחת האתר לסורקי AI (GPTBot, PerplexityBot, Google-Extended) וחיזוק ישות המותג. קידום זה משלים את הקידום האורגני בגוגל ואינו מחליף אותו; בחבילות המתקדמות נכלל דוח אזכורים במנועי AI שבודק האם ובאיזה הקשר המותג עולה בתשובות. השירות נכלל בחבילות המתקדמות (״פסגה״ / ״חנות פסגה״).
@@ -190,6 +194,7 @@ Contact via WhatsApp: +972-58-729-2029.
 
 ## Pages
 - Home: https://zstore-ai.co.il/
+- Website building service page (בניית אתרים לעסקים): https://zstore-ai.co.il/website-building/
 - Business sites (אתרי תדמית): https://zstore-ai.co.il/business-sites/
 - Online stores (חנויות אונליין): https://zstore-ai.co.il/online-stores/
 - AI search promotion (קידום אתרים במנועי AI): https://zstore-ai.co.il/ai-websites/

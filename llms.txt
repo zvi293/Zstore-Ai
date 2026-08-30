@@ -85,6 +85,7 @@ and AI-search optimization (GEO/AEO).
 
 ## Pages
 - [דף הבית](https://zstore-ai.co.il/): סקירת השירותים, עבודות לדוגמה, כל החבילות ושאלות נפוצות
+- [בניית אתרים לעסקים](https://zstore-ai.co.il/website-building/): עמוד השירות המרכזי: מה כולל תהליך בניית האתר, איך בוחרים סוג אתר ואיך מתחילים
 - [אתרי תדמית](https://zstore-ai.co.il/business-sites/): פירוט מלא של שלוש חבילות אתרי התדמית
 - [חנויות אונליין](https://zstore-ai.co.il/online-stores/): פירוט מלא של שלוש חבילות אתרי המכירות
 - [קידום אתרים במנועי AI](https://zstore-ai.co.il/ai-websites/): איך Zstore Ai דואג שעסקים יופיעו בתשובות של ChatGPT, Gemini ו-Perplexity (GEO/AEO), לצד קידום מלא בגוגל

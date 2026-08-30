@@ -26,6 +26,25 @@
   font-display: swap;
   src: url('../fonts/Leon-Heavy.woff2') format('woff2'), url('../fonts/Leon-Heavy.woff') format('woff');
 }
+/* metric-adjusted local fallbacks: Arial reshaped to Leon's boxes, so the
+   font swap on a cold cache causes no layout shift (values measured from
+   the actual woff2 files: hhea 1040/-234/0 @1000upem, Hebrew avg widths) */
+@font-face {
+  font-family: 'Leon-fallback';
+  src: local('Arial');
+  size-adjust: 124.56%;
+  ascent-override: 83.49%;
+  descent-override: 18.79%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Leon-Heavy-fallback';
+  src: local('Arial');
+  size-adjust: 135.96%;
+  ascent-override: 76.49%;
+  descent-override: 17.21%;
+  line-gap-override: 0%;
+}
 
 /* ---------- Design tokens ---------- */
 :root {
@@ -40,19 +59,16 @@
   --violet-ink: #3B2AA6;
   --violet-soft: #EFEBFF;
   --green: #178A4C;
-  --green-soft: #E3F5EA;
   --orange: #C97207;
-  --orange-soft: #FDF0DC;
   --blue: #2557D6;
-  --blue-soft: #E7EEFE;
   --night: #131020;
   --night-2: #1C1830;
   --night-line: rgba(255, 255, 255, 0.1);
   --night-text: #B9B4D0;
   /* the light stop stays dark enough for 4.5:1 white text (WCAG AA) */
   --grad: linear-gradient(135deg, #4C2FD8 0%, #6847F4 55%, #7C55E8 100%);
-  --font-display: 'Leon Heavy', 'Leon', 'Arial Hebrew', system-ui, sans-serif;
-  --font-body: 'Leon', 'Segoe UI', system-ui, sans-serif;
+  --font-display: 'Leon Heavy', 'Leon', 'Leon-Heavy-fallback', 'Arial Hebrew', system-ui, sans-serif;
+  --font-body: 'Leon', 'Leon-fallback', 'Segoe UI', system-ui, sans-serif;
   --r-lg: 26px;
   --r-md: 18px;
   --r-sm: 12px;
@@ -141,6 +157,20 @@ body::after {
   transition: top .2s;
 }
 .skip-link:focus { top: 0; }
+
+/* visually hidden, still read by screen readers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
 
 .container { width: min(1180px, 100% - 40px); margin-inline: auto; }
 .section { padding-block: clamp(64px, 9vw, 110px); }
@@ -346,7 +376,6 @@ body::after {
   box-sizing: content-box;
   box-shadow: 0 10px 26px -12px rgba(0, 0, 0, .45);
 }
-.logo .logo-ai { color: var(--violet-deep); }
 .main-nav { margin-inline-start: auto; }
 .main-nav ul { display: flex; gap: 2px; align-items: center; }
 .main-nav a {
@@ -1473,7 +1502,6 @@ html.a11y-motion .ai-section .st-split .mark svg { opacity: .95 !important; }
 .plan-list { display: grid; gap: 11px; padding-block: 20px; border-top: 1px dashed var(--line); margin-top: 6px; }
 .plan-list li { display: flex; gap: 10px; font-size: .95rem; align-items: flex-start; }
 .plan-list svg { flex: none; margin-top: 4px; color: var(--violet); }
-.plan-list .muted { color: var(--muted); }
 .plan-foot { margin-top: auto; display: grid; gap: 10px; padding-top: 10px; }
 .plan-more {
   text-align: center;
@@ -1538,7 +1566,7 @@ html.a11y-motion .ai-section .st-split .mark svg { opacity: .95 !important; }
 .breadcrumbs a { color: var(--muted); text-decoration: none; }
 .breadcrumbs a:hover { color: var(--violet-deep); text-decoration: underline; }
 .breadcrumbs li { display: flex; align-items: center; gap: 10px; }
-.breadcrumbs li:not(:last-child)::after { content: "‹"; color: rgba(23, 20, 32, .35); }
+.breadcrumbs li:not(:last-child)::after { content: "‹"; content: "‹" / ""; color: rgba(23, 20, 32, .35); }
 .breadcrumbs [aria-current] { color: var(--ink); font-weight: 500; }
 
 /* the long package list used to scroll over flat paper — this gives it depth and rhythm */
@@ -2114,6 +2142,7 @@ html.a11y-motion .ai-section .st-split .mark svg { opacity: .95 !important; }
 .faq-item summary::before {
   counter-increment: faq;
   content: counter(faq, decimal-leading-zero);
+  content: counter(faq, decimal-leading-zero) / "";
   font-family: var(--font-display);
   font-weight: 400;
   font-size: 1rem;
@@ -2125,6 +2154,7 @@ html.a11y-motion .ai-section .st-split .mark svg { opacity: .95 !important; }
 .faq-item summary .faq-q { flex: 1; }
 .faq-item summary::after {
   content: "+";
+  content: "+" / "";
   font-family: var(--font-body);
   width: 34px;
   height: 34px;
@@ -2208,7 +2238,6 @@ html.a11y-motion .ai-section .st-split .mark svg { opacity: .95 !important; }
   border-bottom: 1px solid var(--night-line);
 }
 .site-footer .logo { color: #fff; }
-.site-footer .logo .logo-ai { color: #C4B5FD; }
 .footer-about { max-width: 30em; margin-top: 14px; }
 /* h2 on pages whose only preceding heading is the h1 (404), h3 elsewhere */
 .site-footer :is(h2, h3) {
@@ -2337,6 +2366,8 @@ html.a11y-motion .ai-section .st-split .mark svg { opacity: .95 !important; }
 }
 /* mobile: the accessibility trigger lives inside the hamburger menu instead */
 @media (max-width: 920px) { .site-header .a11y-btn { display: none; } }
+/* the 404 page has no hamburger menu, so its header button must stay visible on mobile */
+@media (max-width: 920px) { .site-header.header-404 .a11y-btn { display: grid; } }
 .nav-a11y-mobile { display: none; }
 @media (max-width: 920px) {
   .nav-a11y-mobile { display: block; border-top: 1px dashed var(--line); margin-top: 8px; padding-top: 8px; }

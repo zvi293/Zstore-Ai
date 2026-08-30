@@ -127,6 +127,9 @@
       entries.forEach(function (entry) {
         if (!entry.isIntersecting) return;
         statIO.unobserve(entry.target);
+        /* the widget's "stop animations" toggle must silence the counters too —
+           the markup already holds the final value, so skipping is enough */
+        if (motionOff()) return;
         var el = entry.target;
         var m = /^(\d+)([+%]?)$/.exec(el.textContent.trim());
         if (!m) return;
@@ -215,7 +218,13 @@
       return Array.from ? Array.from(str) : str.split('');
     };
     var splitTitle = function (el) {
-      var label = (el.innerText || el.textContent || '').replace(/\s+/g, ' ').trim();
+      // textContent skips layout (innerText forces a reflow per title), but it
+      // drops the implicit break of <br> — restore it via a throwaway clone
+      var labelSrc = el.cloneNode(true);
+      Array.prototype.slice.call(labelSrc.querySelectorAll('br')).forEach(function (br) {
+        br.parentNode.replaceChild(document.createTextNode(' '), br);
+      });
+      var label = (labelSrc.textContent || '').replace(/\s+/g, ' ').trim();
       var chars = [];
       var walk = function (node) {
         if (node.nodeType === 3) {
@@ -283,7 +292,19 @@
       // long titles get a tighter stagger so the whole reveal stays under ~0.9s
       var step = Math.min(30, Math.max(12, Math.round(620 / chars.length)));
       chars.forEach(function (c, i) { c.style.setProperty('--d', (i * step) + 'ms'); });
-      if (label) el.setAttribute('aria-label', label);
+      if (label) {
+        if (el.tagName === 'P') {
+          // aria-label is not supported on paragraphs — hide the char spans
+          // from assistive tech and give it one plain text copy instead
+          wrap.setAttribute('aria-hidden', 'true');
+          var sr = document.createElement('span');
+          sr.className = 'sr-only';
+          sr.textContent = label;
+          el.appendChild(sr);
+        } else {
+          el.setAttribute('aria-label', label);
+        }
+      }
       el.classList.add('st-split');
     };
     // titles replay in both scroll directions everywhere. Desktop also melts the
@@ -407,6 +428,14 @@
         closeA11yPanel(false);
       }
     });
+    // role=dialog expects contained focus: when Tab walks out of the open panel, close it
+    a11yPanel.addEventListener('focusout', function () {
+      requestAnimationFrame(function () {
+        if (!a11yPanel.hidden && !a11yPanel.contains(document.activeElement)) {
+          closeA11yPanel(false);
+        }
+      });
+    });
     a11yPanel.addEventListener('click', function (e) {
       var btn = e.target.closest('button');
       if (!btn) return;
@@ -484,40 +513,52 @@
   var pkgStage = document.querySelector('.pkg-stage');
   if (pkgStage) {
     var pkgTabs = [];
-    var tabsBar = document.createElement('nav');
-    tabsBar.className = 'pkg-tabs';
-    tabsBar.setAttribute('aria-label', 'ניווט בין חבילות');
-    var tabsInner = document.createElement('div');
-    tabsInner.className = 'pkg-tabs-in';
-    tabsBar.appendChild(tabsInner);
-    [].slice.call(document.querySelectorAll('.pkg-jump a')).forEach(function (link) {
-      var id = (link.getAttribute('href') || '').slice(1);
-      var target = id && document.getElementById(id);
-      if (!target) return;
-      var parts = ((link.querySelector('span') || link).textContent || '')
-        .replace('⭐', '').split('·');
-      var tab = document.createElement('a');
-      tab.href = '#' + id;
-      tab.className = 'pkg-tab';
-      if (link.classList.contains('featured')) {
-        tab.classList.add('featured');
-        tab.insertAdjacentHTML('beforeend',
-          '<svg class="pkg-tab-crown" width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 7.5l4.6 3.9L12 4.5l4.4 6.9L21 7.5l-1.7 10.4a1.6 1.6 0 0 1-1.6 1.35H6.3a1.6 1.6 0 0 1-1.6-1.35L3 7.5z"/></svg>');
-      }
-      var tier = document.createElement('b');
-      tier.textContent = (parts[0] || '').trim();
-      tab.appendChild(tier);
-      if (parts[1]) {
-        var nick = document.createElement('span');
-        nick.className = 'pkg-tab-name';
-        nick.textContent = parts[1].trim();
-        tab.appendChild(nick);
-      }
-      tabsInner.appendChild(tab);
-      pkgTabs.push({ id: id, tab: tab, target: target });
-    });
+    var tabsBar = pkgStage.querySelector('.pkg-tabs');
+    if (tabsBar) {
+      /* the bar ships as static HTML on the package pages (no layout shift on load) —
+         just index its tabs and wire the scrollspy below */
+      [].slice.call(tabsBar.querySelectorAll('.pkg-tab')).forEach(function (tab) {
+        var id = (tab.getAttribute('href') || '').slice(1);
+        var target = id && document.getElementById(id);
+        if (target) pkgTabs.push({ id: id, tab: tab, target: target });
+      });
+    } else {
+      /* fallback for pages without static markup: build it from the hero's .pkg-jump links */
+      tabsBar = document.createElement('nav');
+      tabsBar.className = 'pkg-tabs';
+      tabsBar.setAttribute('aria-label', 'ניווט בין חבילות');
+      var tabsInner = document.createElement('div');
+      tabsInner.className = 'pkg-tabs-in';
+      tabsBar.appendChild(tabsInner);
+      [].slice.call(document.querySelectorAll('.pkg-jump a')).forEach(function (link) {
+        var id = (link.getAttribute('href') || '').slice(1);
+        var target = id && document.getElementById(id);
+        if (!target) return;
+        var parts = ((link.querySelector('span') || link).textContent || '')
+          .replace('⭐', '').split('·');
+        var tab = document.createElement('a');
+        tab.href = '#' + id;
+        tab.className = 'pkg-tab';
+        if (link.classList.contains('featured')) {
+          tab.classList.add('featured');
+          tab.insertAdjacentHTML('beforeend',
+            '<svg class="pkg-tab-crown" width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 7.5l4.6 3.9L12 4.5l4.4 6.9L21 7.5l-1.7 10.4a1.6 1.6 0 0 1-1.6 1.35H6.3a1.6 1.6 0 0 1-1.6-1.35L3 7.5z"/></svg>');
+        }
+        var tier = document.createElement('b');
+        tier.textContent = (parts[0] || '').trim();
+        tab.appendChild(tier);
+        if (parts[1]) {
+          var nick = document.createElement('span');
+          nick.className = 'pkg-tab-name';
+          nick.textContent = parts[1].trim();
+          tab.appendChild(nick);
+        }
+        tabsInner.appendChild(tab);
+        pkgTabs.push({ id: id, tab: tab, target: target });
+      });
+      if (pkgTabs.length > 1) pkgStage.insertBefore(tabsBar, pkgStage.firstChild);
+    }
     if (pkgTabs.length > 1) {
-      pkgStage.insertBefore(tabsBar, pkgStage.firstChild);
       var setPkgTab = function (id) {
         pkgTabs.forEach(function (t) {
           var on = t.id === id;

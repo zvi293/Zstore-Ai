@@ -102,6 +102,24 @@
     revealEls.forEach(function (el) { io.observe(el); });
   }
 
+  /* ---------- long-running animations pause while offscreen ---------- */
+  /* marquees, tickers, blurred orbs and glow loops otherwise keep the compositor
+     busy across the whole page height — a big source of scroll jank on phones */
+  if ('IntersectionObserver' in window) {
+    var loopers = document.querySelectorAll(
+      '.hero, .marquee-row, .ticker-x, .orb, .deco-tile, .hotspots, ' +
+      '.plan-featured, .pkg-detail.featured, .pkg-jump, .cta-final, .stats-strip, .ai-section'
+    );
+    if (loopers.length) {
+      var loopIO = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          entry.target.classList.toggle('anim-idle', !entry.isIntersecting);
+        });
+      }, { rootMargin: '160px 0px 160px 0px' });
+      loopers.forEach(function (el) { loopIO.observe(el); });
+    }
+  }
+
   /* ---------- animated counters in the stats strip ---------- */
   var statEls = document.querySelectorAll('.stat b');
   if (!reduced && 'IntersectionObserver' in window && statEls.length) {
@@ -268,9 +286,18 @@
       if (label) el.setAttribute('aria-label', label);
       el.classList.add('st-split');
     };
+    // desktop replays the reveal in both directions; on touch screens a fast flick
+    // toggles hundreds of per-letter transitions at once and janks the scroll,
+    // so phones reveal each title once and then stop observing it
+    var replayTitles = window.matchMedia('(min-width: 921px) and (pointer: fine)').matches;
     var titleIO = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
-        entry.target.classList.toggle('st-in', entry.isIntersecting);
+        if (entry.isIntersecting) {
+          entry.target.classList.add('st-in');
+          if (!replayTitles) titleIO.unobserve(entry.target);
+        } else if (replayTitles) {
+          entry.target.classList.remove('st-in');
+        }
       });
     }, { threshold: 0.2, rootMargin: '0px 0px -6% 0px' });
     titleEls.forEach(function (el) {

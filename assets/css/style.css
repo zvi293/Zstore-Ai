@@ -2414,6 +2414,14 @@ html.a11y-cursor, html.a11y-cursor a, html.a11y-cursor button, html.a11y-cursor 
   pointer-events: none;
 }
 
+/* ---------- Offscreen animation parking ----------
+   JS marks sections that scrolled out of view: their infinite loops stop
+   costing frames (transitions are unaffected, so scroll reveals still play) */
+.anim-idle, .anim-idle::before, .anim-idle::after,
+.anim-idle *, .anim-idle *::before, .anim-idle *::after {
+  animation-play-state: paused !important;
+}
+
 /* ---------- Reveal on scroll ----------
    hidden state is scoped to html.js so content is always visible without JavaScript */
 html.js .reveal {
@@ -2526,9 +2534,20 @@ html.js .reveal-d3 { transition-delay: .24s; }
   color: transparent;
 }
 
-/* mobile: drop the most expensive paint effects (blur + grain + conic border) */
+/* mobile: drop the most expensive paint effects (blur + grain + conic border +
+   every loop that repaints per frame — box-shadow pulses, sliding gradients) */
 @media (max-width: 920px) {
   body::after { display: none; }
+  /* the 28px dot grid repaints on every freshly scrolled tile — washes only */
+  body::before {
+    background-image:
+      radial-gradient(42% 22% at 86% 12%, rgba(104, 71, 244, .095), transparent 70%),
+      radial-gradient(40% 20% at 10% 46%, rgba(247, 178, 59, .085), transparent 70%),
+      radial-gradient(44% 22% at 92% 80%, rgba(43, 181, 105, .075), transparent 70%);
+    background-size: 100% 1600px, 100% 1900px, 100% 1400px;
+    background-repeat: repeat-y;
+    background-position: 0 0, 0 320px, 0 760px;
+  }
   /* no blur here, so BOTH capsule states must be opaque or the page bleeds through it */
   .header-inner,
   .site-header.scrolled .header-inner {
@@ -2539,7 +2558,16 @@ html.js .reveal-d3 { transition-delay: .24s; }
   .nav-toggle::after { backdrop-filter: none; -webkit-backdrop-filter: none; }
   .to-top { backdrop-filter: none; -webkit-backdrop-filter: none; background: #fff; }
   .float-card { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(255, 255, 255, .95); }
-  .plan-featured { animation: plan-glow 4s ease-in-out infinite; }
+  /* paint-per-frame loops freeze on their resting frame — the look survives,
+     the per-frame repaint does not */
+  .plan-featured, .pkg-detail.featured { animation: none; }
+  .hero .mark, .ai-section .mark { animation: none; background-position: 50% 50%; }
+  .cta-final { animation: none; }
+  .pkg-jump a.featured { animation: none; }
+  .pkg-jump a.featured::after { animation: none; opacity: .4; }
+  /* the huge blurred aurora + orbs stay as static, cheaper layers */
+  .hero::before { animation: none; }
+  .orb { animation: none; filter: blur(42px); }
 }
 
 /* print */

@@ -1571,6 +1571,73 @@ html.a11y-motion .ai-section .st-split .mark svg { opacity: .95 !important; }
 }
 .pkg-stage > .container { position: relative; }
 
+/* ---------- Floating package tabs (built by JS over the packages area) ----------
+   a sticky capsule that trails just under the header: it names the package
+   currently on screen and jumps between packages on click */
+.pkg-tabs {
+  position: sticky;
+  top: calc(var(--header-h) + 4px);
+  z-index: 90;
+  display: flex;
+  justify-content: center;
+  margin-bottom: clamp(16px, 3vw, 28px);
+  padding-inline: 20px;
+  /* only the capsule itself catches taps — the side gutters stay click-through */
+  pointer-events: none;
+}
+.pkg-tabs-in {
+  pointer-events: auto;
+  display: flex;
+  gap: 6px;
+  padding: 6px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .95), rgba(247, 245, 241, .95));
+  border: 1px solid rgba(104, 71, 244, .16);
+  box-shadow: 0 4px 12px rgba(35, 20, 90, .07), 0 22px 50px -20px rgba(35, 20, 90, .35);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.pkg-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 11px 18px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: .95rem;
+  line-height: 1;
+  color: var(--ink);
+  white-space: nowrap;
+  text-decoration: none;
+  transition: background-color .25s ease, color .25s ease, box-shadow .25s ease;
+}
+.pkg-tab:hover { background: var(--violet-soft); color: var(--violet-deep); }
+.pkg-tab-name { font-weight: 500; font-size: .88em; color: var(--muted); transition: color .25s ease; }
+.pkg-tab:hover .pkg-tab-name { color: var(--violet-ink); }
+.pkg-tab-crown { color: var(--orange); flex: none; transition: color .25s ease; }
+.pkg-tab.is-active {
+  background: var(--grad);
+  color: #fff;
+  box-shadow: 0 6px 16px -6px rgba(76, 47, 216, .55), inset 0 1px 0 rgba(255, 255, 255, .25);
+}
+.pkg-tab.is-active .pkg-tab-name { color: rgba(255, 255, 255, .85); }
+.pkg-tab.is-active .pkg-tab-crown { color: #FFD37E; }
+@media (max-width: 920px) {
+  /* same rule as the header capsule: no blur on phones, so the bar goes opaque */
+  .pkg-tabs-in {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: linear-gradient(180deg, #FFFFFF, #F7F5F1);
+  }
+}
+@media (max-width: 640px) {
+  .pkg-tabs { top: calc(var(--header-h) + 2px); padding-inline: 10px; }
+  .pkg-tabs-in { width: 100%; gap: 4px; padding: 5px; }
+  .pkg-tab { flex: 1; justify-content: center; gap: 5px; padding: 11px 6px; font-size: .92rem; }
+  /* three nicknames overflow a phone width — the tier names carry the bar */
+  .pkg-tab-name { display: none; }
+}
+
 /* dashed thread that carries the eye from one package to the next */
 .pkg-link {
   position: relative;
@@ -1620,7 +1687,8 @@ html.a11y-motion .ai-section .st-split .mark svg { opacity: .95 !important; }
   box-shadow: var(--shadow-soft);
   padding: clamp(26px, 4vw, 46px);
   margin-bottom: 30px;
-  scroll-margin-top: calc(var(--header-h) + 20px);
+  /* room for the sticky package-tabs capsule when jumping to an anchor */
+  scroll-margin-top: calc(var(--header-h) + 78px);
 }
 .pkg-detail::before {
   content: "";
@@ -2499,6 +2567,8 @@ html.page-leave body { opacity: 0; transition: opacity .22s ease; }
 
 /* anchored sections never hide under the sticky header */
 [id] { scroll-margin-top: calc(var(--header-h) + 16px); }
+/* package anchors also clear the sticky package-tabs capsule (outranks [id]) */
+.pkg-detail[id] { scroll-margin-top: calc(var(--header-h) + 78px); }
 /* scoped under html.js so the delays actually beat the base .reveal transition shorthand */
 html.js .reveal-d1 { transition-delay: .08s; }
 html.js .reveal-d2 { transition-delay: .16s; }

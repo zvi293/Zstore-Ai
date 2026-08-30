@@ -477,6 +477,69 @@
     });
   }
 
+  /* ---------- floating package tabs (package pages) ---------- */
+  /* a sticky pill bar over the packages area: shows which package is on screen
+     and jumps between them. Built from the hero's .pkg-jump links, so every
+     package page gets it with zero markup changes */
+  var pkgStage = document.querySelector('.pkg-stage');
+  if (pkgStage) {
+    var pkgTabs = [];
+    var tabsBar = document.createElement('nav');
+    tabsBar.className = 'pkg-tabs';
+    tabsBar.setAttribute('aria-label', 'ניווט בין חבילות');
+    var tabsInner = document.createElement('div');
+    tabsInner.className = 'pkg-tabs-in';
+    tabsBar.appendChild(tabsInner);
+    [].slice.call(document.querySelectorAll('.pkg-jump a')).forEach(function (link) {
+      var id = (link.getAttribute('href') || '').slice(1);
+      var target = id && document.getElementById(id);
+      if (!target) return;
+      var parts = ((link.querySelector('span') || link).textContent || '')
+        .replace('⭐', '').split('·');
+      var tab = document.createElement('a');
+      tab.href = '#' + id;
+      tab.className = 'pkg-tab';
+      if (link.classList.contains('featured')) {
+        tab.classList.add('featured');
+        tab.insertAdjacentHTML('beforeend',
+          '<svg class="pkg-tab-crown" width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 7.5l4.6 3.9L12 4.5l4.4 6.9L21 7.5l-1.7 10.4a1.6 1.6 0 0 1-1.6 1.35H6.3a1.6 1.6 0 0 1-1.6-1.35L3 7.5z"/></svg>');
+      }
+      var tier = document.createElement('b');
+      tier.textContent = (parts[0] || '').trim();
+      tab.appendChild(tier);
+      if (parts[1]) {
+        var nick = document.createElement('span');
+        nick.className = 'pkg-tab-name';
+        nick.textContent = parts[1].trim();
+        tab.appendChild(nick);
+      }
+      tabsInner.appendChild(tab);
+      pkgTabs.push({ id: id, tab: tab, target: target });
+    });
+    if (pkgTabs.length > 1) {
+      pkgStage.insertBefore(tabsBar, pkgStage.firstChild);
+      var setPkgTab = function (id) {
+        pkgTabs.forEach(function (t) {
+          var on = t.id === id;
+          t.tab.classList.toggle('is-active', on);
+          if (on) t.tab.setAttribute('aria-current', 'true');
+          else t.tab.removeAttribute('aria-current');
+        });
+      };
+      setPkgTab(pkgTabs[0].id);
+      if ('IntersectionObserver' in window) {
+        /* scrollspy: whichever package covers the band around the viewport's
+           centre is the active one; in the gaps the last choice simply holds */
+        var pkgSpy = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) setPkgTab(entry.target.id);
+          });
+        }, { rootMargin: '-42% 0px -52% 0px' });
+        pkgTabs.forEach(function (t) { pkgSpy.observe(t.target); });
+      }
+    }
+  }
+
   /* ---------- back to top ---------- */
   var toTop = document.createElement('button');
   toTop.className = 'to-top';

@@ -286,20 +286,25 @@
       if (label) el.setAttribute('aria-label', label);
       el.classList.add('st-split');
     };
-    // desktop replays the reveal in both directions; on touch screens a fast flick
-    // toggles hundreds of per-letter transitions at once and janks the scroll,
-    // so phones reveal each title once and then stop observing it
-    var replayTitles = window.matchMedia('(min-width: 921px) and (pointer: fine)').matches;
+    // titles replay in both scroll directions everywhere. Desktop also melts the
+    // letters away as a title leaves; on touch screens that outgoing transition
+    // storm janks fast flicks, so phones reset instantly (a mobile CSS rule strips
+    // the outgoing transition) and only once the title is fully offscreen —
+    // the staggered rise-in still replays every time it scrolls back in
+    var meltAway = window.matchMedia('(min-width: 921px) and (pointer: fine)').matches;
     var titleIO = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('st-in');
-          if (!replayTitles) titleIO.unobserve(entry.target);
-        } else if (replayTitles) {
+        if (meltAway) {
+          entry.target.classList.toggle('st-in', entry.isIntersecting);
+        } else if (entry.isIntersecting) {
+          // hysteresis: arm at 20% visible, disarm only when fully out of view,
+          // so tiny back-and-forth flicks near the edge don't re-trigger anything
+          if (entry.intersectionRatio >= 0.2) entry.target.classList.add('st-in');
+        } else {
           entry.target.classList.remove('st-in');
         }
       });
-    }, { threshold: 0.2, rootMargin: '0px 0px -6% 0px' });
+    }, { threshold: [0, 0.2], rootMargin: '0px 0px -6% 0px' });
     titleEls.forEach(function (el) {
       // a failure in the splitter must never leave a title hidden or break the rest of the script
       try {

@@ -2476,7 +2476,17 @@ html.a11y-motion *::after {
   animation-duration: .01ms !important;
   animation-iteration-count: 1 !important;
   transition-duration: .01ms !important;
+  transition-delay: 0s !important;
   scroll-behavior: auto !important;
+}
+/* stop-animations: the chat demo becomes a static, fully-visible illustration */
+html.a11y-motion .chat-live i { animation: none !important; }
+html.js.a11y-motion .chat-demo .chat-msg,
+html.js.a11y-motion .chat-demo .chat-cite,
+html.js.a11y-motion .chat-demo .ai-badges {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
 }
 html.a11y-font body,
 html.a11y-font h1, html.a11y-font h2, html.a11y-font h3, html.a11y-font h4,
@@ -2765,7 +2775,8 @@ html.js .reveal-d3 { transition-delay: .24s; }
   border-start-start-radius: 6px;
 }
 .chat-msg.ai {
-  background: linear-gradient(135deg, #7C4DFF 0%, #5B2EE5 100%);
+  /* both stops keep the gold highlight (#FFD98A) above 4.5:1 (AA) */
+  background: linear-gradient(135deg, #5B2EE5 0%, #4A22BD 100%);
   color: #fff;
   margin-inline-start: auto;
   border-start-end-radius: 6px;

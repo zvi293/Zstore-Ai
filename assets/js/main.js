@@ -133,6 +133,8 @@
     }, { threshold: 0.25 });
     var chatReset = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
+        /* with the widget's stop-animations toggle on, the demo stays a static picture */
+        if (motionOff()) return;
         if (!entry.isIntersecting) entry.target.classList.remove('visible');
       });
     }, { rootMargin: '120px 0px 120px 0px' });

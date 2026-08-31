@@ -34,8 +34,8 @@
 
   <link rel="preload" href="/assets/fonts/Leon-Regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/Leon-Heavy.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" as="image" href="/assets/img/brand/flow-laptop-640.webp" imagesrcset="/assets/img/brand/flow-laptop-640.webp 640w, /assets/img/brand/flow-laptop-1280.webp 1280w" imagesizes="(max-width: 880px) 92vw, 38vw" fetchpriority="high">
-  <link rel="stylesheet" href="/assets/css/style.css?v=64a8ff99">
+  <link rel="preload" as="image" href="/assets/img/brand/flow-laptop-640.webp" imagesrcset="/assets/img/brand/flow-laptop-640.webp 640w, /assets/img/brand/flow-laptop-1280.webp 1280w" imagesizes="(max-width: 920px) 92vw, 46vw" fetchpriority="high">
+  <link rel="stylesheet" href="/assets/css/style.css?v=590fb91f">
 
   <script type="application/ld+json">
   {
@@ -172,40 +172,100 @@
   </header>
 
   <main id="main">
-    <!-- ===== page hero ===== -->
-    <section class="pkg-hero">
-      <div class="container">
+    <!-- ============ HERO ============ -->
+    <section class="hero" aria-labelledby="hero-title">
+      <span class="deco-tile tile-violet" style="width: 52px; height: 52px; top: 12%; inset-inline-start: 46%; animation-delay: .8s;" aria-hidden="true"></span>
+      <span class="deco-tile tile-orange" style="width: 38px; height: 38px; bottom: 8%; inset-inline-start: 46%; animation-delay: 2.2s;" aria-hidden="true"></span>
+      <span class="deco-tile tile-green" style="width: 30px; height: 30px; top: 24%; inset-inline-end: 3%; animation-delay: 3.4s;" aria-hidden="true"></span>
+      <span class="deco-tile tile-blue" style="width: 34px; height: 34px; top: 52%; inset-inline-start: 3.5%; animation-delay: 1.5s;" aria-hidden="true"></span>
+      <div class="container" style="position: relative; z-index: 1;">
         <nav class="breadcrumbs" aria-label="פירורי לחם">
           <ol>
             <li><a href="/">דף הבית</a></li>
             <li><span aria-current="page">בניית אתרים</span></li>
           </ol>
         </nav>
-        <div class="pkg-hero-grid">
-          <div>
-            <p class="eyebrow">סטודיו לבניית אתרים · עיצוב אישי מאפס</p>
-            <h1>בניית אתרים שעושה את העבודה האמיתית: להביא לכם לקוחות</h1>
-            <p class="pkg-hero-lead">מחפשים מי שיבנה לכם אתר? אנחנו בונים אתרי תדמית וחנויות אונליין בעיצוב אישי שלא נראה כמו תבנית, עם מהירות טעינה שגוגל אוהב, קידום מובנה מהיום הראשון וליווי אנושי צמוד בוואטסאפ. אתר תדמית באוויר תוך 7–14 ימי עסקים.</p>
-            <div class="hero-ctas">
-              <a class="btn btn-wa" href="https://wa.me/972587292029?text=היי!%20אשמח%20לשמוע%20פרטים%20על%20בניית%20אתר%20לעסק%20שלי" target="_blank" rel="noopener">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.2 14.1c-.2.6-1.2 1.2-1.7 1.2-.4.1-1 .1-1.6-.1a13 13 0 0 1-5.9-5.2c-.7-1.1-1.1-2.3-1.2-2.7-.1-.4 0-1.2.5-1.7.3-.4.8-.5 1-.5h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6c-.2.2-.3.4-.1.7.5.9 1.6 2.1 2.9 2.8.3.2.5.1.7-.1l.7-.8c.2-.3.4-.3.7-.2l2 1c.3.1.5.2.6.4 0 .1 0 .8-.3 1.4Z"/></svg>
-                קבלו הצעת מחיר אישית
-              </a>
-              <a class="btn btn-ghost" href="#which">איזה אתר מתאים לי?</a>
-            </div>
+      </div>
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">עיצוב אישי · מהירות · קידום מובנה</p>
+          <h1 id="hero-title">
+            בניית אתרים שנראים מיליון<br />ו<span class="mark"
+              >מביאים לקוחות<svg
+                viewBox="0 0 120 12"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M3 9C30 3 75 2 117 6"
+                  stroke="currentColor"
+                  stroke-width="5"
+                  fill="none"
+                  stroke-linecap="round"
+                /></svg
+            ></span>
+          </h1>
+          <p class="hero-sub pkg-hero-lead">
+            מחפשים מי שיבנה לכם אתר? אנחנו בונים אתרי תדמית וחנויות אונליין
+            בעיצוב אישי שלא נראה כמו תבנית, עם מהירות טעינה שגוגל אוהב, קידום
+            מובנה מהיום הראשון וליווי אנושי צמוד בוואטסאפ. אתר תדמית באוויר
+            תוך 7–14 ימי עסקים.
+          </p>
+          <div class="hero-ctas">
+            <a class="btn btn-wa" href="https://wa.me/972587292029?text=היי!%20אשמח%20לקבל%20הצעת%20מחיר%20לבניית%20אתר%20לעסק%20שלי" target="_blank" rel="noopener">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.2 14.1c-.2.6-1.2 1.2-1.7 1.2-.4.1-1 .1-1.6-.1a13 13 0 0 1-5.9-5.2c-.7-1.1-1.1-2.3-1.2-2.7-.1-.4 0-1.2.5-1.7.3-.4.8-.5 1-.5h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6c-.2.2-.3.4-.1.7.5.9 1.6 2.1 2.9 2.8.3.2.5.1.7-.1l.7-.8c.2-.3.4-.3.7-.2l2 1c.3.1.5.2.6.4 0 .1 0 .8-.3 1.4Z"/></svg>
+              קבלו הצעת מחיר אישית
+            </a>
+            <a class="btn btn-ghost" href="#which">איזה אתר מתאים לי?</a>
           </div>
-          <div class="pkg-hero-media">
-            <img src="/assets/img/brand/flow-laptop-640.webp"
-                 srcset="/assets/img/brand/flow-laptop-640.webp 640w, /assets/img/brand/flow-laptop-1280.webp 1280w"
-                 sizes="(max-width: 880px) 92vw, 38vw"
-                 width="640" height="512" fetchpriority="high"
-                 alt="אתר תדמית לפלטפורמה טכנולוגית בעברית על מחשב נייד, דוגמה לבניית אתרים של Zstore Ai">
+          <ul class="hero-trust">
+            <li class="ht-wa">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.2 14.1c-.2.6-1.2 1.2-1.7 1.2-.4.1-1 .1-1.6-.1a13 13 0 0 1-5.9-5.2c-.7-1.1-1.1-2.3-1.2-2.7-.1-.4 0-1.2.5-1.7.3-.4.8-.5 1-.5h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6c-.2.2-.3.4-.1.7.5.9 1.6 2.1 2.9 2.8.3.2.5.1.7-.1l.7-.8c.2-.3.4-.3.7-.2l2 1c.3.1.5.2.6.4 0 .1 0 .8-.3 1.4Z"/></svg>מענה מהיר בוואטסאפ
+            </li>
+            <li class="ht-fast">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4.5 13.5H11L10 22l8.5-11.5H12L13 2Z"/></svg>באוויר תוך 7–14 ימי עסקים
+            </li>
+            <li class="ht-seo">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m21 21-4.6-4.6"/><path d="M7.8 12.4 10 10l2 2 2.9-3.2"/></svg>SEO מובנה מהיום הראשון
+            </li>
+          </ul>
+        </div>
+
+        <div class="hero-visual">
+          <img
+            class="hero-img"
+            src="/assets/img/brand/flow-laptop-640.webp"
+            srcset="/assets/img/brand/flow-laptop-640.webp 640w, /assets/img/brand/flow-laptop-1280.webp 1280w"
+            sizes="(max-width: 920px) 92vw, 46vw"
+            width="640" height="512" fetchpriority="high"
+            alt="אתר תדמית לפלטפורמה טכנולוגית בעברית על מחשב נייד, דוגמה לבניית אתרים של Zstore Ai">
+          <div class="float-card fc-1">
+            <span class="dot-icon tile-green" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/></svg></span>
+            <span><strong>סקיצה ראשונה</strong><small>תוך ימים ספורים</small></span>
+          </div>
+          <div class="float-card fc-2">
+            <span class="dot-icon tile-violet" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+            <span><strong>ליד חדש התקבל</strong><small>לפני 2 דקות</small></span>
+          </div>
+          <div class="float-card fc-3">
+            <span class="dot-icon tile-orange" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m13 2-2 9h6l-8 11 2-9H5l8-11z"/></svg></span>
+            <span><strong>ציון מהירות 98</strong><small>Google PageSpeed</small></span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ===== what you get ===== -->
+    <!-- ============ stats ============ -->
+    <section class="stats-strip" aria-label="נתונים על השירות">
+      <div class="container stats-grid">
+        <div class="stat"><b>7–14</b><span>ימי עסקים לאתר באוויר</span></div>
+        <div class="stat"><b>90+</b><span>ציון מהירות בגוגל</span></div>
+        <div class="stat"><b>100%</b><span>עיצוב אישי בלי תבניות</span></div>
+        <div class="stat"><b>24/7</b><span>האתר עובד בשבילכם</span></div>
+      </div>
+    </section>
+
+    <!-- ============ what you get ============ -->
     <section id="included" class="section section-tight" aria-labelledby="included-title">
       <div class="container split">
         <div class="split-body">
@@ -248,61 +308,123 @@
       </div>
     </section>
 
-    <!-- ===== which type ===== -->
-    <section id="which" class="section section-tight" aria-labelledby="which-title">
-      <div class="container split reverse">
-        <div class="split-body">
-          <p class="eyebrow">אתר תדמית או חנות?</p>
-          <h2 id="which-title">שני סוגי אתרים, מטרה אחת: שהעסק שלך ירוויח מהאינטרנט</h2>
-          <p>
-            הצעד הראשון בבניית אתר הוא להבין מה האתר צריך לעשות בשבילכם. התשובה כמעט תמיד אחת משתיים:
-          </p>
-          <ul class="check-list">
-            <li>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b><a href="/business-sites/">אתר תדמית</a></b>: לנותני שירות ובעלי מקצוע שרוצים להיראות מצוין ברשת ולקבל פניות. עד 10 עמודים, בלוג, פאנל ניהול בעברית. באוויר תוך 7–14 ימי עסקים</span>
-            </li>
-            <li>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b><a href="/online-stores/">חנות אונליין</a></b>: למי שמוכר מוצרים ורוצה סליקה מאובטחת, ניהול מלאי, חשבוניות אוטומטיות ומכירות מסביב לשעון. באוויר תוך 2–4 שבועות</span>
-            </li>
-            <li>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>לא בטוחים?</b> ספרו לנו על העסק בהודעת וואטסאפ קצרה ותקבלו המלצה מקצועית, בלי התחייבות</span>
-            </li>
+    <!-- ============ keyword ticker ============ -->
+    <div class="ticker-x" aria-hidden="true">
+      <div class="ticker-band alt">
+        <div class="ticker">
+          <ul>
+            <li>בניית אתרים לעסקים</li>
+            <li>עיצוב אישי מאפס</li>
+            <li>אתר באוויר תוך 14 יום</li>
+            <li>מהירות 90+</li>
+            <li>SEO מובנה</li>
+            <li>נגישות מלאה</li>
+            <li>פאנל ניהול בעברית</li>
+            <li>ליווי בוואטסאפ</li>
           </ul>
-          <p class="pricing-note" style="margin-top: 22px;">
-            רוצים לראות איך זה נראה? הציצו ב<a href="/#works">עבודות שלנו</a>: אין אצלנו שני אתרים שנראים אותו דבר.
-          </p>
+          <ul>
+            <li>בניית אתרים לעסקים</li>
+            <li>עיצוב אישי מאפס</li>
+            <li>אתר באוויר תוך 14 יום</li>
+            <li>מהירות 90+</li>
+            <li>SEO מובנה</li>
+            <li>נגישות מלאה</li>
+            <li>פאנל ניהול בעברית</li>
+            <li>ליווי בוואטסאפ</li>
+          </ul>
         </div>
-        <div class="split-media stack-collage reveal">
-          <img
-            class="img-main"
-            src="/assets/img/brand/store-velora-640.webp"
-            srcset="/assets/img/brand/store-velora-640.webp 640w, /assets/img/brand/store-velora-1280.webp 1280w"
-            sizes="(max-width: 880px) 92vw, 44vw"
-            width="640" height="427" loading="lazy"
-            alt="חנות אופנה ואקססוריז יוקרתית בעברית, עמוד קולקציה עם קטגוריות">
-          <img
-            class="img-over"
-            src="/assets/img/brand/store-aurora-640.webp"
-            srcset="/assets/img/brand/store-aurora-640.webp 640w, /assets/img/brand/store-aurora-1280.webp 1280w"
-            sizes="(max-width: 880px) 48vw, 24vw"
-            width="640" height="427" loading="lazy"
-            alt="מותג נרות ריחניים, עיצוב כהה ואווירתי עם תצוגת מוצרים">
+      </div>
+      <div class="ticker-band">
+        <div class="ticker">
+          <ul>
+            <li>אתרי תדמית</li>
+            <li>חנויות אונליין</li>
+            <li>לידים ולא לייקים</li>
+            <li>בלי תבניות מדף</li>
+            <li>מובייל מושלם</li>
+            <li>Schema מלא</li>
+            <li>קידום במנועי AI</li>
+            <li>דוחות שקופים</li>
+          </ul>
+          <ul>
+            <li>אתרי תדמית</li>
+            <li>חנויות אונליין</li>
+            <li>לידים ולא לייקים</li>
+            <li>בלי תבניות מדף</li>
+            <li>מובייל מושלם</li>
+            <li>Schema מלא</li>
+            <li>קידום במנועי AI</li>
+            <li>דוחות שקופים</li>
+          </ul>
         </div>
+      </div>
+    </div>
+
+    <!-- ============ which type: two-path chooser ============ -->
+    <section id="which" class="section" aria-labelledby="which-title">
+      <div class="container">
+        <div class="section-head center">
+          <p class="eyebrow">אתר תדמית או חנות?</p>
+          <h2 id="which-title">שני מסלולים, מטרה אחת:<br />שהעסק שלך ירוויח מהאינטרנט</h2>
+          <p>הצעד הראשון בבניית אתר הוא להבין מה האתר צריך לעשות בשבילכם. בחרו את המסלול שלכם:</p>
+        </div>
+        <div class="plans plans-duo">
+          <article class="plan reveal" aria-labelledby="path-t1">
+            <p class="plan-name">מסלול ראשון</p>
+            <h3 class="plan-title" id="path-t1">אתר תדמית</h3>
+            <p class="plan-desc">להציג את העסק בצורה מקצועית ולהפוך גולשים לפניות. מתאים לנותני שירות ובעלי מקצוע.</p>
+            <ul class="plan-list">
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>עד 10 עמודים מעוצבים אישית + בלוג עסקי</span>
+              </li>
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>ניהול לידים מסודר: שום פנייה לא הולכת לאיבוד</span>
+              </li>
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>פאנל ניהול אישי בעברית, מכל מכשיר</span>
+              </li>
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>באוויר תוך 7–14 ימי עסקים</span>
+              </li>
+            </ul>
+            <div class="plan-foot">
+              <a class="btn btn-primary" href="/business-sites/">לחבילות אתרי התדמית</a>
+            </div>
+          </article>
+
+          <article class="plan reveal reveal-d1" aria-labelledby="path-t2">
+            <p class="plan-name">מסלול שני</p>
+            <h3 class="plan-title" id="path-t2">חנות אונליין</h3>
+            <p class="plan-desc">למכור מוצרים מסביב לשעון עם סליקה מאובטחת. מתאים למי שרוצה ערוץ הכנסה שעובד לבד.</p>
+            <ul class="plan-list">
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>סליקה מאובטחת וצ'ק-אאוט מותאם מובייל</span>
+              </li>
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>חשבונית דיגיטלית וניהול מלאי אוטומטיים</span>
+              </li>
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>קופונים, ביקורות מוצר ו-Google Shopping</span>
+              </li>
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>באוויר תוך 2–4 שבועות</span>
+              </li>
+            </ul>
+            <div class="plan-foot">
+              <a class="btn btn-primary" href="/online-stores/">לחבילות החנויות</a>
+            </div>
+          </article>
+        </div>
+        <p class="pricing-note">
+          לא בטוחים איזה מסלול מתאים?
+          <a href="https://wa.me/972587292029?text=היי!%20אשמח%20לעזרה%20בבחירת%20סוג%20האתר%20המתאים%20לעסק%20שלי" target="_blank" rel="noopener">ספרו לנו על העסק בהודעה קצרה</a>,
+          ותקבלו המלצה מקצועית שמדויקת למטרות ולתקציב שלכם.
+        </p>
       </div>
     </section>
 
-    <!-- ===== stats ===== -->
-    <section class="stats-strip" aria-label="נתונים על השירות">
-      <div class="container stats-grid">
-        <div class="stat"><b>7–14</b><span>ימי עסקים לאתר באוויר</span></div>
-        <div class="stat"><b>90+</b><span>ציון מהירות בגוגל</span></div>
-        <div class="stat"><b>100%</b><span>עיצוב אישי בלי תבניות</span></div>
-        <div class="stat"><b>24/7</b><span>האתר עובד בשבילכם</span></div>
-      </div>
-    </section>
-
-    <!-- ===== process ===== -->
-    <section id="process" class="section" aria-labelledby="process-title">
+    <!-- ============ process ============ -->
+    <section id="process" class="section section-tight" aria-labelledby="process-title">
       <div class="container">
         <div class="section-head center">
           <p class="eyebrow">איך זה עובד</p>
@@ -330,7 +452,50 @@
       </div>
     </section>
 
-    <!-- ===== FAQ ===== -->
+    <!-- ============ style showcase ============ -->
+    <section class="section section-tight showcase-section" aria-labelledby="styles-title">
+      <div class="container">
+        <div class="section-head center">
+          <p class="eyebrow">כל עסק והסגנון שלו</p>
+          <h2 id="styles-title">ככה נראית בניית אתרים בהתאמה אישית</h2>
+          <p>חנות יוקרה שקטה, מותג צעיר וצבעוני או פלטפורמה טכנולוגית. העיצוב נבנה סביב האופי של העסק שלכם, לא סביב תבנית.</p>
+        </div>
+        <div class="showcase-grid">
+          <figure class="showcase-card reveal">
+            <img
+              src="/assets/img/brand/store-velora-640.webp"
+              srcset="/assets/img/brand/store-velora-640.webp 640w, /assets/img/brand/store-velora-1280.webp 1280w"
+              sizes="(max-width: 520px) 92vw, (max-width: 860px) 46vw, 30vw"
+              width="640" height="427" loading="lazy"
+              alt="חנות אופנה ואקססוריז יוקרתית בעברית, עמוד קולקציה עם קטגוריות">
+            <figcaption>מותג אופנה <small>יוקרה מודרנית</small></figcaption>
+          </figure>
+          <figure class="showcase-card reveal reveal-d1">
+            <img
+              src="/assets/img/brand/store-terra-640.webp"
+              srcset="/assets/img/brand/store-terra-640.webp 640w, /assets/img/brand/store-terra-1280.webp 1280w"
+              sizes="(max-width: 520px) 92vw, (max-width: 860px) 46vw, 30vw"
+              width="640" height="512" loading="lazy"
+              alt="חנות כלי קרמיקה בעברית בטלפון נייד, עמוד בית ועגלת קניות">
+            <figcaption>סטודיו קרמיקה <small>אורגני ורגוע</small></figcaption>
+          </figure>
+          <figure class="showcase-card reveal reveal-d2">
+            <img
+              src="/assets/img/brand/store-aurora-640.webp"
+              srcset="/assets/img/brand/store-aurora-640.webp 640w, /assets/img/brand/store-aurora-1280.webp 1280w"
+              sizes="(max-width: 520px) 92vw, (max-width: 860px) 46vw, 30vw"
+              width="640" height="427" loading="lazy"
+              alt="מותג נרות ריחניים, עיצוב כהה ואווירתי עם תצוגת מוצרים">
+            <figcaption>מותג נרות <small>כהה ואווירתי</small></figcaption>
+          </figure>
+        </div>
+        <p class="pricing-note">
+          רוצים לראות עוד? <a href="/#works">כל העבודות שלנו בעמוד הבית</a>.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ FAQ ============ -->
     <section id="wb-faq" class="section faq-section" aria-labelledby="wb-faq-title">
       <span class="orb" style="width: 380px; height: 380px; background: #8B5CF6; top: -110px; inset-inline-start: -130px;" aria-hidden="true"></span>
       <div class="container faq-grid">
@@ -448,6 +613,6 @@
     <a class="a11y-link" href="/accessibility/">להצהרת הנגישות המלאה</a>
   </div>
 
-  <script src="/assets/js/main.js?v=e1edfc9c" defer></script>
+  <script src="/assets/js/main.js?v=65a2bd2b" defer></script>
 </body>
 </html>

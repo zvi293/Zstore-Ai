@@ -34,8 +34,7 @@
 
   <link rel="preload" href="/assets/fonts/Leon-Regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/Leon-Heavy.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" as="image" href="/assets/img/brand/apps-grid-640.webp" imagesrcset="/assets/img/brand/apps-grid-640.webp 640w, /assets/img/brand/apps-grid-1280.webp 1280w" imagesizes="(max-width: 880px) 92vw, 38vw" fetchpriority="high">
-  <link rel="stylesheet" href="/assets/css/style.css?v=64a8ff99">
+  <link rel="stylesheet" href="/assets/css/style.css?v=590fb91f">
 
   <script type="application/ld+json">
   {
@@ -167,40 +166,92 @@
   </header>
 
   <main id="main">
-    <!-- ===== page hero ===== -->
-    <section class="pkg-hero">
-      <div class="container">
+    <!-- ============ HERO ============ -->
+    <section class="hero hero-copy-first" aria-labelledby="hero-title">
+      <span class="deco-tile tile-violet" style="width: 46px; height: 46px; top: 14%; inset-inline-start: 47%; animation-delay: .8s;" aria-hidden="true"></span>
+      <span class="deco-tile tile-green" style="width: 30px; height: 30px; top: 22%; inset-inline-end: 4%; animation-delay: 2.6s;" aria-hidden="true"></span>
+      <span class="deco-tile tile-orange" style="width: 34px; height: 34px; bottom: 10%; inset-inline-start: 4%; animation-delay: 1.4s;" aria-hidden="true"></span>
+      <span class="deco-tile tile-blue" style="width: 28px; height: 28px; bottom: 16%; inset-inline-start: 44%; animation-delay: 3.6s;" aria-hidden="true"></span>
+      <div class="container" style="position: relative; z-index: 1;">
         <nav class="breadcrumbs" aria-label="פירורי לחם">
           <ol>
             <li><a href="/">דף הבית</a></li>
             <li><span aria-current="page">קידום אתרים במנועי AI</span></li>
           </ol>
         </nav>
-        <div class="pkg-hero-grid">
-          <div>
-            <p class="eyebrow">‏GEO · AEO · העתיד של החיפוש כבר כאן</p>
-            <h1>קידום אתרים במנועי AI: שהעסק שלך יהיה התשובה של ChatGPT</h1>
-            <p class="pkg-hero-lead">הלקוחות שלך כבר לא רק מחפשים בגוגל: הם שואלים את ChatGPT, Gemini ו-Perplexity "מי הכי מומלץ?". אנחנו דואגים שהאתר שלך ידבר בשפה של המנועים האלה, כך שכשהשאלה נשאלת, התשובה היא העסק שלך. וכמובן, לצד קידום אורגני מלא בגוגל.</p>
-            <div class="hero-ctas">
-              <a class="btn btn-wa" href="https://wa.me/972587292029?text=היי!%20אשמח%20לשמוע%20על%20קידום%20האתר%20שלי%20במנועי%20AI" target="_blank" rel="noopener">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.2 14.1c-.2.6-1.2 1.2-1.7 1.2-.4.1-1 .1-1.6-.1a13 13 0 0 1-5.9-5.2c-.7-1.1-1.1-2.3-1.2-2.7-.1-.4 0-1.2.5-1.7.3-.4.8-.5 1-.5h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6c-.2.2-.3.4-.1.7.5.9 1.6 2.1 2.9 2.8.3.2.5.1.7-.1l.7-.8c.2-.3.4-.3.7-.2l2 1c.3.1.5.2.6.4 0 .1 0 .8-.3 1.4Z"/></svg>
-                בואו נדבר על העסק שלכם
-              </a>
-              <a class="btn btn-ghost" href="#geo">איך זה עובד</a>
-            </div>
+      </div>
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">‏GEO · AEO · העתיד של החיפוש כבר כאן</p>
+          <h1 id="hero-title">
+            קידום אתרים במנועי AI:<br />שהעסק שלך יהיה
+            <span class="mark"
+              >התשובה<svg
+                viewBox="0 0 120 12"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M3 9C30 3 75 2 117 6"
+                  stroke="currentColor"
+                  stroke-width="5"
+                  fill="none"
+                  stroke-linecap="round"
+                /></svg
+            ></span>
+          </h1>
+          <p class="hero-sub pkg-hero-lead">
+            הלקוחות שלך כבר לא רק מחפשים בגוגל: הם שואלים את ChatGPT, Gemini
+            ו-Perplexity "מי הכי מומלץ?". אנחנו דואגים שהאתר שלך ידבר בשפה של
+            המנועים האלה, כך שכשהשאלה נשאלת, התשובה היא העסק שלך. וכמובן, לצד
+            קידום אורגני מלא בגוגל.
+          </p>
+          <div class="hero-ctas">
+            <a class="btn btn-wa" href="https://wa.me/972587292029?text=היי!%20אשמח%20לשמוע%20על%20קידום%20האתר%20שלי%20במנועי%20AI" target="_blank" rel="noopener">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.2 14.1c-.2.6-1.2 1.2-1.7 1.2-.4.1-1 .1-1.6-.1a13 13 0 0 1-5.9-5.2c-.7-1.1-1.1-2.3-1.2-2.7-.1-.4 0-1.2.5-1.7.3-.4.8-.5 1-.5h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6c-.2.2-.3.4-.1.7.5.9 1.6 2.1 2.9 2.8.3.2.5.1.7-.1l.7-.8c.2-.3.4-.3.7-.2l2 1c.3.1.5.2.6.4 0 .1 0 .8-.3 1.4Z"/></svg>
+              בואו נדבר על העסק שלכם
+            </a>
+            <a class="btn btn-ghost" href="#geo">איך זה עובד</a>
           </div>
-          <div class="pkg-hero-media">
-            <img src="/assets/img/brand/apps-grid-640.webp"
-                 srcset="/assets/img/brand/apps-grid-640.webp 640w, /assets/img/brand/apps-grid-1280.webp 1280w"
-                 sizes="(max-width: 880px) 92vw, 38vw"
-                 width="640" height="427" fetchpriority="high"
-                 alt="רשת אייקונים תלת־ממדיים צבעוניים של אפליקציות וכלים דיגיטליים, עיצוב של Zstore Ai">
+          <ul class="hero-trust">
+            <li class="ht-wa">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3z"/></svg>מופיעים בתשובות של מנועי AI
+            </li>
+            <li class="ht-seo">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m21 21-4.6-4.6"/><path d="M7.8 12.4 10 10l2 2 2.9-3.2"/></svg>קידום אורגני מלא גם בגוגל
+            </li>
+            <li class="ht-fast">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 15 4-6 4 3 5-7"/></svg>דוח אזכורים שקוף בעברית
+            </li>
+          </ul>
+        </div>
+
+        <div class="hero-visual">
+          <div class="chat-demo reveal" role="img" aria-label="הדמיה: לקוח שואל מנוע בינה מלאכותית מי הכי מומלץ בתחום, והמנוע ממליץ על העסק שלך על סמך האתר המקודם">
+            <div class="chat-head">
+              <span class="chat-live"><i></i>שיחה לדוגמה · מנוע AI</span>
+              <span class="chat-dots"><i></i><i></i><i></i></span>
+            </div>
+            <p class="chat-msg user">מי הכי מומלץ בתחום, באזור שלי?</p>
+            <p class="chat-msg ai">מצאתי התאמה מצוינת: <b>העסק שלך</b> ✨<br>שירות מקצועי, אתר מהיר, ומידע עסקי מלא ומאומת.</p>
+            <div class="chat-cite">
+              <span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                מבוסס על האתר שלך: Schema · llms.txt · שאלות ותשובות
+              </span>
+            </div>
+            <ul class="ai-badges">
+              <li>ChatGPT</li>
+              <li>Gemini</li>
+              <li>Perplexity</li>
+              <li>Copilot</li>
+            </ul>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ===== the shift ===== -->
+    <!-- ============ the shift ============ -->
     <section id="change" class="section section-tight" aria-labelledby="change-title">
       <div class="container split">
         <div class="split-body">
@@ -240,7 +291,59 @@
       </div>
     </section>
 
-    <!-- ===== GEO / AEO dark section ===== -->
+    <!-- ============ keyword ticker ============ -->
+    <div class="ticker-x" aria-hidden="true">
+      <div class="ticker-band alt">
+        <div class="ticker">
+          <ul>
+            <li>להיות התשובה של ChatGPT</li>
+            <li>Entity Schema</li>
+            <li>llms.txt מובנה</li>
+            <li>תוכן שאלה־תשובה</li>
+            <li>פתוחים לסורקי AI</li>
+            <li>דוח אזכורים חודשי</li>
+            <li>קידום GEO</li>
+            <li>קידום AEO</li>
+          </ul>
+          <ul>
+            <li>להיות התשובה של ChatGPT</li>
+            <li>Entity Schema</li>
+            <li>llms.txt מובנה</li>
+            <li>תוכן שאלה־תשובה</li>
+            <li>פתוחים לסורקי AI</li>
+            <li>דוח אזכורים חודשי</li>
+            <li>קידום GEO</li>
+            <li>קידום AEO</li>
+          </ul>
+        </div>
+      </div>
+      <div class="ticker-band">
+        <div class="ticker">
+          <ul>
+            <li>קידום אתרים במנועי AI</li>
+            <li>ChatGPT</li>
+            <li>Google Gemini</li>
+            <li>Perplexity</li>
+            <li>Bing Copilot</li>
+            <li>AI Overviews</li>
+            <li>קידום אורגני SEO</li>
+            <li>שקיפות מלאה בעברית</li>
+          </ul>
+          <ul>
+            <li>קידום אתרים במנועי AI</li>
+            <li>ChatGPT</li>
+            <li>Google Gemini</li>
+            <li>Perplexity</li>
+            <li>Bing Copilot</li>
+            <li>AI Overviews</li>
+            <li>קידום אורגני SEO</li>
+            <li>שקיפות מלאה בעברית</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ GEO / AEO dark section ============ -->
     <section id="geo" class="ai-section section" aria-labelledby="geo-title">
       <div class="container split">
         <div class="split-body">
@@ -282,7 +385,7 @@
       </div>
     </section>
 
-    <!-- ===== stats ===== -->
+    <!-- ============ stats ============ -->
     <section class="stats-strip" aria-label="נתונים על השירות">
       <div class="container stats-grid">
         <div class="stat"><b>7–14</b><span>ימי עסקים לאתר באוויר</span></div>
@@ -292,7 +395,7 @@
       </div>
     </section>
 
-    <!-- ===== both worlds ===== -->
+    <!-- ============ both worlds ============ -->
     <section id="both-worlds" class="section section-tight" aria-labelledby="both-title">
       <div class="container split reverse">
         <div class="split-body">
@@ -313,7 +416,7 @@
             </li>
           </ul>
           <p class="pricing-note" style="margin-top: 22px;">
-            קידום במנועי AI נכלל בחבילות המתקדמות שלנו: <a href="/business-sites/">חבילות אתרי תדמית</a> · <a href="/online-stores/">חבילות חנויות אונליין</a> · <a href="/#works">העבודות שלנו</a>
+            קידום במנועי AI נכלל בחבילות המתקדמות שלנו: <a href="/business-sites/">חבילות אתרי תדמית</a> · <a href="/online-stores/">חבילות חנויות אונליין</a> · <a href="/website-building/">בניית אתרים לעסקים</a>
           </p>
         </div>
         <div class="split-media stack-collage reveal">
@@ -335,7 +438,7 @@
       </div>
     </section>
 
-    <!-- ===== FAQ ===== -->
+    <!-- ============ FAQ ============ -->
     <section id="ai-faq" class="section faq-section" aria-labelledby="ai-faq-title">
       <span class="orb" style="width: 380px; height: 380px; background: #8B5CF6; top: -110px; inset-inline-start: -130px;" aria-hidden="true"></span>
       <div class="container faq-grid">
@@ -449,6 +552,6 @@
     <a class="a11y-link" href="/accessibility/">להצהרת הנגישות המלאה</a>
   </div>
 
-  <script src="/assets/js/main.js?v=e1edfc9c" defer></script>
+  <script src="/assets/js/main.js?v=65a2bd2b" defer></script>
 </body>
 </html>

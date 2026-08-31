@@ -120,6 +120,26 @@
     }
   }
 
+  /* ---------- chat demo: the conversation replays on every re-entry ---------- */
+  /* two watchers with disjoint boundaries (same pattern as the title reveals):
+     show at the first visible sliver, reset only once fully offscreen, so the
+     staged bubbles type themselves again in BOTH scroll directions */
+  var chatDemo = document.querySelector('.chat-demo');
+  if (chatDemo && !reduced && 'IntersectionObserver' in window) {
+    var chatShow = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.25 });
+    var chatReset = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) entry.target.classList.remove('visible');
+      });
+    }, { rootMargin: '120px 0px 120px 0px' });
+    chatShow.observe(chatDemo);
+    chatReset.observe(chatDemo);
+  }
+
   /* ---------- animated counters in the stats strip ---------- */
   var statEls = document.querySelectorAll('.stat b');
   if (!reduced && 'IntersectionObserver' in window && statEls.length) {

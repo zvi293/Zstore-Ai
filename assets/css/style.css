@@ -172,6 +172,9 @@ body::after {
   border: 0;
 }
 
+/* keeps a short inline phrase (e.g. a link) from breaking across lines */
+.nowrap { white-space: nowrap; }
+
 .container { width: min(1180px, 100% - 40px); margin-inline: auto; }
 .section { padding-block: clamp(64px, 9vw, 110px); }
 .section-tight { padding-block: clamp(48px, 7vw, 84px); }
@@ -3106,6 +3109,10 @@ html.js.a11y-motion .pkg-sum .pkg-sum-base {
   .pkg-sum-help { text-align: center; }
   .pkg-sum-step { padding: 14px; gap: 12px; }
   .pkg-sum-dot { width: 36px; height: 36px; border-radius: 12px; font-size: .85rem; }
+  /* the AI-section page link slims down to a single-line pill on phones:
+     the font scales with viewport width so the label never wraps
+     (measured: the label needs ~20em, so 3.8vw + 14px side padding fits from 320px up) */
+  .ai-section .btn-light { padding: 11px 14px; font-size: clamp(.72rem, 3.8vw, .875rem); }
   /* the "included in every package" strip becomes a tidy centered stack on phones */
   .pkg-sum-base { flex-direction: column; align-items: center; gap: 10px; }
   .pkg-sum-base .pkg-chips { justify-content: center; }

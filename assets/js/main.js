@@ -108,7 +108,7 @@
   if ('IntersectionObserver' in window) {
     var loopers = document.querySelectorAll(
       '.hero, .marquee-row, .ticker-x, .orb, .deco-tile, .hotspots, ' +
-      '.plan-featured, .pkg-detail.featured, .pkg-jump, .cta-final, .stats-strip, .ai-section'
+      '.plan-featured, .pkg-detail.featured, .pkg-sum, .pkg-jump, .cta-final, .stats-strip, .ai-section'
     );
     if (loopers.length) {
       var loopIO = new IntersectionObserver(function (entries) {

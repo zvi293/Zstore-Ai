@@ -2463,7 +2463,7 @@ html.a11y-contrast .hs-panel p,
 html.a11y-contrast .plan-desc,
 html.a11y-contrast .hero-sub,
 html.a11y-contrast .section-head p { color: #000; }
-html.a11y-contrast :is(.eyebrow, .plan-name, .pkg-kicker, .plan-more, a:not(.btn)) { color: #26127E; }
+html.a11y-contrast :is(.eyebrow, .plan-name, .pkg-kicker, .plan-more, .pkg-sum-kicker, .pkg-sum-tier, a:not(.btn)) { color: #26127E; }
 /* high contrast: strip the ambient washes so text sits on plain white */
 html.a11y-contrast body::before { display: none; }
 html.a11y-contrast :is(.pkg-stage, .pkg-stage::before, .pkg-detail, .pkg-group) { background: #fff; }
@@ -2490,7 +2490,8 @@ html.js.a11y-motion .chat-demo .ai-badges {
 }
 html.a11y-font body,
 html.a11y-font h1, html.a11y-font h2, html.a11y-font h3, html.a11y-font h4,
-html.a11y-font .quote-title, html.a11y-font .step::before {
+html.a11y-font .quote-title, html.a11y-font .step::before,
+html.a11y-font .pkg-sum-name, html.a11y-font .pkg-sum-dot {
   font-family: Arial, 'Segoe UI', sans-serif !important;
   letter-spacing: 0 !important;
 }
@@ -2698,7 +2699,8 @@ html.js .reveal-d3 { transition-delay: .24s; }
   .pkg-stage, .pkg-stage::before, .pkg-group { background: #fff !important; }
   body::before, body::after { display: none; }
   /* everything the scroll-reveal hides must print visible */
-  html.js .reveal, html.js .st-split .stc, html.js .st-split .mark svg {
+  html.js .reveal, html.js .st-split .stc, html.js .st-split .mark svg,
+  html.js .pkg-sum .pkg-sum-step, html.js .pkg-sum .pkg-sum-base {
     opacity: 1 !important;
     transform: none !important;
   }
@@ -2708,7 +2710,7 @@ html.js .reveal-d3 { transition-delay: .24s; }
     box-shadow: none !important;
   }
   .stats-strip *, .ai-section *, .cta-final *, .faq-cta-card *, .site-footer * { color: #000 !important; }
-  .plan, .pkg-detail, .hs-panel, .step, .faq-item { break-inside: avoid; box-shadow: none !important; }
+  .plan, .pkg-detail, .pkg-sum, .pkg-sum-step, .hs-panel, .step, .faq-item { break-inside: avoid; box-shadow: none !important; }
   /* the hotspot stage is interaction-only: print all four panels stacked */
   .hs-stage, .hs-hint { display: none !important; }
   .hs-panels { display: block !important; }
@@ -2838,4 +2840,273 @@ html.js .chat-demo.visible .ai-badges { transition-delay: 1.3s; }
   html.js .chat-demo .chat-msg,
   html.js .chat-demo .chat-cite,
   html.js .chat-demo .ai-badges { opacity: 1; transform: none; transition: none; }
+}
+
+/* ============================================================
+   homepage package-summary cards (tadmit + stores sections):
+   one wide showcase card per category, replacing the old
+   three-plan grids — full details live on the dedicated pages
+   ============================================================ */
+.pkg-sum {
+  position: relative;
+  max-width: 980px;
+  margin-inline: auto;
+  border: 2px solid transparent;
+  border-radius: var(--r-lg);
+  padding: clamp(24px, 4vw, 42px);
+  background:
+    linear-gradient(var(--card), var(--card)) padding-box,
+    conic-gradient(from var(--spin), #6847F4, #B49CFF, #F7B23B, #8B5CF6, #6847F4) border-box;
+  box-shadow: 0 10px 24px rgba(76, 47, 216, .09), 0 36px 84px -32px rgba(76, 47, 216, .4);
+  animation: spin-border 9s linear infinite;
+}
+/* soft inner washes give the wide card depth without stealing focus */
+.pkg-sum::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: calc(var(--r-lg) - 2px);
+  pointer-events: none;
+  background:
+    radial-gradient(55% 46% at 88% 0%, rgba(104, 71, 244, .07), transparent 70%),
+    radial-gradient(46% 40% at 6% 100%, rgba(247, 178, 59, .07), transparent 70%);
+}
+.pkg-sum--store {
+  background:
+    linear-gradient(var(--card), var(--card)) padding-box,
+    conic-gradient(from var(--spin), #178A4C, #7FE0A7, #6847F4, #2BB569, #178A4C) border-box;
+  box-shadow: 0 10px 24px rgba(23, 138, 76, .09), 0 36px 84px -32px rgba(23, 138, 76, .38);
+}
+.pkg-sum--store::before {
+  background:
+    radial-gradient(55% 46% at 88% 0%, rgba(43, 181, 105, .08), transparent 70%),
+    radial-gradient(46% 40% at 6% 100%, rgba(104, 71, 244, .06), transparent 70%);
+}
+.pkg-sum-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, .94fr) minmax(0, 1.06fr);
+  gap: clamp(24px, 4vw, 46px);
+  align-items: center;
+}
+.pkg-sum-kicker {
+  font-size: .8rem;
+  font-weight: 700;
+  letter-spacing: .07em;
+  color: var(--violet-deep);
+  margin: 0 0 10px;
+}
+/* darker than --green so the small bold label keeps 4.5:1 (AA) on white */
+.pkg-sum--store .pkg-sum-kicker { color: #116E3C; }
+.pkg-sum-title {
+  font-size: clamp(1.45rem, 1.1rem + 1.6vw, 2rem);
+  margin: 0 0 12px;
+}
+.pkg-sum-lead {
+  color: var(--muted);
+  font-size: .98rem;
+  max-width: 34em;
+  margin: 0;
+}
+.pkg-sum-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+  margin-top: 24px;
+}
+.pkg-sum-arrow { display: inline-block; transition: transform .18s ease; }
+.pkg-sum-actions .btn:hover .pkg-sum-arrow { transform: translateX(-4px); }
+.pkg-sum-help {
+  font-size: .9375rem;
+  font-weight: 500;
+  color: var(--violet-deep);
+}
+/* the three-step package ladder */
+.pkg-sum-ladder {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 13px;
+  counter-reset: pkgstep;
+  min-width: 0;
+}
+.pkg-sum-step {
+  position: relative;
+  counter-increment: pkgstep;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 15px 17px;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.pkg-sum-step:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-soft);
+  border-color: rgba(104, 71, 244, .35);
+}
+.pkg-sum--store .pkg-sum-step:hover { border-color: rgba(23, 138, 76, .4); }
+.pkg-sum-step.is-star {
+  border: 1.5px solid transparent;
+  background:
+    linear-gradient(#fff, #fff) padding-box,
+    linear-gradient(135deg, rgba(104, 71, 244, .6), rgba(247, 178, 59, .6)) border-box;
+  box-shadow: 0 14px 32px -16px rgba(76, 47, 216, .38);
+}
+.pkg-sum--store .pkg-sum-step.is-star {
+  background:
+    linear-gradient(#fff, #fff) padding-box,
+    linear-gradient(135deg, rgba(23, 138, 76, .6), rgba(104, 71, 244, .55)) border-box;
+  box-shadow: 0 14px 32px -16px rgba(23, 138, 76, .38);
+}
+.pkg-sum-dot {
+  flex: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-size: .95rem;
+  background: var(--violet-soft);
+  color: var(--violet-ink);
+  border: 1px solid rgba(104, 71, 244, .2);
+}
+.pkg-sum-dot::before { content: counter(pkgstep, decimal-leading-zero); }
+.pkg-sum-step.is-star .pkg-sum-dot {
+  background: var(--grad);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 10px 20px -8px rgba(104, 71, 244, .55);
+}
+.pkg-sum--store .pkg-sum-dot {
+  background: #E7F4EC;
+  color: #0F5E33;
+  border-color: rgba(23, 138, 76, .25);
+}
+.pkg-sum--store .pkg-sum-step.is-star .pkg-sum-dot {
+  background: linear-gradient(135deg, #128749, #0E7C39 55%, #0B6B47);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 10px 20px -8px rgba(23, 138, 76, .55);
+}
+.pkg-sum-body { min-width: 0; }
+.pkg-sum-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  margin: 0 0 5px;
+}
+.pkg-sum-name {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  color: var(--ink);
+}
+a.pkg-sum-name { color: var(--ink); text-decoration: none; }
+/* the package-name link stretches over its step, so the whole card is one tap target */
+a.pkg-sum-name::after { content: ""; position: absolute; inset: 0; }
+.pkg-sum-step:hover .pkg-sum-name { color: var(--violet-deep); }
+.pkg-sum--store .pkg-sum-step:hover .pkg-sum-name { color: #116E3C; }
+.pkg-sum-tier {
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .05em;
+  color: var(--violet-deep);
+  background: rgba(104, 71, 244, .09);
+  border: 1px solid rgba(104, 71, 244, .22);
+  border-radius: 999px;
+  padding: 3px 10px;
+}
+.pkg-sum--store .pkg-sum-tier {
+  color: #0F5E33;
+  background: rgba(23, 138, 76, .09);
+  border-color: rgba(23, 138, 76, .28);
+}
+.pkg-sum-star {
+  font-size: .72rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--grad);
+  border-radius: 999px;
+  padding: 3px 10px;
+  box-shadow: 0 8px 16px -6px rgba(104, 71, 244, .5);
+}
+.pkg-sum-desc {
+  margin: 0;
+  color: var(--muted);
+  font-size: .92rem;
+  line-height: 1.55;
+}
+/* "included in every package" strip */
+.pkg-sum-base {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  margin-top: clamp(20px, 3vw, 28px);
+  padding-top: clamp(16px, 2.4vw, 22px);
+  border-top: 1px dashed var(--line);
+}
+.pkg-sum-base-label {
+  margin: 0;
+  font-weight: 700;
+  font-size: .9rem;
+}
+.pkg-sum-base .pkg-chips { margin: 0; }
+/* staged entrance, driven by the shared reveal observer (html.js gate keeps
+   everything visible when JS is unavailable) */
+html.js .pkg-sum .pkg-sum-step,
+html.js .pkg-sum .pkg-sum-base {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity .55s ease, transform .55s ease;
+}
+html.js .pkg-sum.visible .pkg-sum-step,
+html.js .pkg-sum.visible .pkg-sum-base { opacity: 1; transform: none; }
+html.js .pkg-sum.visible .pkg-sum-step:nth-of-type(1) { transition-delay: .12s; }
+html.js .pkg-sum.visible .pkg-sum-step:nth-of-type(2) { transition-delay: .26s; }
+html.js .pkg-sum.visible .pkg-sum-step:nth-of-type(3) { transition-delay: .4s; }
+html.js .pkg-sum.visible .pkg-sum-base { transition-delay: .55s; }
+/* motion off (OS setting or the site's a11y toggle): static and fully visible */
+html.a11y-motion .pkg-sum { animation: none !important; }
+html.js.a11y-motion .pkg-sum .pkg-sum-step,
+html.js.a11y-motion .pkg-sum .pkg-sum-base {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .pkg-sum { animation: none; }
+  html.js .pkg-sum .pkg-sum-step,
+  html.js .pkg-sum .pkg-sum-base { opacity: 1; transform: none; transition: none; }
+}
+/* stacked layout below tablet width */
+@media (max-width: 880px) {
+  .pkg-sum-grid { grid-template-columns: 1fr; gap: 24px; align-items: start; }
+  .pkg-sum-lead { max-width: none; }
+}
+@media (max-width: 600px) {
+  .pkg-sum { padding: 22px 18px; }
+  .pkg-sum-actions { flex-direction: column; align-items: stretch; }
+  .pkg-sum-actions .btn {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    padding: 14px 18px;
+    line-height: 1.4;
+  }
+  .pkg-sum-help { text-align: center; }
+  .pkg-sum-step { padding: 14px; gap: 12px; }
+  .pkg-sum-dot { width: 36px; height: 36px; border-radius: 12px; font-size: .85rem; }
+  /* the "included in every package" strip becomes a tidy centered stack on phones */
+  .pkg-sum-base { flex-direction: column; align-items: center; gap: 10px; }
+  .pkg-sum-base .pkg-chips { justify-content: center; }
 }

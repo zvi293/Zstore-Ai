@@ -2258,11 +2258,26 @@ html.a11y-motion .ai-section .st-split .mark svg { opacity: .95 !important; }
 .footer-bottom {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 10px 24px;
   justify-content: space-between;
   padding-top: 22px;
   font-size: .875rem;
 }
+/* the auto end-margin keeps the badge hugging the copyright line, not centered */
+.footer-brand { display: inline-flex; flex: none; margin-inline-end: auto; }
+/* same white-pill treatment as the main footer logo, scaled to the credits row */
+.footer-brand img {
+  height: 28px;
+  width: auto;
+  max-width: none; /* the global img max-width collapses it inside the flex row */
+  box-sizing: content-box;
+  background: #fff;
+  padding: 6px 10px;
+  border-radius: 10px;
+  transition: transform .18s ease;
+}
+.footer-brand:hover img { transform: scale(1.05); }
 @media (max-width: 760px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
 
 /* ---------- Floating WhatsApp ---------- */

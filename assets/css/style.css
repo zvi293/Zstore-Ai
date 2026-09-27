@@ -2541,6 +2541,19 @@ html.a11y-cursor, html.a11y-cursor a, html.a11y-cursor button, html.a11y-cursor 
   transform: scaleX(0);
   pointer-events: none;
 }
+/* where supported the bar is a scroll-driven animation: it follows the finger
+   on the compositor with zero JS (main.js skips its fallback then) */
+@supports (animation-timeline: scroll()) {
+  .scroll-progress {
+    animation: scroll-progress-grow linear both;
+    animation-duration: auto;
+    animation-timeline: scroll(root block);
+  }
+}
+@keyframes scroll-progress-grow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
 
 /* ---------- Offscreen animation parking ----------
    JS marks sections that scrolled out of view: their infinite loops stop
@@ -2899,6 +2912,14 @@ html.js .chat-demo.visible .ai-badges { transition-delay: 1.3s; }
   background:
     radial-gradient(55% 46% at 88% 0%, rgba(43, 181, 105, .08), transparent 70%),
     radial-gradient(46% 40% at 6% 100%, rgba(104, 71, 244, .06), transparent 70%);
+}
+/* phones: the spinning frame animates a custom property, which can't run on the
+   compositor, so every step repaints the whole card. 180 steps per turn (20 a
+   second instead of every frame) cuts those repaints ~3x; at one slow turn per
+   9s each 2° step is too small to see. Kept here because the shared mobile
+   block sits earlier in the file and would lose the cascade */
+@media (max-width: 920px) {
+  .pkg-sum { animation-timing-function: steps(180); }
 }
 .pkg-sum-grid {
   position: relative;

@@ -5,14 +5,34 @@
   /* flag JS availability — reveal-hiding styles only apply under html.js */
   document.documentElement.classList.add('js');
 
+  /* ---------- "scrolled past N px" flags without a scroll listener ---------- */
+  /* an invisible block covers the top N px of the page; once it has left the
+     viewport the page is past N. IntersectionObserver reports that after the
+     frame, so nothing reads scrollY while the finger moves — on phones every
+     such read forced a full style recalc in the middle of the scroll */
+  var whenPast = function (px, onChange) {
+    if (!('IntersectionObserver' in window)) {
+      var ticking = false;
+      var check = function () { ticking = false; onChange(window.scrollY > px); };
+      window.addEventListener('scroll', function () {
+        if (!ticking) { ticking = true; requestAnimationFrame(check); }
+      }, { passive: true });
+      check();
+      return;
+    }
+    var probe = document.createElement('div');
+    probe.setAttribute('aria-hidden', 'true');
+    probe.style.cssText = 'position:absolute;top:0;left:0;width:1px;height:' + px + 'px;visibility:hidden;pointer-events:none';
+    document.body.appendChild(probe);
+    new IntersectionObserver(function (entries) {
+      onChange(!entries[entries.length - 1].isIntersecting);
+    }).observe(probe);
+  };
+
   /* ---------- header scroll state ---------- */
   var header = document.querySelector('.site-header');
   if (header) {
-    var onScroll = function () {
-      header.classList.toggle('scrolled', window.scrollY > 8);
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+    whenPast(8, function (past) { header.classList.toggle('scrolled', past); });
   }
 
   /* ---------- mobile nav ---------- */
@@ -104,11 +124,14 @@
 
   /* ---------- long-running animations pause while offscreen ---------- */
   /* marquees, tickers, blurred orbs and glow loops otherwise keep the compositor
-     busy across the whole page height — a big source of scroll jank on phones */
+     busy across the whole page height — a big source of scroll jank on phones.
+     every running loop is also re-styled on each frame, so even the tiny ones
+     (eyebrow pulse dots, floating collage images and order pops) park offscreen */
   if ('IntersectionObserver' in window) {
     var loopers = document.querySelectorAll(
       '.hero, .marquee-row, .ticker-x, .orb, .deco-tile, .hotspots, ' +
-      '.plan-featured, .pkg-detail.featured, .pkg-sum, .pkg-jump, .cta-final, .stats-strip, .ai-section'
+      '.plan-featured, .pkg-detail.featured, .pkg-sum, .pkg-jump, .cta-final, .stats-strip, .ai-section, ' +
+      '.eyebrow, .split-media, .pkg-hero-media, .pkg-link, .chat-demo'
     );
     if (loopers.length) {
       var loopIO = new IntersectionObserver(function (entries) {
@@ -332,8 +355,8 @@
     // titles replay in both scroll directions everywhere. Desktop also melts the
     // letters away as a title leaves; on touch screens that outgoing transition
     // storm janks fast flicks, so phones reset instantly (a mobile CSS rule strips
-    // the outgoing transition) and only once the title is well offscreen —
-    // the staggered rise-in still replays every time it scrolls back in
+    // the outgoing transition) and only once the title is far offscreen —
+    // the staggered rise-in still replays whenever it comes back from afar
     var meltAway = window.matchMedia('(min-width: 921px) and (pointer: fine)').matches;
     var observeTitle;
     if (meltAway) {
@@ -349,8 +372,9 @@
       // fractional threshold can report a hair under its own value at the exact
       // crossing moment and silently skip the reveal.
       // showIO arms the reveal at the first visible sliver; resetIO disarms it
-      // only once the title is a full 90px outside the viewport, so the two can
-      // never fight and edge-of-screen jitter triggers nothing.
+      // only once the title is a screen and a half outside the viewport. A short
+      // scroll back therefore finds the title still standing — resetting at the
+      // edge made titles blank out and redraw in view (the flicker on phones)
       var showIO = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
           if (entry.isIntersecting) entry.target.classList.add('st-in');
@@ -360,7 +384,7 @@
         entries.forEach(function (entry) {
           if (!entry.isIntersecting) entry.target.classList.remove('st-in');
         });
-      }, { rootMargin: '90px 0px 90px 0px' });
+      }, { rootMargin: '150% 0px 150% 0px' });
       observeTitle = function (el) { showIO.observe(el); resetIO.observe(el); };
     }
     titleEls.forEach(function (el) {
@@ -484,24 +508,37 @@
   }
 
   /* ---------- scroll progress bar ---------- */
+  /* where supported, a CSS scroll-driven animation moves the bar on the
+     compositor with no JS at all (style.css); this fallback serves the rest */
   var progress = document.createElement('div');
   progress.className = 'scroll-progress';
   progress.setAttribute('aria-hidden', 'true');
   document.body.appendChild(progress);
-  var progressTicking = false;
-  var updateProgress = function () {
-    progressTicking = false;
-    var max = document.documentElement.scrollHeight - window.innerHeight;
-    var p = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
-    progress.style.transform = 'scaleX(' + p + ')';
-  };
-  window.addEventListener('scroll', function () {
-    if (!progressTicking) {
-      progressTicking = true;
-      requestAnimationFrame(updateProgress);
-    }
-  }, { passive: true });
-  updateProgress();
+  var cssProgress = typeof CSS !== 'undefined' && CSS.supports && CSS.supports('animation-timeline: scroll()');
+  if (!cssProgress) {
+    // the scroll range is cached and refreshed only when the page resizes,
+    // so each frame reads nothing but scrollY (scrollHeight forced a layout)
+    var maxScroll = 0;
+    var measureMax = function () {
+      maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    };
+    var progressTicking = false;
+    var updateProgress = function () {
+      progressTicking = false;
+      var p = maxScroll > 0 ? Math.min(window.scrollY / maxScroll, 1) : 0;
+      progress.style.transform = 'scaleX(' + p + ')';
+    };
+    measureMax();
+    if ('ResizeObserver' in window) new ResizeObserver(measureMax).observe(document.body);
+    window.addEventListener('resize', measureMax, { passive: true });
+    window.addEventListener('scroll', function () {
+      if (!progressTicking) {
+        progressTicking = true;
+        requestAnimationFrame(updateProgress);
+      }
+    }, { passive: true });
+    updateProgress();
+  }
 
   /* ---------- hero mouse parallax (desktop pointers only) ---------- */
   var hero = document.querySelector('.hero');
@@ -612,16 +649,7 @@
   toTop.addEventListener('click', function () {
     window.scrollTo({ top: 0, behavior: motionOff() ? 'auto' : 'smooth' });
   });
-  var toTopTicking = false;
-  window.addEventListener('scroll', function () {
-    if (!toTopTicking) {
-      toTopTicking = true;
-      requestAnimationFrame(function () {
-        toTopTicking = false;
-        toTop.classList.toggle('show', window.scrollY > 650);
-      });
-    }
-  }, { passive: true });
+  whenPast(650, function (past) { toTop.classList.toggle('show', past); });
 
   /* ---------- page transition fallback (browsers without view transitions) ---------- */
   var supportsVT = typeof CSS !== 'undefined' && CSS.supports && CSS.supports('view-transition-name: x');

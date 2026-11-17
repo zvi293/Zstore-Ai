@@ -640,6 +640,336 @@
     }
   }
 
+  /* ---------- guide pages: reading progress + floating table of contents (built from the page's h2s) ---------- */
+  if (/^\/guides\/(?!glossary\/)[^/]+\/?$/.test(location.pathname)) {
+    var tocMain = document.querySelector('main');
+    var tocHeads = tocMain ? [].slice.call(tocMain.querySelectorAll('h2')).filter(function (h) {
+      return !h.closest('.cta-final, .guide-related') && h.textContent.trim();
+    }) : [];
+    if (tocHeads.length >= 3) {
+      /* top progress bar */
+      var rp = document.createElement('div');
+      rp.className = 'read-progress';
+      rp.setAttribute('aria-hidden', 'true');
+      rp.innerHTML = '<span></span>';
+      document.body.appendChild(rp);
+      var rpFill = rp.firstChild;
+
+      /* floating button with a progress ring + panel */
+      var tocWrap = document.createElement('div');
+      tocWrap.className = 'toc-float';
+      tocWrap.innerHTML =
+        '<button type="button" class="toc-btn" aria-expanded="false" aria-controls="toc-panel">' +
+          '<svg class="toc-ring" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="19"></circle><circle class="toc-ring-fill" cx="22" cy="22" r="19"></circle></svg>' +
+          '<svg class="toc-ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/></svg>' +
+          '<span class="toc-label">תוכן עניינים</span>' +
+        '</button>' +
+        '<nav class="toc-panel" id="toc-panel" aria-label="תוכן עניינים" hidden><p class="toc-title">במדריך הזה</p><ol></ol></nav>';
+      document.body.appendChild(tocWrap);
+      var tocBtn = tocWrap.querySelector('.toc-btn');
+      var tocPanel = tocWrap.querySelector('.toc-panel');
+      var tocList = tocPanel.querySelector('ol');
+      var ring = tocWrap.querySelector('.toc-ring-fill');
+      var RING = 2 * Math.PI * 19;
+      ring.style.strokeDasharray = RING;
+      ring.style.strokeDashoffset = RING;
+
+      var tocLinks = tocHeads.map(function (h, i) {
+        if (!h.id) h.id = 'toc-' + (i + 1);
+        var li = document.createElement('li');
+        var a = document.createElement('a');
+        a.href = '#' + h.id;
+        a.textContent = h.textContent.replace(/\s+/g, ' ').trim();
+        li.appendChild(a);
+        tocList.appendChild(li);
+        a.addEventListener('click', function (e) {
+          e.preventDefault();
+          closeToc(false);
+          var y = h.getBoundingClientRect().top + window.pageYOffset - 110;
+          window.scrollTo({ top: y, behavior: motionOff() ? 'auto' : 'smooth' });
+          h.setAttribute('tabindex', '-1');
+          h.focus({ preventScroll: true });
+        });
+        return a;
+      });
+
+      var openToc = function () {
+        tocPanel.hidden = false;
+        tocBtn.setAttribute('aria-expanded', 'true');
+        tocWrap.classList.add('is-open');
+        var cur = tocList.querySelector('[aria-current]') || tocLinks[0];
+        cur.focus();
+      };
+      var closeToc = function (refocus) {
+        if (tocPanel.hidden) return;
+        tocPanel.hidden = true;
+        tocBtn.setAttribute('aria-expanded', 'false');
+        tocWrap.classList.remove('is-open');
+        if (refocus) tocBtn.focus();
+        /* lets the floating-buttons logic below re-check whether it should step aside */
+        tocWrap.dispatchEvent(new Event('tocclose'));
+      };
+      tocBtn.addEventListener('click', function () { if (tocPanel.hidden) openToc(); else closeToc(true); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeToc(true); });
+      document.addEventListener('click', function (e) { if (!tocWrap.contains(e.target)) closeToc(false); });
+
+      /* active section */
+      if ('IntersectionObserver' in window) {
+        var tocIO = new IntersectionObserver(function (entries) {
+          entries.forEach(function (en) {
+            if (!en.isIntersecting) return;
+            var i = tocHeads.indexOf(en.target);
+            tocLinks.forEach(function (a, k) {
+              if (k === i) a.setAttribute('aria-current', 'true');
+              else a.removeAttribute('aria-current');
+            });
+          });
+        }, { rootMargin: '-15% 0px -70% 0px' });
+        tocHeads.forEach(function (h) { tocIO.observe(h); });
+      }
+
+      /* progress: one rAF per scroll burst, transform-only */
+      var rpTick = false;
+      var rpUpdate = function () {
+        rpTick = false;
+        var max = document.documentElement.scrollHeight - window.innerHeight;
+        var p = max > 0 ? Math.min(1, Math.max(0, window.pageYOffset / max)) : 0;
+        rpFill.style.transform = 'scaleX(' + p + ')';
+        ring.style.strokeDashoffset = RING * (1 - p);
+      };
+      window.addEventListener('scroll', function () {
+        if (!rpTick) { rpTick = true; requestAnimationFrame(rpUpdate); }
+      }, { passive: true });
+      rpUpdate();
+      whenPast(520, function (past) { tocWrap.classList.toggle('show', past); if (!past) closeToc(false); });
+    }
+  }
+
+  /* ---------- home: "which site fits you?" quiz (questions live in the HTML; JS turns them into steps) ---------- */
+  var quiz = document.querySelector('[data-quiz]');
+  if (quiz) {
+    var qSteps = [].slice.call(quiz.querySelectorAll('[data-qz-step]'));
+    var qBar = quiz.querySelector('[data-qz-bar]');
+    var qCount = quiz.querySelector('[data-qz-count]');
+    var qLive = quiz.querySelector('[data-qz-live]');
+    var qNav = quiz.querySelector('[data-qz-nav]');
+    var qBack = quiz.querySelector('[data-qz-back]');
+    var qNext = quiz.querySelector('[data-qz-next]');
+    var qRes = quiz.querySelector('[data-qz-result]');
+    var qAt = 0;
+    /* one offer, no packages: the answers pick a site type, a scope track and the services worth choosing */
+    var TYPE = { biz: 'אתר תדמית', store: 'חנות אונליין', both: 'חנות + עמודי תדמית' };
+    var TRACK = { biz: ['מסלול ממוקד', 'מסלול מתרחב', 'מסלול רחב'], store: ['קטלוג ממוקד', 'קטלוג מתרחב', 'קטלוג גדול'] };
+    TRACK.both = TRACK.store;
+    var WHY = {
+      biz: ['כמה עמודים מדויקים שמציגים את העסק ומביאים פניות, עם כל הבסיס שתמיד כלול.', 'יותר עמודים ובלוג שממשיך להביא תנועה מגוגל, כדי שהאתר יביא לקוחות באופן קבוע.', 'הרבה תוכן, בלוג ועמודי אזור, כדי להופיע בכל מקום שהלקוחות שלכם מחפשים.'],
+      store: ['חנות קטנה שמתחילה למכור מהר, עם סליקה, חשבונית וניהול מלאי מהיום הראשון.', 'עשרות מוצרים, וריאציות וסינון, כדי שהלקוח ימצא מה שהוא מחפש בשתי לחיצות.', 'בלי תקרת מוצרים, עם חיפוש וסינון מתקדמים וכלים שמגדילים את הסל.'],
+      both: ['אתר אחד שמציג את העסק ומוכר כמה מוצרים נבחרים, עם סליקה וחשבונית אוטומטית.', 'אתר שמציג את השירותים ומוכר עשרות מוצרים, עם וריאציות, סינון ובלוג.', 'אתר רחב שמשלב תדמית וקטלוג גדול בלי תקרה, עם חיפוש, סינון וקידום מלא.']
+    };
+    var KEY = { 'בלוג עסקי': 'blog', 'עמודי אזור': 'regional', 'מחקר מילות מפתח': 'kw', 'Schema מורחב': 'schema', 'סכמת ישויות': 'entity', 'דוח אזכורים חודשי': 'ai-report', 'עדכונים בשירות מלא': 'wa-updates', 'פאנל ניהול אישי': 'panel', 'ניהול לידים': 'leads', 'בקשות שינוי חודשיות': 'changes', 'וריאציות מוצר': 'variants', 'קטגוריות וסינון': 'filters', 'מוצרים ללא הגבלה': 'unlimited', 'חיפוש פנימי': 'search', 'Google Shopping': 'shopping', 'מילות מפתח מסחריות': 'kw-com', 'מיפוי הקטלוג ל-AI': 'catalog-ai', 'התראות מלאי': 'stock-alerts', 'אוטומציה מלאה 24/7': 'automation' };
+    var SIZE = ['small', 'mid', 'large'];
+    /* each answer adds a group of picks (listed most important first); `order` is the display order.
+       Over 6, the biggest group gives up its least important pick (ties: the later group), so every answer keeps a voice */
+    var picksFor = function (type, k, s, u) {
+      var g = [], order;
+      if (type === 'biz') {
+        g.push(['בלוג עסקי', 'עמודי אזור'].slice(0, k));
+        g.push(s === 2 ? ['מחקר מילות מפתח', 'דוח אזכורים חודשי', 'סכמת ישויות', 'Schema מורחב'] : s === 1 ? ['מחקר מילות מפתח', 'Schema מורחב'] : []);
+        g.push([['עדכונים בשירות מלא'], ['פאנל ניהול אישי', 'ניהול לידים'], ['פאנל ניהול אישי', 'בקשות שינוי חודשיות']][u]);
+        order = ['בלוג עסקי', 'עמודי אזור', 'מחקר מילות מפתח', 'Schema מורחב', 'סכמת ישויות', 'דוח אזכורים חודשי', 'עדכונים בשירות מלא', 'פאנל ניהול אישי', 'ניהול לידים', 'בקשות שינוי חודשיות'];
+      } else {
+        g.push(k === 2 ? ['מוצרים ללא הגבלה', 'וריאציות מוצר', 'קטגוריות וסינון', 'חיפוש פנימי'] : k === 1 ? ['וריאציות מוצר', 'קטגוריות וסינון'] : []);
+        if (type === 'both') g.push(k >= 1 ? ['בלוג עסקי'] : []);
+        g.push(s === 2 ? ['מיפוי הקטלוג ל-AI', 'Google Shopping', 'מילות מפתח מסחריות'] : s === 1 ? ['Google Shopping', 'מילות מפתח מסחריות'] : []);
+        g.push([['בקשות שינוי חודשיות'], ['התראות מלאי'], ['אוטומציה מלאה 24/7']][u]);
+        order = ['וריאציות מוצר', 'קטגוריות וסינון', 'מוצרים ללא הגבלה', 'חיפוש פנימי', 'בלוג עסקי', 'Google Shopping', 'מילות מפתח מסחריות', 'מיפוי הקטלוג ל-AI', 'בקשות שינוי חודשיות', 'התראות מלאי', 'אוטומציה מלאה 24/7'];
+      }
+      g = g.map(function (x) { return x.slice(); });
+      var total = function () { return g.reduce(function (n, x) { return n + x.length; }, 0); };
+      while (total() > 6) {
+        var big = 0;
+        g.forEach(function (x, i) { if (x.length >= g[big].length) big = i; });
+        g[big].pop();
+      }
+      var all = [].concat.apply([], g);
+      return order.filter(function (n) { return all.indexOf(n) > -1; });
+    };
+    var val = function (name) {
+      var el = quiz.querySelector('input[name="' + name + '"]:checked');
+      return el ? el.value : null;
+    };
+    var label = function (name) {
+      var el = quiz.querySelector('input[name="' + name + '"]:checked');
+      return el ? el.closest('.qz-opt').querySelector('b').textContent : '';
+    };
+    var show = function (i, focus) {
+      qAt = i;
+      qSteps.forEach(function (st, k) { st.hidden = k !== i; });
+      qRes.hidden = true;
+      qNav.hidden = false;
+      qBack.disabled = i === 0;
+      qBack.style.visibility = i === 0 ? 'hidden' : 'visible';
+      qNext.disabled = !val(qSteps[i].querySelector('input').name);
+      qNext.lastChild.textContent = '';
+      qNext.firstChild.textContent = i === qSteps.length - 1 ? ' לקבלת ההמלצה ' : ' הבא ';
+      var pct = (i / qSteps.length) * 100;
+      qBar.style.transform = 'scaleX(' + (pct / 100) + ')';
+      qCount.textContent = (i + 1) + ' / ' + qSteps.length;
+      qLive.textContent = 'שאלה ' + (i + 1) + ' מתוך ' + qSteps.length;
+      if (focus) qSteps[i].querySelector('legend').focus();
+    };
+    var result = function () {
+      var t = val('q1');
+      var type = t === 'store' ? 'store' : (t === 'mixed' ? 'both' : 'biz');
+      var k = +val('q2') || 0, sc = +val('q3') || 0, u = +val('q4') || 0, when = val('q5');
+      var title = TYPE[type] + ' · ' + TRACK[type][k];
+      var picks = picksFor(type, k, sc, u);
+      var soon = when === 'fast' ? (type === 'biz' ? 'רוצים מהר? אתר תדמית עולה לאוויר בדרך כלל תוך \u20667–14\u2069 ימי עסקים.' : 'רוצים מהר? חנות עולה לאוויר בדרך כלל תוך \u20662–4\u2069 שבועות.') :
+        (when === 'look' ? 'אין לחץ: שלחו לנו את התשובות ונחזור אליכם עם הצעה מסודרת לעיון.' : '');
+      quiz.querySelector('[data-qz-title]').textContent = title;
+      quiz.querySelector('[data-qz-why]').textContent = WHY[type][k] + (t === 'unsure' ? ' זו נקודת פתיחה לפי מה שסיפרתם, ונדייק יחד בשיחה.' : '') + (soon ? ' ' + soon : '');
+      var ul = quiz.querySelector('[data-qz-points]');
+      ul.innerHTML = '';
+      (picks.length ? picks : ['הבסיס שתמיד כלול עושה כאן את העבודה']).forEach(function (x) { var li = document.createElement('li'); li.textContent = x; ul.appendChild(li); });
+      var keys = picks.map(function (n) { return KEY[n]; }).filter(function (x) { return x && (type === 'biz' || x !== 'blog'); }).join(',');
+      var go = quiz.querySelector('[data-qz-pkg]');
+      if (type === 'biz') {
+        go.href = '/business-sites/' + (keys ? '?pick=' + keys : '') + '#offer';
+        go.textContent = 'לבחור מה האתר יכלול';
+      } else {
+        go.href = '/online-stores/?size=' + SIZE[k] + (keys ? '&pick=' + keys : '') + '#offer';
+        go.textContent = 'לבחור מה בחנות';
+      }
+      var msg = 'היי! מילאתי את השאלון באתר. ההמלצה: ' + title + '.\n' +
+        'מה שהתאים לנו: ' + (picks.length ? picks.join(', ') : 'הבסיס') + '.\n' +
+        'מה חשוב לנו: ' + label('q1') + '\nהיקף: ' + label('q2') + '\nקידום: ' + label('q3') +
+        '\nעדכונים: ' + label('q4') + '\nמתי: ' + label('q5') + '\nאשמח לשמוע פרטים ולקבל הצעת מחיר אישית.';
+      quiz.querySelector('[data-qz-wa]').href = 'https://wa.me/972587292029?text=' + encodeURIComponent(msg);
+      qSteps.forEach(function (st) { st.hidden = true; });
+      qNav.hidden = true;
+      qRes.hidden = false;
+      qBar.style.transform = 'scaleX(1)';
+      qCount.textContent = '✓';
+      qLive.textContent = 'ההמלצה שלנו: ' + title;
+      qRes.focus();
+    };
+    var advance = function () {
+      if (!val(qSteps[qAt].querySelector('input').name)) return;
+      if (qAt < qSteps.length - 1) show(qAt + 1, true); else result();
+    };
+    quiz.addEventListener('change', function (e) {
+      if (e.target.type === 'radio') qNext.disabled = false;
+    });
+    /* a pointer pick moves on by itself; keyboard users change their pick with arrows and go on with Enter / "הבא" */
+    quiz.addEventListener('click', function (e) {
+      var opt = e.target.closest('.qz-opt');
+      if (opt && e.detail > 0) setTimeout(advance, motionOff() ? 0 : 380);
+    });
+    quiz.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && e.target.type === 'radio') { e.preventDefault(); advance(); }
+    });
+    qNext.addEventListener('click', advance);
+    qBack.addEventListener('click', function () { if (qAt > 0) show(qAt - 1, true); });
+    quiz.querySelector('[data-qz-restart]').addEventListener('click', function () {
+      quiz.reset();
+      show(0, true);
+    });
+    quiz.addEventListener('submit', function (e) { e.preventDefault(); advance(); });
+    quiz.classList.add('is-ready');
+    show(0, false);
+  }
+
+  /* ---------- glossary: live search (filters terms + letter index, works on name and definition) ---------- */
+  var glSearch = document.querySelector('[data-glossary-search]');
+  if (glSearch) {
+    var glTerms = [].slice.call(document.querySelectorAll('.gl-term'));
+    var glGroups = [].slice.call(document.querySelectorAll('.gl-group'));
+    var glEmpty = document.querySelector('[data-glossary-empty]');
+    var glLetters = [].slice.call(document.querySelectorAll('.gl-letters a'));
+    var glNorm = function (t) { return (t || '').toLowerCase().replace(/[״"׳'\-–]/g, '').replace(/\s+/g, ' ').trim(); };
+    glTerms.forEach(function (t) { t.setAttribute('data-gl-text', glNorm(t.textContent)); });
+    var glTimer = null;
+    var glRun = function () {
+      var q = glNorm(glSearch.value);
+      var any = false;
+      glTerms.forEach(function (t) {
+        var on = !q || t.getAttribute('data-gl-text').indexOf(q) > -1;
+        t.hidden = !on;
+        if (on) any = true;
+      });
+      glGroups.forEach(function (g) {
+        var has = g.querySelector('.gl-term:not([hidden])');
+        g.hidden = !has;
+        var link = glLetters.filter(function (a) { return a.getAttribute('href') === '#' + g.id; })[0];
+        if (link) link.classList.toggle('is-empty', !has);
+      });
+      if (glEmpty) glEmpty.hidden = any;
+    };
+    glSearch.addEventListener('input', function () {
+      clearTimeout(glTimer);
+      glTimer = setTimeout(glRun, 120);
+    });
+    glSearch.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { glSearch.value = ''; glRun(); }
+    });
+  }
+
+  /* ---------- floating WhatsApp (phones): appears only after the visitor has
+     scrolled past the hero's own WhatsApp button, and steps aside while an
+     interactive zone sits in the bottom band of the screen where it floats
+     (quiz, offer builder, tabs, FAQ, a WhatsApp CTA card, the final CTA, or
+     anything marked [data-hide-wa-float]) so it never covers a card, a cart
+     button, a tab, a question row or a result line ---------- */
+  var waFloat = document.querySelector('.wa-float');
+  if (waFloat && 'IntersectionObserver' in window) {
+    var waMq = window.matchMedia('(max-width: 760px)');
+    var waHero = document.querySelector('.hero-ctas .btn-wa');
+    var waPast = !waHero;
+    var waZones = new Set();
+    /* guides: the floating table-of-contents button sits in the same bottom band,
+       so it steps aside for the same zones (unless its panel is open or it has focus) */
+    var tocFloat = document.querySelector('.toc-float');
+    var waSync = function () {
+      var hide = waMq.matches && (!waPast || waZones.size > 0);
+      /* never pull the button out from under keyboard focus */
+      if (hide && document.activeElement === waFloat) hide = false;
+      waFloat.classList.toggle('wa-hide', hide);
+      if (hide) { waFloat.setAttribute('tabindex', '-1'); waFloat.setAttribute('aria-hidden', 'true'); }
+      else { waFloat.removeAttribute('tabindex'); waFloat.removeAttribute('aria-hidden'); }
+      if (tocFloat) {
+        var tocHide = waMq.matches && waZones.size > 0 && !tocFloat.classList.contains('is-open') && !tocFloat.contains(document.activeElement);
+        tocFloat.classList.toggle('toc-hide', tocHide);
+        var tocBtnEl = tocFloat.querySelector('.toc-btn');
+        if (tocBtnEl) { if (tocHide) tocBtnEl.setAttribute('tabindex', '-1'); else tocBtnEl.removeAttribute('tabindex'); }
+      }
+    };
+    if (waHero) {
+      /* the root reaches far below the screen, so "not intersecting" means fully
+         scrolled above its top. Unlike a plain viewport observer this also flips
+         on a jump that never shows the button (an #anchor link, a restored scroll
+         position, a hero button that starts below the fold) */
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) { waPast = !en.isIntersecting; });
+        waSync();
+      }, { rootMargin: '0px 0px 1000000px 0px', threshold: 0 }).observe(waHero);
+    }
+    var waZoneEls = document.querySelectorAll('[data-hide-wa-float], form[data-quiz], section#offer, [role="tablist"], [role="tabpanel"], .faq-list, .faq-cta-card, .cta-final');
+    if (waZoneEls.length) {
+      /* root = the bottom 14% of the screen (about 118px on a phone): the band the button occupies */
+      var waZoneIo = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) waZones.add(en.target); else waZones.delete(en.target);
+        });
+        waSync();
+      }, { rootMargin: '-86% 0px 0px 0px', threshold: 0 });
+      waZoneEls.forEach(function (el) { waZoneIo.observe(el); });
+    }
+    waFloat.addEventListener('blur', waSync);
+    if (tocFloat) { tocFloat.addEventListener('focusout', waSync); tocFloat.addEventListener('tocclose', waSync); }
+    if (waMq.addEventListener) waMq.addEventListener('change', waSync);
+    waSync();
+  }
+
   /* ---------- back to top ---------- */
   var toTop = document.createElement('button');
   toTop.className = 'to-top';
@@ -674,6 +1004,73 @@
     // returning via back/forward cache — make sure the page is visible again
     window.addEventListener('pageshow', function () {
       document.documentElement.classList.remove('page-leave');
+    });
+  }
+
+  /* ---------- guides hub: topic filter (buttons + counts are built from the cards' data-category,
+     so a guide with a new topic adds its own button automatically) ---------- */
+  var gRows = [].slice.call(document.querySelectorAll('[data-guide-filter]'));
+  var gGrid = document.getElementById('guides-grid');
+  if (gRows.length && gGrid) {
+    var gCards = [].slice.call(gGrid.querySelectorAll('[data-category]'));
+    var gStatus = document.querySelector('[data-guide-status]');
+    var gCats = [];
+    gCards.forEach(function (c) {
+      var k = c.getAttribute('data-category');
+      if (k && gCats.indexOf(k) < 0) gCats.push(k);
+    });
+    var gCount = function (key) {
+      return gCards.filter(function (c) { return !key || c.getAttribute('data-category') === key; }).length;
+    };
+    var gBtns = [];
+    var gApply = function (key, fromRow) {
+      var shown = 0;
+      gBtns.forEach(function (b) {
+        var on = b.getAttribute('data-key') === key;
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        /* phones: the row scrolls sideways — keep the chosen chip in view without moving the page */
+        if (on && b.parentNode.scrollWidth > b.parentNode.clientWidth) {
+          var row = b.parentNode;
+          row.scrollTo({ left: b.offsetLeft - (row.clientWidth - b.offsetWidth) / 2, behavior: motionOff() ? 'auto' : 'smooth' });
+        }
+      });
+      gCards.forEach(function (c) {
+        var on = !key || c.getAttribute('data-category') === key;
+        c.hidden = !on;
+        if (on) { shown++; c.classList.add('visible'); }
+      });
+      if (gStatus) gStatus.textContent = (shown === 1 ? 'מוצג מדריך אחד' : 'מוצגים ' + shown + ' מדריכים') + (key ? ' בנושא ' + key : '');
+      /* clicked in a row far from the cards (the hero): bring the results into view, leaving room for the sticky header */
+      if (fromRow) {
+        var top = gGrid.getBoundingClientRect().top;
+        if (top > window.innerHeight * 0.7 || top < 0) {
+          window.scrollTo({ top: top + window.pageYOffset - 120, behavior: motionOff() ? 'auto' : 'smooth' });
+        }
+      }
+    };
+    gRows.forEach(function (row) {
+      [''].concat(gCats).forEach(function (key) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'guide-filter-btn';
+        b.setAttribute('aria-pressed', key ? 'false' : 'true');
+        b.setAttribute('data-key', key);
+        var name = document.createElement('span');
+        name.textContent = key || 'הכול';
+        var num = document.createElement('b');
+        num.className = 'guide-filter-count';
+        num.textContent = gCount(key);
+        var sr = document.createElement('span');
+        sr.className = 'sr-only';
+        sr.textContent = gCount(key) === 1 ? ' מדריך' : ' מדריכים';
+        b.appendChild(name);
+        b.appendChild(num);
+        b.appendChild(sr);
+        b.addEventListener('click', function () { gApply(key, row); });
+        row.appendChild(b);
+        gBtns.push(b);
+      });
+      row.hidden = false;
     });
   }
 

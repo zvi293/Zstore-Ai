@@ -1,0 +1,10 @@
+/* Glossary page only. Letter index: 44px tap targets; on phones one tidy row that scrolls sideways (snap + soft edge fade) instead of a 7+7+1 wrap */
+.gl-letters a{min-width:44px;height:44px}
+@media (max-width:680px){
+.gl-letters{flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;scrollbar-width:none;margin-inline:-20px;padding:6px 20px 12px;margin-bottom:22px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 22px,#000 calc(100% - 22px),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 22px,#000 calc(100% - 22px),transparent 100%)}
+.gl-letters::-webkit-scrollbar{display:none}
+.gl-letters a{flex:none;scroll-snap-align:center;white-space:nowrap}
+.gl-letters a:hover{transform:none}
+}
+
+.gl-list + .hero-ctas{margin-top:clamp(24px,4vw,36px)}

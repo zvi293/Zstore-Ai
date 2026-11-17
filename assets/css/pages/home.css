@@ -1,0 +1,185 @@
+/* home: tighter section rhythm + one offers section with a switch (#tadmit = blueprint sheet ⇄ #stores = boutique rack) + quiz result extras. prefix hm- */
+
+/* ---- home rhythm (section spacing is global in style.css now) ---- */
+/* kept: beats the global .works .section-head{margin-bottom:34px} so the works heading matches the other home sections */
+.hm-home main .section-head{margin-bottom:clamp(26px,3.4vw,40px)}
+.hm-home .ticker-x{height:clamp(120px,12.5vw,170px);margin-block:clamp(8px,1.8vw,24px)}
+
+/* ---- the switch (tabs; shown only once home.js is running) ---- */
+.hm-sec .section-head{max-width:780px}
+.hm-switch{display:none}
+html.hm-js .hm-switch{position:relative;display:grid;grid-template-columns:1fr 1fr;width:100%;max-width:560px;margin:0 auto 22px;padding:6px;border-radius:22px;background:rgba(255,255,255,.9);border:1px solid rgba(23,20,32,.08);box-shadow:0 14px 34px -16px rgba(40,30,90,.32),inset 0 1px 0 #fff}
+.hm-thumb{position:absolute;inset-block:6px;inset-inline-start:6px;width:calc(50% - 6px);border-radius:16px;overflow:hidden;box-shadow:0 10px 20px -8px rgba(37,87,214,.6)}
+.hm-thumb::before,.hm-thumb::after{content:"";position:absolute;inset:0}
+.hm-thumb::before{background:linear-gradient(135deg,#2557D6,#5B3FE0)}
+.hm-thumb::after{opacity:0;background:linear-gradient(135deg,#137B44,#0F6B39)}
+.hm-offers[data-mode=store] .hm-thumb{transform:translateX(-100%);box-shadow:0 10px 20px -8px rgba(15,107,57,.6)}
+[dir=ltr] .hm-offers[data-mode=store] .hm-thumb{transform:translateX(100%)}
+.hm-offers[data-mode=store] .hm-thumb::after{opacity:1}
+.hm-tab{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:9px;min-width:0;min-height:64px;padding:8px 6px;border:0;border-radius:16px;background:none;color:var(--ink);font:inherit;text-align:start;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.hm-tab--biz{--hm-t:#2557D6;--hm-ts:rgba(37,87,214,.1)}
+.hm-tab--store{--hm-t:#0F6B39;--hm-ts:rgba(23,138,76,.12)}
+.hm-tab-ico{display:grid;place-items:center;flex:none;width:34px;height:34px;border-radius:11px;background:var(--hm-ts);color:var(--hm-t)}
+.hm-tab-txt{display:grid;min-width:0}
+.hm-tab b{font-size:1.02rem;line-height:1.25}
+.hm-tab small{font-size:.74rem;line-height:1.3;color:var(--muted)}
+.hm-tab[aria-selected=true]{color:#fff}
+.hm-tab[aria-selected=true] small{color:#fff;opacity:.92}
+.hm-tab[aria-selected=true] .hm-tab-ico{background:rgba(255,255,255,.18);color:#fff}
+.hm-tab:focus-visible{outline:none;box-shadow:0 0 0 3px #fff,0 0 0 6px var(--violet)}
+@media (hover:hover){.hm-tab[aria-selected=false]:hover .hm-tab-ico{background:var(--hm-t);color:#fff}}
+@media (max-width:389px){.hm-tab{gap:6px;padding-inline:4px}.hm-tab-ico{width:28px;height:28px;border-radius:9px}.hm-tab-ico svg{width:18px;height:18px}}
+@media (max-width:369px){.hm-tab-ico{display:none}}
+
+/* ---- panels: both stacked in one grid cell → the section keeps one height, nothing below moves ---- */
+html:not(.hm-js) .hm-panel+.hm-panel{margin-top:28px}
+html.hm-js .hm-panels{display:grid}
+html.hm-js .hm-panel{grid-area:1/1;display:grid;min-width:0;visibility:hidden;opacity:0;pointer-events:none;scroll-margin-top:calc(var(--header-h) + 118px)}
+html.hm-js .hm-panel.is-on{visibility:visible;opacity:1;pointer-events:auto}
+/* phones: the store's content runs ~280px taller than the brochure's, so each panel keeps its own height
+   (the change happens below the fold of a tall panel; scrollY never moves). The outgoing panel lifts out of flow while it fades. */
+@media (max-width:639px){html.hm-js .hm-panels{position:relative}html.hm-js .hm-panel:not(.is-on){position:absolute;inset:0 0 auto}}
+.hm-orb-store{opacity:0}
+.hm-offers[data-mode=store] .hm-orb-biz{opacity:0}
+.hm-offers[data-mode=store] .hm-orb-store{opacity:.5}
+
+/* motion (html.hm-on = motion allowed; set by home.js) */
+html.hm-on .hm-thumb{transition:transform .55s cubic-bezier(.34,1.3,.5,1),box-shadow .4s}
+html.hm-on .hm-thumb::after{transition:opacity .4s ease}
+html.hm-on .hm-tab,html.hm-on .hm-tab small,html.hm-on .hm-tab-ico{transition:color .3s,background-color .3s,transform .2s}
+html.hm-on .hm-tab:active{transform:scale(.97)}
+html.hm-on .hm-tab[aria-selected=true] .hm-tab-ico svg{animation:hm-pop .5s cubic-bezier(.3,1.6,.5,1)}
+html.hm-on .hm-offers .orb{transition:opacity .8s ease}
+html.hm-on .hm-panel{transition:opacity .2s ease,transform .45s cubic-bezier(.4,0,.2,1),visibility 0s linear .45s}
+html.hm-on .hm-panel--biz:not(.is-on){transform:translateX(40px) scale(.985)}
+html.hm-on .hm-panel--store:not(.is-on){transform:translateX(-40px) scale(.985)}
+html.hm-on .hm-panel.is-on{transition:opacity .4s ease .14s,transform .6s cubic-bezier(.2,.8,.2,1) .06s,visibility 0s}
+@keyframes hm-pop{40%{transform:scale(1.25) rotate(-8deg)}}
+
+/* ---- offer card (shared) ---- */
+.hm-offer{position:relative;display:grid;grid-template-rows:auto auto 1fr auto;gap:22px;padding:24px 14px 22px;border-radius:var(--r-lg);box-shadow:var(--shadow-soft)}
+.hm-offer>*{min-width:0}
+.hm-nw{white-space:nowrap}
+.hm-phead h3{margin:0 0 6px;font-size:clamp(1.4rem,1.1vw + 1.05rem,1.8rem);line-height:1.25;color:var(--ink)}
+.hm-phead p{margin:0;font-size:1rem;line-height:1.6;color:var(--muted)}
+.hm-base-label,.hm-pick-label{margin:0 0 10px;font-size:.78rem;font-weight:700;letter-spacing:.04em;color:var(--hm-ink)}
+.hm-base{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.hm-base li{display:flex;align-items:center;gap:7px;min-height:54px;padding:8px;border-radius:12px;background:#fff;border:1px solid var(--hm-line);font-size:.88rem;font-weight:700;line-height:1.3}
+@media (max-width:639px){.hm-base li{flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:6px;padding:10px}.hm-offer--store .hm-base li:nth-child(5){flex-direction:row;align-items:center;justify-content:flex-start;gap:8px}}
+.hm-base svg{flex:none;width:20px;height:20px;padding:4px;border-radius:50%;background:var(--hm-acc);color:#fff}
+.hm-pick-label{display:flex;align-items:center;gap:10px;text-align:center}
+.hm-pick-label::before,.hm-pick-label::after{content:"";flex:1;min-width:16px;height:9px}
+.hm-ico{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:var(--hm-soft);color:var(--hm-ink)}
+.hm-pick h4{margin:0;font-size:1.05rem;line-height:1.25}
+.hm-pick p{margin:0;font-size:.86rem;line-height:1.45;color:var(--muted)}
+.hm-pick .hm-pick-label{margin:0 0 10px;font-size:.78rem;line-height:1.4;color:var(--hm-ink)}
+.hm-foot{display:grid;gap:14px;align-items:center}
+.hm-scale{display:grid;grid-template-columns:repeat(3,1fr);align-items:end;gap:8px;width:100%;max-width:340px}
+.hm-scale li{display:grid;justify-items:center;gap:5px;font-size:.78rem;font-weight:700;color:var(--hm-ink)}
+.hm-scale li::before{content:"";width:100%;height:8px;border-radius:5px;background:var(--hm-bar);transform-origin:bottom;opacity:.5}
+.hm-scale li:nth-child(2)::before{height:14px;opacity:.75}
+.hm-scale li:nth-child(3)::before{height:20px;opacity:1}
+.hm-tracks{margin:0;font-size:.95rem;color:var(--muted)}
+.hm-acts{display:grid;gap:10px}
+.hm-acts .btn{width:100%;padding:14px 18px;line-height:1.35;text-align:center}
+.hm-acts .btn-ghost{background:rgba(255,255,255,.7)}
+.hm-acts .btn-ghost svg{color:var(--wa)}
+
+/* ---- #tadmit: drafting sheet ---- */
+.hm-offer--biz{--hm-ink:#2557D6;--hm-acc:#2557D6;--hm-soft:rgba(37,87,214,.09);--hm-line:rgba(37,87,214,.2);--hm-bar:linear-gradient(135deg,#2557D6,#6847F4);
+background:linear-gradient(rgba(37,87,214,.07) 1px,transparent 1px) 0 0/24px 24px,linear-gradient(90deg,rgba(37,87,214,.07) 1px,transparent 1px) 0 0/24px 24px,#FBFCFF;border:1px solid rgba(37,87,214,.22)}
+.hm-offer--biz::before,.hm-offer--biz::after{content:"";position:absolute;width:18px;height:18px;border:0 solid #2557D6;opacity:.6;pointer-events:none}
+.hm-offer--biz::before{top:10px;inset-inline-start:10px;border-top-width:1.5px;border-inline-start-width:1.5px}
+.hm-offer--biz::after{bottom:10px;inset-inline-end:10px;border-bottom-width:1.5px;border-inline-end-width:1.5px}
+.hm-offer--biz .hm-pick-label::before,.hm-offer--biz .hm-pick-label::after{background:linear-gradient(#2557D6,#2557D6) center/100% 1px no-repeat;opacity:.55}
+.hm-offer--biz .hm-pick-label::before{border-inline-start:1px solid #2557D6}
+.hm-offer--biz .hm-pick-label::after{border-inline-end:1px solid #2557D6}
+.hm-tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.hm-tiles,.hm-tags{grid-auto-rows:1fr}
+.hm-tile{position:relative;display:grid;align-content:start;gap:7px;min-height:104px;padding:14px 12px;border-radius:14px;background:#fff}
+.hm-tile::before{content:"";position:absolute;inset:0;border:1.5px dashed rgba(37,87,214,.55);border-radius:inherit;pointer-events:none}
+.hm-ex{display:grid;justify-items:start;gap:5px;margin-top:2px}
+.hm-ex li{padding:3px 9px;border-radius:8px;background:rgba(37,87,214,.07);font-size:.8rem;font-weight:700;line-height:1.4;color:#2557D6}
+.hm-num{position:absolute;top:10px;inset-inline-end:12px;font-family:var(--font-display);font-size:1.6rem;line-height:1;color:transparent;-webkit-text-stroke:1px rgba(37,87,214,.5)}
+@media (max-width:639px){.hm-tile{padding-inline:10px}.hm-ex li{padding-inline:7px;font-size:.76rem;white-space:nowrap}}
+
+/* ---- #stores: boutique rack ---- */
+.hm-offer--store{--hm-ink:#0F6B39;--hm-acc:#178A4C;--hm-soft:rgba(23,138,76,.1);--hm-line:rgba(15,107,57,.16);--hm-bar:#178A4C;
+overflow:hidden;padding-top:46px;background:#F4ECDF;border:1px solid rgba(201,114,7,.25)}
+.hm-offer--store::before{content:"";position:absolute;inset:0 0 auto;height:26px;pointer-events:none;background:repeating-linear-gradient(90deg,#178A4C 0 22px,#FBF6EC 22px 44px);
+-webkit-mask:radial-gradient(circle 11px at 11px 15px,#000 97%,transparent) 0 0/22px 26px repeat-x,linear-gradient(#000,#000) 0 0/100% 15px no-repeat;
+mask:radial-gradient(circle 11px at 11px 15px,#000 97%,transparent) 0 0/22px 26px repeat-x,linear-gradient(#000,#000) 0 0/100% 15px no-repeat}
+.hm-offer--store .hm-base li:nth-child(5){grid-column:1/-1}
+.hm-offer--store .hm-pick-label::before,.hm-offer--store .hm-pick-label::after{height:0;border-top:1.5px dashed #C97207}
+.hm-offer--store .hm-scale li::before{justify-self:center;width:12px;height:12px;border-radius:3px}
+.hm-offer--store .hm-scale li:nth-child(2)::before{width:17px;height:17px}
+.hm-offer--store .hm-scale li:nth-child(3)::before{width:23px;height:23px}
+.hm-tags{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 0}
+.hm-tag{position:relative;padding:28px 6px 0;transform-origin:50% 5px;filter:drop-shadow(0 8px 10px rgba(92,58,16,.14));background:linear-gradient(#6B4A2A,#6B4A2A) 0 4px/100% 3px no-repeat}
+.hm-tag::before{content:"";position:absolute;z-index:1;top:5px;inset-inline-start:calc(50% - .75px);width:1.5px;height:39px;background:#C97207}
+.hm-tag::after{content:"";position:absolute;z-index:1;top:1px;inset-inline-start:calc(50% - 5px);width:10px;height:10px;border-radius:50%;background:#6B4A2A}
+.hm-tag-card{position:relative;display:grid;align-content:start;justify-items:center;text-align:center;gap:7px;height:100%;min-height:168px;padding:38px 16px 36px;background:radial-gradient(circle at 50% 16px,#F4ECDF 0 5px,#C97207 5.5px 7px,transparent 7.5px),#fff;clip-path:polygon(18px 0,calc(100% - 18px) 0,100% 18px,100% 100%,0 100%,0 18px)}
+.hm-tag-card::after{content:"";position:absolute;bottom:13px;inset-inline-start:calc(50% - 33px);width:66px;height:12px;opacity:.32;background:repeating-linear-gradient(90deg,#171420 0 2px,transparent 2px 4px,#171420 4px 5px,transparent 5px 8px,#171420 8px 11px,transparent 11px 13px)}
+.hm-aisle{position:absolute;top:10px;inset-inline-start:18px;font-size:.72rem;font-weight:700;color:#0F6B39}
+@media (max-width:639px){.hm-tag-card{min-height:0;gap:6px;padding:34px 10px 32px}.hm-aisle{top:9px;inset-inline-start:11px;font-size:.66rem}}
+@media (max-width:339px){.hm-aisle{display:none}}
+
+/* ---- quiz result extras ---- */
+.hm-qz-label{max-width:560px;margin:0 auto 10px;text-align:start;font-weight:700;color:var(--ink)}
+.hm-qz-always{max-width:560px;margin:-10px auto 22px;font-size:.95rem;color:var(--muted)}
+@media (min-width:640px){.qz-result-points{grid-template-columns:repeat(2,minmax(0,1fr));max-width:640px}.hm-qz-label{max-width:640px}}
+
+@media (min-width:640px){
+html.hm-js .hm-switch{margin-bottom:30px}
+.hm-tab{gap:12px;min-height:70px;padding-inline:14px}
+.hm-tab-ico{width:40px;height:40px;border-radius:12px}
+.hm-tab b{font-size:1.12rem}
+.hm-tab small{font-size:.8rem}
+.hm-offer{padding:32px 28px 28px}
+.hm-offer--store{padding-top:52px}
+.hm-tiles{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.hm-tags{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px 0}
+.hm-tag{padding-inline:9px}
+.hm-acts{display:flex;flex-wrap:wrap}
+.hm-acts .btn{width:auto;padding-inline:26px}
+/* both panels share one height (the taller one); the shorter one's tiles absorb the extra, with a dimension line in the middle */
+.hm-pick{align-self:stretch;display:grid;grid-template-rows:auto 1fr}
+.hm-tile{grid-template-rows:auto 1fr auto auto;align-content:stretch;gap:10px}
+.hm-tile .hm-ico{grid-row:1;align-self:start}
+.hm-tile h4{grid-row:3}
+.hm-tile .hm-ex{grid-row:4}
+.hm-tile::after{content:"";grid-row:2;align-self:center;height:9px;margin-inline:2px;border-inline:1px solid;color:rgba(37,87,214,.3);background:linear-gradient(currentColor,currentColor) center/100% 1px no-repeat}
+}
+@media (min-width:640px) and (max-width:959px){
+.hm-offer--store .hm-base{grid-template-columns:repeat(3,minmax(0,1fr))}
+.hm-offer--store .hm-base li:nth-child(5){grid-column:auto}
+}
+@media (min-width:960px){
+.hm-offers .section-head{max-width:920px}
+.hm-offers .section-head p{max-width:700px;margin-inline:auto}
+.hm-offers .section-head h2{font-size:clamp(2rem,1.9vw + 1rem,2.5rem)}
+.hm-offer{grid-template-columns:minmax(0,4fr) minmax(0,8fr);grid-template-rows:auto auto auto 1fr auto;grid-template-areas:"head pick" "base pick" "scale pick" "tracks pick" "acts acts";gap:20px 44px;padding:40px}
+.hm-offer--store{padding-top:60px}
+.hm-phead{grid-area:head}
+.hm-basebox{grid-area:base}
+.hm-pick{grid-area:pick}
+.hm-foot{display:contents}
+.hm-scale{grid-area:scale;margin-top:6px}
+.hm-tracks{grid-area:tracks;align-self:start}
+.hm-acts{grid-area:acts;margin-top:4px;padding-top:22px;border-top:1.5px dashed var(--hm-line)}
+.hm-tile{min-height:150px;padding:20px 18px}
+.hm-tile .hm-ico{width:46px;height:46px}
+}
+.hm-tiles>:nth-child(2),.hm-tags>:nth-child(2){--d:.25s}.hm-tiles>:nth-child(3),.hm-tags>:nth-child(3){--d:.35s}.hm-tiles>:nth-child(4),.hm-tags>:nth-child(4){--d:.45s}.hm-tiles>:nth-child(5),.hm-tags>:nth-child(5){--d:.55s}.hm-tiles>:nth-child(6),.hm-tags>:nth-child(6){--d:.65s}
+/* entrance: without home.js on the card reveal; with it, every time a panel is switched on */
+@media (prefers-reduced-motion:no-preference){
+html.js:not(.a11y-motion):not(.hm-js) .hm-offer--biz.visible .hm-tile::before{animation:hm-draw 1s var(--d,.15s) cubic-bezier(.3,.7,.2,1) both}
+html.js:not(.a11y-motion):not(.hm-js) .hm-offer.visible .hm-scale li::before{animation:hm-grow .7s .6s cubic-bezier(.3,.7,.2,1) both}
+html.js:not(.a11y-motion):not(.hm-js) .hm-offer--store.visible .hm-tag{animation:hm-swing 1.6s var(--d,.15s) cubic-bezier(.3,.6,.3,1) both}
+}
+html.hm-on .hm-panel.is-on .hm-offer--biz.visible .hm-tile::before{animation:hm-draw 1s var(--d,.15s) cubic-bezier(.3,.7,.2,1) both}
+html.hm-on .hm-panel.is-on .hm-offer.visible .hm-scale li::before{animation:hm-grow .7s .5s cubic-bezier(.3,.7,.2,1) both}
+html.hm-on .hm-panel.is-on .hm-offer--store.visible .hm-tag{animation:hm-swing 1.6s var(--d,.15s) cubic-bezier(.3,.6,.3,1) both}
+@keyframes hm-draw{from{clip-path:inset(0 0 100% 100%)}}
+@keyframes hm-grow{from{transform:scaleY(0)}}
+@keyframes hm-swing{0%{transform:rotate(7deg)}25%{transform:rotate(-4.5deg)}50%{transform:rotate(2.2deg)}75%{transform:rotate(-.8deg)}100%{transform:none}}

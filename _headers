@@ -5,7 +5,7 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
-  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; style-src-elem 'self'; style-src-attr 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; style-src-elem 'self'; style-src-attr 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://cloudflareinsights.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests
   Cross-Origin-Opener-Policy: same-origin
   Cross-Origin-Resource-Policy: same-origin
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
@@ -38,23 +38,35 @@
 /assets/fonts/*
   Cache-Control: public, max-age=31536000, immutable
 
+# Public images: allow cross-origin embedding (Google Images preview, link previews).
+# Overrides the site-wide CORP same-origin above; everything else stays same-origin.
 /assets/img/*
   Cache-Control: public, max-age=31536000, immutable
+  Cross-Origin-Resource-Policy: cross-origin
 
 /favicon.ico
   Cache-Control: public, max-age=604800
 
 /favicon-32.png
   Cache-Control: public, max-age=604800
+  Cross-Origin-Resource-Policy: cross-origin
 
 /favicon-48.png
   Cache-Control: public, max-age=604800
+  Cross-Origin-Resource-Policy: cross-origin
 
 /favicon-192.png
   Cache-Control: public, max-age=604800
+  Cross-Origin-Resource-Policy: cross-origin
 
 /favicon-512.png
   Cache-Control: public, max-age=604800
+  Cross-Origin-Resource-Policy: cross-origin
 
 /apple-touch-icon.png
   Cache-Control: public, max-age=604800
+  Cross-Origin-Resource-Policy: cross-origin
+
+# IndexNow key file (Bing): must be served as plain text
+/596302da8fd68cffcaca356d4b5391bd.txt
+  Content-Type: text/plain; charset=utf-8

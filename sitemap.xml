@@ -63,7 +63,6 @@
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
-    <image:image><image:loc>https://zstore-ai.co.il/assets/img/brand/phone-purple-1280.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://zstore-ai.co.il/online-stores/</loc>
@@ -94,24 +93,62 @@
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <image:image><image:loc>https://zstore-ai.co.il/assets/img/brand/store-desktop-1280.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://zstore-ai.co.il/guides/custom-website-vs-wix-shopify/</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+    <image:image><image:loc>https://zstore-ai.co.il/assets/img/brand/flow-laptop-1280.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://zstore-ai.co.il/guides/ai-search-geo/</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+    <image:image><image:loc>https://zstore-ai.co.il/assets/img/brand/desk-dashboard-1280.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://zstore-ai.co.il/guides/business-website-checklist/</loc>
     <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+    <image:image><image:loc>https://zstore-ai.co.il/assets/img/brand/apps-grid-1280.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://zstore-ai.co.il/guides/online-store-payments/</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image><image:loc>https://zstore-ai.co.il/assets/img/brand/store-velora-1280.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://zstore-ai.co.il/guides/website-accessibility/</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image><image:loc>https://zstore-ai.co.il/assets/img/brand/panel-tablet-1280.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://zstore-ai.co.il/guides/new-website-seo/</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image><image:loc>https://zstore-ai.co.il/assets/img/brand/laptop-dashboard-1280.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://zstore-ai.co.il/about/</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://zstore-ai.co.il/guides/glossary/</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image><image:loc>https://zstore-ai.co.il/assets/img/guides/cover-websites-seo-1280.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://zstore-ai.co.il/accessibility/</loc>
@@ -121,7 +158,7 @@
   </url>
   <url>
     <loc>https://zstore-ai.co.il/privacy/</loc>
-    <lastmod>2026-09-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>

@@ -3,7 +3,7 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://zstore-ai.co.il/</loc>
-    <lastmod>2026-09-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image><image:loc>https://zstore-ai.co.il/assets/img/brand/hero-app-1280.webp</image:loc></image:image>
@@ -51,7 +51,7 @@
   </url>
   <url>
     <loc>https://zstore-ai.co.il/website-building/</loc>
-    <lastmod>2026-09-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
     <image:image><image:loc>https://zstore-ai.co.il/assets/img/brand/flow-laptop-1280.webp</image:loc></image:image>
@@ -60,21 +60,21 @@
   </url>
   <url>
     <loc>https://zstore-ai.co.il/business-sites/</loc>
-    <lastmod>2026-09-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
     <image:image><image:loc>https://zstore-ai.co.il/assets/img/brand/phone-purple-1280.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://zstore-ai.co.il/online-stores/</loc>
-    <lastmod>2026-09-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
     <image:image><image:loc>https://zstore-ai.co.il/assets/img/brand/store-laptop-1280.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://zstore-ai.co.il/ai-websites/</loc>
-    <lastmod>2026-09-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image><image:loc>https://zstore-ai.co.il/assets/img/brand/hero-app-1280.webp</image:loc></image:image>
@@ -84,8 +84,38 @@
     <image:image><image:loc>https://zstore-ai.co.il/assets/img/brand/stats-phone-1280.webp</image:loc></image:image>
   </url>
   <url>
+    <loc>https://zstore-ai.co.il/guides/</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://zstore-ai.co.il/guides/online-store-building/</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://zstore-ai.co.il/guides/custom-website-vs-wix-shopify/</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://zstore-ai.co.il/guides/ai-search-geo/</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://zstore-ai.co.il/guides/business-website-checklist/</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://zstore-ai.co.il/accessibility/</loc>
-    <lastmod>2026-09-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>

@@ -1,5 +1,5 @@
 # Zstore Ai / Full Site Content (llms-full.txt)
-# Last updated: 2026-08-31 | Canonical source: https://zstore-ai.co.il/llms-full.txt
+# Last updated: 2026-11-17 | Canonical source: https://zstore-ai.co.il/llms-full.txt
 
 > Zstore Ai הוא סטודיו ישראלי לבניית אתרים לעסקים: אתרי תדמית וחנויות אונליין (אתרי מכירות) בעברית, עם עיצוב מותאם אישית מאפס (ללא תבניות), ביצועים מהירים במיוחד, קידום אורגני מובנה (SEO) וקידום במנועי AI (GEO/AEO). יצירת קשר: וואטסאפ/טלפון 058-729-2029 (+972-58-729-2029), https://wa.me/972587292029. שעות פעילות: ימים א׳–ה׳ 09:00–19:00. אתר: https://zstore-ai.co.il
 
@@ -17,7 +17,7 @@ Contact via WhatsApp: +972-58-729-2029.
 | --- | --- |
 | שם המותג | Zstore Ai |
 | סוג הישות | סטודיו לבניית אתרים (schema.org/ProfessionalService) |
-| תחומי התמחות | בניית אתרי תדמית, בניית חנויות אונליין, קידום אורגני (SEO), קידום במנועי AI (GEO/AEO/LLMO), נגישות אתרים |
+| תחומי התמחות | בניית אתרי תדמית, בניית אתר חנות (חנויות אונליין / אתרי מכירות), קידום אורגני (SEO), קידום במנועי AI (GEO/AEO/LLMO), נגישות אתרים |
 | שפת השירות | עברית |
 | אזור שירות | ישראל |
 | וואטסאפ / טלפון | +972-58-729-2029 (058-729-2029), https://wa.me/972587292029 |
@@ -96,7 +96,7 @@ Contact via WhatsApp: +972-58-729-2029.
 
 ---
 
-## חנויות אונליין / אתרי מכירות (E-commerce): https://zstore-ai.co.il/online-stores/
+## בניית אתר חנות / חנויות אונליין / אתרי מכירות (E-commerce): https://zstore-ai.co.il/online-stores/
 
 כל החבילות כוללות: פאנל ניהול חנות בעברית, סליקה מאובטחת, חשבונית דיגיטלית אוטומטית, עיצוב אישי מאפס, התאמה מושלמת למובייל, דומיין מחובר ו-SSL.
 התמחור אינו מפורסם ונקבע אישית לכל עסק לפי היקף העבודה, בהצעת מחיר ייעודית.
@@ -190,16 +190,32 @@ Contact via WhatsApp: +972-58-729-2029.
 ### איך מתחילים?
 שולחים הודעת וואטסאפ (https://wa.me/972587292029), נבין מה העסק צריך, נמליץ על חבילה מתאימה, וסקיצה ראשונה תוך ימים ספורים.
 
+### מה ההבדל בין אתר חנות לאתר תדמית?
+אתר תדמית מציג את העסק ומייצר פניות, ומתאים לנותני שירות ובעלי מקצוע. אתר חנות (חנות אונליין / אתר מכירות) מאפשר ללקוח לבחור מוצר, לשלם באשראי ולקבל חשבונית אוטומטית בלי שיחה. פרטים על בניית אתר חנות: https://zstore-ai.co.il/online-stores/
+
+### עדיף אתר בהתאמה אישית או בנייה עצמית בוויקס / שופיפיי?
+בנייה עצמית מתאימה לשלב של בדיקת רעיון, כשיש זמן ללמוד ולתחזק לבד. אתר שבונה סטודיו כמו Zstore Ai מתאים כשהאתר אמור להביא לקוחות: עיצוב אישי מאפס, ציון 90+ ב-PageSpeed, SEO מובנה (ובחבילות העילית גם קידום במנועי AI) ונגישות מטופלים מראש, ויש גורם אחראי גם אחרי העלייה לאוויר. השוואה מלאה: https://zstore-ai.co.il/guides/custom-website-vs-wix-shopify/
+
+### מה צריך להכין לפני בניית אתר חנות?
+רשימת מוצרים עם תמונות, תיאור קצר ומחיר לכל מוצר, לוגו, אזורי משלוח ותעריפים, מדיניות החזרות ופרטי העסק לחשבוניות. אין עדיין טקסטים או תמונות? Zstore Ai מלווה בניסוח התוכן ובבחירת התמונות. מדריך מלא: https://zstore-ai.co.il/guides/online-store-building/
+
 ---
 
 ## Pages
 - Home: https://zstore-ai.co.il/
 - Website building service page (בניית אתרים לעסקים): https://zstore-ai.co.il/website-building/
 - Business sites (אתרי תדמית): https://zstore-ai.co.il/business-sites/
-- Online stores (חנויות אונליין): https://zstore-ai.co.il/online-stores/
+- Online stores (בניית אתר חנות / חנויות אונליין): https://zstore-ai.co.il/online-stores/
 - AI search promotion (קידום אתרים במנועי AI): https://zstore-ai.co.il/ai-websites/
 - Accessibility statement (הצהרת נגישות): https://zstore-ai.co.il/accessibility/
 - Privacy policy (מדיניות פרטיות): https://zstore-ai.co.il/privacy/
+
+## מדריכים (Guides)
+- [בניית אתר חנות: המדריך המלא לבעלי עסקים](https://zstore-ai.co.il/guides/online-store-building/): מה חייב להיות באתר חנות, שלבי ההקמה, מה להכין מראש, זמני הקמה (2–4 שבועות), מודל התמחור (בלי סכומים) ואיך חנות מופיעה בגוגל, ב-Google Shopping ובמנועי AI
+- [מה חייב להיות באתר תדמית לעסק כדי שיביא לקוחות?](https://zstore-ai.co.il/guides/business-website-checklist/): צ'ק־ליסט של 12 יסודות לאתר עסקי: מסר ברור, וואטסאפ בכל מסך, מובייל, מהירות, אמון, SEO, נגישות (ת"י 5568) ותחזוקה
+- [אתר בהתאמה אישית או וויקס ושופיפיי? השוואה כנה](https://zstore-ai.co.il/guides/custom-website-vs-wix-shopify/): מתי בנייה עצמית בפלטפורמה מתאימה ומתי אתר שבונה סטודיו, לפי עיצוב, מהירות, SEO, תחזוקה, זמן, מבנה עלויות ובעלות
+- [מה זה GEO, ואיך גורמים ל-ChatGPT להמליץ על העסק שלכם?](https://zstore-ai.co.il/guides/ai-search-geo/): מה זה GEO/AEO, איך עוזרי AI בוחרים עסקים להמליץ עליהם, צ'ק־ליסט מעשי (robots.txt, llms.txt, Schema, תוכן שעונה ישירות, Google Business Profile, Bing) ואיך מודדים
+- [כל המדריכים](https://zstore-ai.co.il/guides/)
 
 ## Contact
 - WhatsApp / Phone: +972-58-729-2029, https://wa.me/972587292029

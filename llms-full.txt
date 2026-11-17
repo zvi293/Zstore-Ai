@@ -373,9 +373,19 @@ https://zstore-ai.co.il/guides/custom-website-vs-wix-shopify/
 - ב-Zstore Ai כל אתר מעוצב מאפס; סליקה וחשבונית דיגיטלית הן חלק מהבסיס בכל חנות; אתר תדמית באוויר בדרך כלל תוך 7–14 ימי עסקים וחנות תוך 2–4 שבועות; הדומיין על שם הלקוח, והאתר באוויר כל עוד המנוי פעיל.
 - שאלות: מעבר מוויקס (אפשר, עם הפניות 301), האם אתר בוויקס מופיע בגוגל (כן), וויקס או שופיפיי לחנות, השוואת עלויות (מבנה שונה; ב-Zstore Ai הקמה חד־פעמית ומנוי חודשי, מחיר אישי), ומה עם וורדפרס.
 
+### איך להופיע בגוגל מפות? המדריך ל-Google Business Profile
+https://zstore-ai.co.il/guides/google-business-profile/
+כדי להופיע בגוגל מפות פותחים פרופיל עסק בגוגל (Google Business Profile), מאמתים אותו וממלאים בו את כל הפרטים בדיוק: שם העסק האמיתי, קטגוריה ראשית נכונה, כתובת או אזורי שירות, טלפון, שעות פעילות, קישור לאתר ותמונות. אחר כך מתחזקים אותו עם ביקורות ותגובות. גוגל מדרגת תוצאות מקומיות בעיקר לפי רלוונטיות, מרחק ובולטות, ועל שניים מהם (רלוונטיות ובולטות) בעל העסק יכול להשפיע.
+- למי מתאים: עסקים שפוגשים לקוחות פנים אל פנים, בכתובת או באזור שירות; לפי ההנחיות של גוגל עסק שפועל רק אונליין לא זכאי. פתיחה וניהול של הפרופיל לא עולים כסף.
+- שישה צעדים: חשבון גוגל של בעל העסק, שם אמיתי בלי מילות מפתח, קטגוריה ראשית, כתובת או אזור שירות, טלפון ואתר, אימות (גוגל בוחרת את השיטה, למשל סרטון קצר; כשנפתח הפרופיל של Zstore Ai הוצע רק אימות בסרטון).
+- מה למלא: קטגוריות, שירותים, שעות ושעות חג, תיאור עד 750 תווים, תמונות אמיתיות, קישורים ומאפיינים. האתר והפרופיל: פרטי NAP זהים, קישור הדדי, LocalBusiness Schema ועמודי אזור לעסק שמשרת כמה ערים.
+- ביקורות: לבקש באופן קבוע ובקישור ישיר, לענות לכל ביקורת, בלי תמריצים ובלי סינון (מדיניות גוגל). תחזוקה: עדכונים, תמונות, בדיקת הצעות עריכה ונתוני ביצועים. טעויות: מילות מפתח בשם, כתובת לא אמיתית, פרופיל כפול, פרטים סותרים, ביקורות בלי תגובה.
+- ב-Zstore Ai כל אתר תדמית נבנה עם SEO מובנה וכפתור וואטסאפ בכל מסך; אפשר לבחור עמודי אזורים ו-Schema מורחב.
+- שאלות: האם הפרופיל עולה כסף (לא), תוך כמה זמן מופיעים במפות, מה עושים כשמישהו אחר פתח פרופיל לעסק (בקשת בעלות), מחיקת ביקורת שלילית (רק דיווח על הפרה), ומילות מפתח בשם העסק (נוגד את ההנחיות).
+
 ### מילון מונחים: בניית אתרים, חנויות אונליין וקידום בגוגל וב-AI
 https://zstore-ai.co.il/guides/glossary/
-40 מונחים מוסברים בשפה פשוטה, עם חיפוש ולפי אות, ובמונחים המרכזיים קישור למדריך שמרחיב: אחסון אתרים (Hosting), אינדוקס (Indexing), אתר חנות (חנות אונליין), אתר סטטי (Static Site), אתר תדמית, ביטוי מפתח (Keyword), דומיין (Domain), דף נחיתה (Landing Page), המרה (Conversion), הצהרת נגישות, וריאציות מוצר, חשבונית דיגיטלית, ליד (Lead), מפת אתר (Sitemap), נגישות אתרים, נתונים מובנים (Schema), סליקה וחברת סליקה, פאנל ניהול, צ׳ק־אאוט (Checkout), קידום אורגני (SEO), קישור נכנס (Backlink), קישור פנימי (Internal Link), ת"י 5568, תעודת SSL ו-HTTPS, AEO (Answer Engine Optimization), Bing Webmaster Tools, CDN (Content Delivery Network), Core Web Vitals, CTA (קריאה לפעולה), GEO (Generative Engine Optimization), Google AI Overviews, Google Business Profile, Google Search Console, Google Shopping ו-Merchant Center, IndexNow, llms.txt, PageSpeed Insights, PCI-DSS, robots.txt, WCAG.
+42 מונחים מוסברים בשפה פשוטה, עם חיפוש ולפי אות, ובמונחים המרכזיים קישור למדריך שמרחיב: אחסון אתרים (Hosting), אינדוקס (Indexing), אתר חנות (חנות אונליין), אתר סטטי (Static Site), אתר תדמית, ביטוי מפתח (Keyword), דומיין (Domain), דף נחיתה (Landing Page), המרה (Conversion), הצהרת נגישות, וריאציות מוצר, חשבונית דיגיטלית, ליד (Lead), מפת אתר (Sitemap), נגישות אתרים, נתונים מובנים (Schema), סליקה וחברת סליקה, פאנל ניהול, צ׳ק־אאוט (Checkout), קידום אורגני (SEO), קישור נכנס (Backlink), קישור פנימי (Internal Link), ת"י 5568, תעודת SSL ו-HTTPS, AEO (Answer Engine Optimization), Bing Webmaster Tools, CDN (Content Delivery Network), Core Web Vitals, CTA (קריאה לפעולה), GEO (Generative Engine Optimization), Google AI Overviews, Google Business Profile, Google Search Console, Google Shopping ו-Merchant Center, IndexNow, llms.txt, Local Pack (תוצאות מקומיות במפה), NAP (שם, כתובת, טלפון), PageSpeed Insights, PCI-DSS, robots.txt, WCAG.
 - עובדות על Zstore Ai מתוך המילון: האחסון כלול במנוי החודשי, יחד עם האבטחה, הגיבויים והתחזוקה; הדומיין נרשם על שם הלקוח; פאנל הניהול (בכל חנות, ובאתרי תדמית שבוחרים בו) בעברית ועובד גם מהטלפון; האתרים מכוונים לציון 90 ומעלה ב-PageSpeed Insights.
 
 ---
@@ -407,6 +417,7 @@ https://zstore-ai.co.il/guides/glossary/
 - Guide: https://zstore-ai.co.il/guides/new-website-seo/
 - Guide: https://zstore-ai.co.il/guides/ai-search-geo/
 - Guide: https://zstore-ai.co.il/guides/custom-website-vs-wix-shopify/
+- Guide: https://zstore-ai.co.il/guides/google-business-profile/
 - Glossary (מילון מונחים): https://zstore-ai.co.il/guides/glossary/
 - Short version: https://zstore-ai.co.il/llms.txt
 - English site: https://zstore-ai.com/

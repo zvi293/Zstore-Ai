@@ -83,9 +83,10 @@
   </url>
   <url>
     <loc>https://zstore-ai.co.il/guides/</loc>
-    <lastmod>2026-11-17</lastmod>
+    <lastmod>2026-11-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+    <image:image><image:loc>https://zstore-ai.co.il/assets/img/guides/guides-hub-search-lens-1280.webp?v=f70cb99f</image:loc></image:image>
   </url>
   <url>
     <loc>https://zstore-ai.co.il/guides/online-store-building/</loc>
@@ -135,6 +136,13 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <image:image><image:loc>https://zstore-ai.co.il/assets/img/brand/laptop-dashboard-1280.webp?v=940c1c3a</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://zstore-ai.co.il/guides/google-business-profile/</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image><image:loc>https://zstore-ai.co.il/assets/img/guides/gbp-search-constellation-storefront-1280.webp?v=b26ddd64</image:loc></image:image>
   </url>
   <url>
     <loc>https://zstore-ai.co.il/about/</loc>

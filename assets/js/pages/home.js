@@ -43,7 +43,9 @@
     sec.setAttribute('data-mode', panels[i].id === 'stores' ? 'store' : 'biz');
   };
   var indexOfHash = function () {
-    var h = decodeURIComponent(location.hash.slice(1));
+    var h;
+    /* a malformed hash ("#%E0%A4%A") must not stop the switch from initialising */
+    try { h = decodeURIComponent(location.hash.slice(1)); } catch (e) { return -1; }
     for (var i = 0; i < panels.length; i++) if (panels[i].id === h) return i;
     return -1;
   };

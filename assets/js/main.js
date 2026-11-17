@@ -225,7 +225,8 @@
     var endCycle = function () { userTouched = true; stopCycle(); };
     var startCycle = function () {
       if (cycle || userTouched || motionOff()) return;
-      cycle = setInterval(function () { setActive(active + 1); }, 4200);
+      /* the a11y panel's "stop animations" can be switched on while the section is on screen */
+      cycle = setInterval(function () { if (motionOff()) { stopCycle(); return; } setActive(active + 1); }, 4200);
     };
 
     pins.forEach(function (pin, i) {
@@ -244,6 +245,8 @@
       });
     });
 
+    /* keyboard focus inside the pins ends the carousel too, so the focused pin stays the selected one */
+    hotspots.addEventListener('focusin', endCycle);
     setActive(0);
     /* only cycle while the section is actually on screen */
     if ('IntersectionObserver' in window) {
@@ -274,11 +277,12 @@
       var walk = function (node) {
         if (node.nodeType === 3) {
           if (!node.nodeValue.trim()) return; // whitespace-only nodes stay untouched
-          var frag = document.createDocumentFragment();
+          var toks = [], lat = [];
           node.nodeValue.split(/(\s+)/).forEach(function (part) {
             if (!part) return;
             if (/^\s+$/.test(part)) {
-              frag.appendChild(document.createTextNode(' '));
+              toks.push(document.createTextNode(' '));
+              lat.push(false);
               return;
             }
             // word wrapper keeps line-breaking intact once letters become inline-block
@@ -318,8 +322,29 @@
               chars.push(c);
               run.appendChild(c);
             });
-            frag.appendChild(word);
+            toks.push(word);
+            lat.push(!/[\u0590-\u05FF\uFB1D-\uFB4F]/.test(part) && /[A-Za-z0-9]/.test(part));
           });
+          // inline-block words count as neutrals for bidi, so in an rtl title a run
+          // of Latin words is laid out right-to-left ("Search Console" showed as
+          // "Console Search"): two or more adjacent Latin words become one ltr island
+          var frag = document.createDocumentFragment();
+          for (var ti = 0; ti < toks.length; ti++) {
+            if (lat[ti]) {
+              var tj = ti;
+              while (tj + 2 < toks.length && toks[tj + 1].nodeType === 3 && lat[tj + 2]) tj += 2;
+              if (tj > ti) {
+                var isl = document.createElement('span');
+                isl.className = 'stl';
+                isl.dir = 'ltr';
+                for (var tk = ti; tk <= tj; tk++) isl.appendChild(toks[tk]);
+                frag.appendChild(isl);
+                ti = tj;
+                continue;
+              }
+            }
+            frag.appendChild(toks[ti]);
+          }
           node.parentNode.replaceChild(frag, node);
         } else if (node.nodeType === 1 && node.nodeName.toLowerCase() !== 'svg') {
           Array.prototype.slice.call(node.childNodes).forEach(walk);
@@ -659,7 +684,7 @@
       var tocWrap = document.createElement('div');
       tocWrap.className = 'toc-float';
       tocWrap.innerHTML =
-        '<button type="button" class="toc-btn" aria-expanded="false" aria-controls="toc-panel">' +
+        '<button type="button" class="toc-btn" aria-label="תוכן עניינים" aria-expanded="false" aria-controls="toc-panel">' +
           '<svg class="toc-ring" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="19"></circle><circle class="toc-ring-fill" cx="22" cy="22" r="19"></circle></svg>' +
           '<svg class="toc-ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/></svg>' +
           '<span class="toc-label">תוכן עניינים</span>' +
@@ -750,13 +775,24 @@
   if (quiz) {
     var qSteps = [].slice.call(quiz.querySelectorAll('[data-qz-step]'));
     var qBar = quiz.querySelector('[data-qz-bar]');
-    var qCount = quiz.querySelector('[data-qz-count]');
+    var qTrail = quiz.querySelector('[data-qz-trail]');
+    var qDots = [].slice.call(quiz.querySelectorAll('[data-qz-goto]'));
+    var qDone = false;
     var qLive = quiz.querySelector('[data-qz-live]');
     var qNav = quiz.querySelector('[data-qz-nav]');
     var qBack = quiz.querySelector('[data-qz-back]');
     var qNext = quiz.querySelector('[data-qz-next]');
     var qRes = quiz.querySelector('[data-qz-result]');
+    var qFocus = quiz.querySelector('[data-qz-focus]');
+    var qHead = document.querySelector('.site-header');
     var qAt = 0;
+    /* bring the stage's top (trail + question / result headline) out from under the sticky header,
+       then focus without letting the browser scroll again (it would only scroll "just enough") */
+    var qReveal = function (el) {
+      var hh = qHead ? qHead.offsetHeight : 0;
+      if (quiz.getBoundingClientRect().top < hh) quiz.scrollIntoView({ block: 'start', behavior: motionOff() ? 'auto' : 'smooth' });
+      try { el.focus({ preventScroll: true }); } catch (err) { el.focus(); }
+    };
     /* one offer, no packages: the answers pick a site type, a scope track and the services worth choosing */
     var TYPE = { biz: 'אתר תדמית', store: 'חנות אונליין', both: 'חנות + עמודי תדמית' };
     var TRACK = { biz: ['מסלול ממוקד', 'מסלול מתרחב', 'מסלול רחב'], store: ['קטלוג ממוקד', 'קטלוג מתרחב', 'קטלוג גדול'] };
@@ -802,21 +838,42 @@
       var el = quiz.querySelector('input[name="' + name + '"]:checked');
       return el ? el.closest('.qz-opt').querySelector('b').textContent : '';
     };
+    /* the answer trail: each answered dot shows the icon of the picked answer and jumps back to that question */
+    var trail = function () {
+      var open = qSteps.length;
+      qSteps.forEach(function (st, j) { if (open === qSteps.length && !val(st.querySelector('input').name)) open = j; });
+      qDots.forEach(function (b, j) {
+        var on = quiz.querySelector('input[name="' + qSteps[j].querySelector('input').name + '"]:checked');
+        var ico = b.firstElementChild;
+        var now = !qDone && j === qAt;
+        b.disabled = j > open;
+        b.classList.toggle('is-now', now);
+        b.classList.toggle('is-done', !!on);
+        if (now) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
+        b.setAttribute('aria-label', 'שאלה ' + (j + 1) + (on ? ': ' + on.closest('.qz-opt').querySelector('b').textContent : ''));
+        var svg = on && on.closest('.qz-opt').querySelector('.qz-opt-ico svg');
+        if (svg) {
+          if (ico.getAttribute('data-v') !== on.value) { ico.textContent = ''; ico.appendChild(svg.cloneNode(true)); ico.setAttribute('data-v', on.value); }
+        } else { ico.textContent = j + 1; ico.removeAttribute('data-v'); }
+      });
+    };
     var show = function (i, focus) {
+      quiz.setAttribute('data-dir', i < qAt ? 'back' : 'fwd');
+      qDone = false;
       qAt = i;
+      quiz.setAttribute('data-step', i + 1);
       qSteps.forEach(function (st, k) { st.hidden = k !== i; });
       qRes.hidden = true;
       qNav.hidden = false;
       qBack.disabled = i === 0;
       qBack.style.visibility = i === 0 ? 'hidden' : 'visible';
       qNext.disabled = !val(qSteps[i].querySelector('input').name);
-      qNext.lastChild.textContent = '';
-      qNext.firstChild.textContent = i === qSteps.length - 1 ? ' לקבלת ההמלצה ' : ' הבא ';
-      var pct = (i / qSteps.length) * 100;
-      qBar.style.transform = 'scaleX(' + (pct / 100) + ')';
-      qCount.textContent = (i + 1) + ' / ' + qSteps.length;
-      qLive.textContent = 'שאלה ' + (i + 1) + ' מתוך ' + qSteps.length;
-      if (focus) qSteps[i].querySelector('legend').focus();
+      qNext.firstChild.textContent = i === qSteps.length - 1 ? 'לקבלת ההמלצה' : 'הבא';
+      qBar.style.transform = 'scaleX(' + (i / (qSteps.length - 1)) + ')';
+      trail();
+      /* the focused legend already says "שאלה X מתוך 5", so the live region speaks only when focus stays put */
+      qLive.textContent = focus ? '' : (qAt > 0 ? 'שאלה ' + (i + 1) + ' מתוך ' + qSteps.length : '');
+      if (focus) qReveal(qSteps[i].querySelector('legend'));
     };
     var result = function () {
       var t = val('q1');
@@ -826,7 +883,23 @@
       var picks = picksFor(type, k, sc, u);
       var soon = when === 'fast' ? (type === 'biz' ? 'רוצים מהר? אתר תדמית עולה לאוויר בדרך כלל תוך \u20667–14\u2069 ימי עסקים.' : 'רוצים מהר? חנות עולה לאוויר בדרך כלל תוך \u20662–4\u2069 שבועות.') :
         (when === 'look' ? 'אין לחץ: שלחו לנו את התשובות ונחזור אליכם עם הצעה מסודרת לעיון.' : '');
-      quiz.querySelector('[data-qz-title]').textContent = title;
+      quiz.querySelector('[data-qz-title]').textContent = TYPE[type];
+      /* the result badge wears the icon of the matching first answer */
+      var badge = quiz.querySelector('[data-qz-badge]');
+      var bIco = quiz.querySelector('input[name="q1"][value="' + (type === 'both' ? 'mixed' : type) + '"]');
+      bIco = bIco && bIco.closest('.qz-opt').querySelector('.qz-opt-ico svg');
+      if (badge && bIco) { badge.textContent = ''; badge.appendChild(bIco.cloneNode(true)); }
+      quiz.querySelector('[data-qz-track]').textContent = TRACK[type][k];
+      var scope = quiz.querySelector('[data-qz-scope]');
+      scope.innerHTML = '';
+      scope.style.setProperty('--qz2-k', k);
+      TRACK[type].forEach(function (name, n) {
+        var li = document.createElement('li');
+        li.textContent = name;
+        if (n < k) li.className = 'is-past';
+        if (n === k) { li.className = 'is-on'; li.setAttribute('aria-current', 'true'); }
+        scope.appendChild(li);
+      });
       quiz.querySelector('[data-qz-why]').textContent = WHY[type][k] + (t === 'unsure' ? ' זו נקודת פתיחה לפי מה שסיפרתם, ונדייק יחד בשיחה.' : '') + (soon ? ' ' + soon : '');
       var ul = quiz.querySelector('[data-qz-points]');
       ul.innerHTML = '';
@@ -835,10 +908,10 @@
       var go = quiz.querySelector('[data-qz-pkg]');
       if (type === 'biz') {
         go.href = '/business-sites/' + (keys ? '?pick=' + keys : '') + '#offer';
-        go.textContent = 'לבחור מה האתר יכלול';
+        go.firstChild.textContent = 'לבחור מה האתר יכלול';
       } else {
         go.href = '/online-stores/?size=' + SIZE[k] + (keys ? '&pick=' + keys : '') + '#offer';
-        go.textContent = 'לבחור מה בחנות';
+        go.firstChild.textContent = 'לבחור מה בחנות';
       }
       var msg = 'היי! מילאתי את השאלון באתר. ההמלצה: ' + title + '.\n' +
         'מה שהתאים לנו: ' + (picks.length ? picks.join(', ') : 'הבסיס') + '.\n' +
@@ -849,22 +922,28 @@
       qNav.hidden = true;
       qRes.hidden = false;
       qBar.style.transform = 'scaleX(1)';
-      qCount.textContent = '✓';
-      qLive.textContent = 'ההמלצה שלנו: ' + title;
-      qRes.focus();
+      qDone = true;
+      quiz.setAttribute('data-step', 'done');
+      trail();
+      qLive.textContent = '';
+      qReveal(qFocus);
     };
     var advance = function () {
       if (!val(qSteps[qAt].querySelector('input').name)) return;
       if (qAt < qSteps.length - 1) show(qAt + 1, true); else result();
     };
     quiz.addEventListener('change', function (e) {
-      if (e.target.type === 'radio') qNext.disabled = false;
+      if (e.target.type !== 'radio') return;
+      qNext.disabled = false;
+      trail();
+      var d = qDots[qAt];
+      if (d) { d.classList.remove('is-pop'); void d.offsetWidth; d.classList.add('is-pop'); }
     });
-    /* a pointer pick moves on by itself; keyboard users change their pick with arrows and go on with Enter / "הבא" */
-    quiz.addEventListener('click', function (e) {
-      var opt = e.target.closest('.qz-opt');
-      if (opt && e.detail > 0) setTimeout(advance, motionOff() ? 0 : 380);
+    qTrail.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-qz-goto]');
+      if (b && !b.disabled) show(+b.getAttribute('data-qz-goto'), true);
     });
+    /* owner 17/11: a pick only selects — the quiz moves on only with "הבא" (or Enter on a picked answer) */
     quiz.addEventListener('keydown', function (e) {
       if (e.key === 'Enter' && e.target.type === 'radio') { e.preventDefault(); advance(); }
     });
@@ -875,6 +954,12 @@
       show(0, true);
     });
     quiz.addEventListener('submit', function (e) { e.preventDefault(); advance(); });
+    /* the floating WhatsApp / back-to-top buttons step aside while the stage fills the bottom band they float in */
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        document.documentElement.classList.toggle('qz-band', entries[0].isIntersecting);
+      }, { rootMargin: '-80% 0px 0px 0px', threshold: 0 }).observe(quiz);
+    }
     quiz.classList.add('is-ready');
     show(0, false);
   }
@@ -914,7 +999,7 @@
     });
   }
 
-  /* ---------- floating WhatsApp (phones): appears only after the visitor has
+  /* ---------- floating WhatsApp (phones, tablets and laptops up to 1347px): appears only after the visitor has
      scrolled past the hero's own WhatsApp button, and steps aside while an
      interactive zone sits in the bottom band of the screen where it floats
      (quiz, offer builder, tabs, FAQ, a WhatsApp CTA card, the final CTA, or
@@ -922,7 +1007,8 @@
      button, a tab, a question row or a result line ---------- */
   var waFloat = document.querySelector('.wa-float');
   if (waFloat && 'IntersectionObserver' in window) {
-    var waMq = window.matchMedia('(max-width: 760px)');
+    /* up to 1347px the side gutter is narrower than the floating buttons, so they can sit on content there too */
+    var waMq = window.matchMedia('(max-width: 1347px)');
     var waHero = document.querySelector('.hero-ctas .btn-wa');
     var waPast = !waHero;
     var waZones = new Set();
@@ -931,6 +1017,13 @@
     var tocFloat = document.querySelector('.toc-float');
     var waSync = function () {
       var hide = waMq.matches && (!waPast || waZones.size > 0);
+      /* the back-to-top button (tablets/laptops; hidden on phones) steps aside for the same zones */
+      var tt = document.querySelector('.to-top');
+      if (tt) {
+        var ttHide = waMq.matches && waZones.size > 0 && document.activeElement !== tt;
+        tt.classList.toggle('tt-hide', ttHide);
+        if (ttHide) tt.setAttribute('tabindex', '-1'); else tt.removeAttribute('tabindex');
+      }
       /* never pull the button out from under keyboard focus */
       if (hide && document.activeElement === waFloat) hide = false;
       waFloat.classList.toggle('wa-hide', hide);
@@ -953,7 +1046,7 @@
         waSync();
       }, { rootMargin: '0px 0px 1000000px 0px', threshold: 0 }).observe(waHero);
     }
-    var waZoneEls = document.querySelectorAll('[data-hide-wa-float], form[data-quiz], section#offer, [role="tablist"], [role="tabpanel"], .faq-list, .faq-cta-card, .cta-final');
+    var waZoneEls = document.querySelectorAll('[data-hide-wa-float], form[data-quiz], section#offer, [role="tablist"], [role="tabpanel"], .faq-list, .faq-cta-card, .cta-final, .site-footer, .hero-ctas, .guide-related');
     if (waZoneEls.length) {
       /* root = the bottom 14% of the screen (about 118px on a phone): the band the button occupies */
       var waZoneIo = new IntersectionObserver(function (entries) {

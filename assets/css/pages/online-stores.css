@@ -88,6 +88,8 @@ main :is(h1,h2){text-wrap:balance}
 .mk-size-opt.is-on::before{background:var(--mk-green);border-color:var(--mk-green)}
 .mk-size-opt:has(input:focus-visible){box-shadow:var(--mk-ring)}
 .mk-size-hint{margin:10px 0 0;font-size:.9rem;color:var(--muted)}
+/* the hint grows from one line to two after a pick: reserve both so the tabs below never shift */
+@media (max-width:639px){.mk-size-hint{min-height:2lh}}
 .mk-tabs{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin-inline:-20px;padding:6px 20px 10px;scroll-padding-inline:20px;mask:linear-gradient(90deg,transparent,#000 18px,#000 calc(100% - 18px),transparent)}
 .mk-tabs::-webkit-scrollbar{display:none}
 .mk-tab{position:relative;flex:none;scroll-snap-align:start;display:inline-flex;align-items:center;gap:8px;min-height:48px;padding-block:6px;padding-inline:8px 16px;border-radius:12px;border:2px solid var(--mk-forest);background:#fff;color:var(--mk-forest);font:700 .92rem var(--font-body);white-space:nowrap;cursor:pointer}

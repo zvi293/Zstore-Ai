@@ -1,4 +1,4 @@
-/* home: tighter section rhythm + one offers section with a switch (#tadmit = blueprint sheet ⇄ #stores = boutique rack) + quiz result extras. prefix hm- */
+/* home: tighter section rhythm + one offers section with a switch (#tadmit = blueprint sheet ⇄ #stores = boutique rack) + the quiz v2 "match stage" (end of file, prefix qz2-/qz-). prefix hm- */
 
 /* ---- home rhythm (section spacing is global in style.css now) ---- */
 /* kept: beats the global .works .section-head{margin-bottom:34px} so the works heading matches the other home sections */
@@ -7,6 +7,9 @@
 
 /* ---- the switch (tabs; shown only once home.js is running) ---- */
 .hm-sec .section-head{max-width:780px}
+/* the offers orbs are absolute: a positioned container keeps the heading above them, and the lead is darkened for the violet wash behind it */
+.hm-offers > .container{position:relative}
+.hm-offers .section-head p:not(.eyebrow){color:#3F3B52}
 .hm-switch{display:none}
 html.hm-js .hm-switch{position:relative;display:grid;grid-template-columns:1fr 1fr;width:100%;max-width:560px;margin:0 auto 22px;padding:6px;border-radius:22px;background:rgba(255,255,255,.9);border:1px solid rgba(23,20,32,.08);box-shadow:0 14px 34px -16px rgba(40,30,90,.32),inset 0 1px 0 #fff}
 .hm-thumb{position:absolute;inset-block:6px;inset-inline-start:6px;width:calc(50% - 6px);border-radius:16px;overflow:hidden;box-shadow:0 10px 20px -8px rgba(37,87,214,.6)}
@@ -102,6 +105,7 @@ background:linear-gradient(rgba(37,87,214,.07) 1px,transparent 1px) 0 0/24px 24p
 .hm-ex li{padding:3px 9px;border-radius:8px;background:rgba(37,87,214,.07);font-size:.8rem;font-weight:700;line-height:1.4;color:#2557D6}
 .hm-num{position:absolute;top:10px;inset-inline-end:12px;font-family:var(--font-display);font-size:1.6rem;line-height:1;color:transparent;-webkit-text-stroke:1px rgba(37,87,214,.5)}
 @media (max-width:639px){.hm-tile{padding-inline:10px}.hm-ex li{padding-inline:7px;font-size:.76rem;white-space:nowrap}}
+@media (max-width:374px){.hm-tiles{gap:8px}.hm-tile{padding-inline:8px}.hm-ex li{font-size:.72rem;padding-inline:6px}}
 
 /* ---- #stores: boutique rack ---- */
 .hm-offer--store{--hm-ink:#0F6B39;--hm-acc:#178A4C;--hm-soft:rgba(23,138,76,.1);--hm-line:rgba(15,107,57,.16);--hm-bar:#178A4C;
@@ -123,11 +127,6 @@ mask:radial-gradient(circle 11px at 11px 15px,#000 97%,transparent) 0 0/22px 26p
 .hm-aisle{position:absolute;top:10px;inset-inline-start:18px;font-size:.72rem;font-weight:700;color:#0F6B39}
 @media (max-width:639px){.hm-tag-card{min-height:0;gap:6px;padding:34px 10px 32px}.hm-aisle{top:9px;inset-inline-start:11px;font-size:.66rem}}
 @media (max-width:339px){.hm-aisle{display:none}}
-
-/* ---- quiz result extras ---- */
-.hm-qz-label{max-width:560px;margin:0 auto 10px;text-align:start;font-weight:700;color:var(--ink)}
-.hm-qz-always{max-width:560px;margin:-10px auto 22px;font-size:.95rem;color:var(--muted)}
-@media (min-width:640px){.qz-result-points{grid-template-columns:repeat(2,minmax(0,1fr));max-width:640px}.hm-qz-label{max-width:640px}}
 
 @media (min-width:640px){
 html.hm-js .hm-switch{margin-bottom:30px}
@@ -183,3 +182,443 @@ html.hm-on .hm-panel.is-on .hm-offer--store.visible .hm-tag{animation:hm-swing 1
 @keyframes hm-draw{from{clip-path:inset(0 0 100% 100%)}}
 @keyframes hm-grow{from{transform:scaleY(0)}}
 @keyframes hm-swing{0%{transform:rotate(7deg)}25%{transform:rotate(-4.5deg)}50%{transform:rotate(2.2deg)}75%{transform:rotate(-.8deg)}100%{transform:none}}
+
+/* =====================================================================
+   v2 (2026-11-17): varied section openers, one "what you get" bento (#included),
+   compact process timeline, fresh section images. prefix hm2-. Motion only under html.hm-on.
+   ===================================================================== */
+
+/* ---- openers: three eyebrow flavours; the purple divider stays (owner) ---- */
+/* owner 17/11: keeps the purple divider under every home section heading (centered heads use the global rule) */
+.hm-home .hm2-op h2::after,.hm-home .qz2-head h2::after{content:"";display:block;width:64px;height:4px;border-radius:999px;background:var(--grad);margin:18px 0 0}
+.hm-home .eyebrow.hm2-eb-line,.hm-home .eyebrow.hm2-eb-plain{background:none;border:0;border-radius:0;padding:0}
+.hm-home .eyebrow.hm2-eb-line{gap:10px;font-size:.78rem;letter-spacing:.12em;color:var(--violet-deep);margin-bottom:14px}
+.hm-home .eyebrow.hm2-eb-line::before{width:28px;height:2px;border-radius:2px;background:var(--grad);animation:none;transform:none;opacity:1}
+.hm-home .eyebrow.hm2-eb-plain{gap:12px;font-size:.8rem;font-weight:600;letter-spacing:.1em;color:var(--muted);margin-bottom:12px}
+.hm-home .eyebrow.hm2-eb-plain::before{display:none}
+.hm-home .eyebrow.hm2-eb-rules::before,.hm-home .eyebrow.hm2-eb-rules::after{content:"";display:block;flex:none;width:40px;height:1px;border-radius:0;background:rgba(23,20,32,.2);animation:none;opacity:1;transform:none}
+
+/* O2 split band (why): heading on one side, the paragraph on the other, a hairline under both */
+.hm2-op--row{max-width:none;text-align:start;padding-bottom:22px;border-bottom:1px solid var(--line)}
+.hm2-op--row h2{margin-bottom:12px}
+@media (min-width:960px){
+.hm2-op--row{display:grid;grid-template-columns:7fr 5fr;gap:48px;align-items:end;padding-bottom:28px}
+.hm2-op--row h2{margin:0}
+}
+
+/* ---- AI section: the new spotlight image, cropped a little fuller, with a soft violet glow ---- */
+.hm2-ai-media img{width:100%;aspect-ratio:4/3;object-fit:cover;object-position:50% 55%;box-shadow:0 30px 80px -30px rgba(139,92,246,.6)}
+
+/* ---- O5 + bento: "what you get" (store / panel / measure) ---- */
+.hm2-get{position:relative;overflow:clip;background:#EFECF7;border-block:1px solid var(--line)}
+.hm2-get::before{content:"";position:absolute;top:-180px;inset-inline-start:-180px;width:520px;height:520px;border-radius:50%;background:radial-gradient(closest-side,rgba(104,71,244,.5),rgba(104,71,244,0));opacity:.35;pointer-events:none}
+.hm2-get .container{position:relative}
+.hm2-op--stack{max-width:760px;text-align:start}
+.hm2-op--stack h2{margin-bottom:12px}
+.hm2-h-acc{color:var(--violet-deep)}
+.hm2-jump{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;max-width:440px;margin-top:20px}
+.hm2-jump a{--t:var(--violet);display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:6px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--ink);font-size:.92rem;font-weight:700;text-decoration:none;box-shadow:0 6px 16px -10px rgba(40,30,90,.3);transition:border-color .2s,transform .2s}
+.hm2-jump a::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;background:var(--t)}
+.hm2-jump a:nth-child(1){--t:#178A4C}
+.hm2-jump a:nth-child(2){--t:#2557D6}
+.hm2-jump a:nth-child(3){--t:#F5A524}
+@media (hover:hover){.hm2-jump a:hover{border-color:var(--t);transform:translateY(-2px)}}
+
+.hm2-bento{display:grid;gap:16px}
+.hm2-tile{--t:var(--violet);--ts:var(--violet-soft);--tl:var(--violet-deep);position:relative;display:flex;flex-direction:column;min-width:0;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow-soft);overflow:hidden}
+.hm2-tile--store{--t:#178A4C;--ts:rgba(23,138,76,.1);--tl:#0F6B39}
+.hm2-tile--panel{--t:#2557D6;--ts:rgba(37,87,214,.1);--tl:#2557D6}
+.hm2-tile--measure{--t:#F5A524;--ts:rgba(245,165,36,.14);--tl:#C9BBFF;color:#fff;border-color:var(--night-line);background:radial-gradient(520px 300px at 100% 0,rgba(104,71,244,.32),transparent 70%),radial-gradient(420px 260px at 0 100%,rgba(245,165,36,.1),transparent 70%),var(--night)}
+.hm2-tile::after{content:"";position:absolute;inset-inline:0;top:0;height:3px;background:var(--t);opacity:.85}
+.hm2-media{position:relative;margin:10px 10px 0;border-radius:18px;overflow:hidden;background:var(--paper-2);aspect-ratio:16/10}
+.hm2-media img{display:block;width:100%;height:100%;object-fit:cover;object-position:52% 60%}
+/* phones: the panel tile goes text-only (shorter section); the store photo is taller and keeps one toast, so the photo stays visible */
+.hm2-tile--panel .hm2-media{display:none}
+.hm2-tile--panel .hm2-media img{object-position:50% 55%}
+@media (max-width:599px){.hm2-tile--store .hm2-media{aspect-ratio:4/3}.hm2-tile--store .hm2-media img{object-position:55% 50%}.hm2-toast--v{display:none}}
+.hm2-tile--measure .hm2-media{margin:4px 20px 20px;aspect-ratio:16/9;background:#000;border:1px solid var(--night-line)}
+.hm2-tile--measure .hm2-media img{object-position:55% 40%}
+.hm2-tile-body{display:flex;flex-direction:column;flex:1;padding:18px 20px 16px}
+.hm2-mhead{padding:24px 20px 0}
+.hm2-mlist{display:flex;flex-direction:column;padding:0 20px 12px}
+.hm2-tile h3{font-size:clamp(1.25rem,1.2vw + 1rem,1.6rem);line-height:1.25;text-wrap:balance;margin:0 0 8px;scroll-margin-top:calc(var(--header-h) + 16px)}
+.hm2-tile p{font-size:.98rem;color:var(--muted);margin:0 0 16px}
+.hm2-tile--measure h3{color:#fff}
+.hm2-tile--measure p,.hm2-tile--measure .hm2-feats li{color:var(--night-text)}
+.hm2-feats{display:grid;gap:12px;margin:0;padding:0;list-style:none}
+.hm2-feats li{display:grid;grid-template-columns:34px minmax(0,1fr);gap:12px;align-items:start;font-size:.93rem;line-height:1.5;color:var(--muted)}
+.hm2-feats li>span:last-child{padding-top:5px}
+.hm2-feats b{font-weight:700;color:var(--ink)}
+.hm2-tile--measure .hm2-feats b{color:#fff}
+.hm2-ico{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:var(--ts);color:var(--t)}
+.hm2-more{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;min-height:44px;margin-top:8px;color:var(--tl);font-weight:700;text-decoration:none}
+.hm2-more svg{flex:none;transition:transform .2s}
+.hm2-tile--measure .hm2-more{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+@media (hover:hover){.hm2-more:hover{text-decoration:underline;text-underline-offset:4px}.hm2-more:hover svg{transform:translateX(-4px)}[dir=ltr] .hm2-more:hover svg{transform:translateX(4px)}}
+.hm2-more:focus-visible,.hm2-jump a:focus-visible{outline:3px solid var(--violet);outline-offset:3px;border-radius:8px}
+.hm2-jump a:focus-visible{border-radius:999px}
+.hm2-tile--measure .hm2-more:focus-visible{outline-color:#C9BBFF}
+
+/* order toasts: lie on the photo only, enter once (no loop) */
+.hm2-feed{position:absolute;inset-inline:12px;bottom:12px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;margin:0;padding:0;list-style:none;pointer-events:none}
+.hm2-toast{display:flex;align-items:center;gap:10px;max-width:100%;padding-block:8px;padding-inline:10px 14px;background:rgba(255,255,255,.96);border:1px solid rgba(255,255,255,.85);border-radius:14px;box-shadow:var(--shadow-pop);font-size:.8rem;line-height:1.3}
+.hm2-toast--v{margin-inline-start:22px}
+.hm2-toast b{display:block;font-size:.86rem;color:var(--ink)}
+.hm2-toast small{display:block;font-size:.76rem;color:var(--muted)}
+.hm2-toast-ico{display:grid;place-items:center;flex:none;width:30px;height:30px;border-radius:9px;color:#fff}
+.hm2-toast--g .hm2-toast-ico{background:linear-gradient(140deg,#2BB569,#178A4C)}
+.hm2-toast--v .hm2-toast-ico{background:var(--grad)}
+
+@media (min-width:960px){
+.hm2-op--stack{margin-bottom:34px}
+.hm2-bento{grid-template-columns:repeat(12,minmax(0,1fr));gap:20px}
+.hm2-tile--store{grid-column:span 7}
+.hm2-tile--panel{grid-column:span 5}
+.hm2-tile--panel .hm2-media{display:block}
+/* one shared image height, so the two tile headings line up */
+.hm2-tile--store .hm2-media,.hm2-tile--panel .hm2-media{aspect-ratio:auto;height:clamp(300px,28vw,400px)}
+.hm2-tile-body{padding:24px 28px 22px}
+.hm2-tile-body .hm2-more{margin-top:auto;padding-top:10px}
+.hm2-tile-body .hm2-feats{margin-bottom:10px}
+.hm2-feed{inset-inline:18px;bottom:18px}
+.hm2-tile--measure{grid-column:1/-1;display:grid;grid-template-columns:1.1fr 1fr .9fr;gap:32px;align-items:center;padding:30px}
+.hm2-tile--measure .hm2-mhead,.hm2-tile--measure .hm2-mlist{padding:0}
+.hm2-tile--measure .hm2-mhead p{margin:0}
+.hm2-tile--measure .hm2-media{margin:0;aspect-ratio:1}
+}
+
+/* motion: tiles lift, the photo breathes, toasts slide in once the tile is revealed.
+   The tiles only fade in (no slide), so a jump to #inc-* / #*-title lands where it should */
+html.js .hm2-tile.reveal{transform:none}
+html.js .hm2-tile.reveal.visible{transition:opacity .7s cubic-bezier(.2,.65,.3,1),transform .4s cubic-bezier(.2,.8,.2,1),box-shadow .4s}
+html.hm-on .hm2-media img{transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+@media (hover:hover){
+html.hm-on .hm2-tile.reveal.visible:hover{transform:translateY(-4px);box-shadow:var(--shadow-pop)}
+html.hm-on .hm2-tile:hover .hm2-media img{transform:scale(1.03)}
+}
+html.hm-on .hm2-toast{transition:opacity .5s ease,transform .5s cubic-bezier(.2,.8,.2,1);transition-delay:.45s}
+html.hm-on .hm2-toast--v{transition-delay:1.1s}
+html.hm-on .hm2-tile:not(.visible) .hm2-toast{opacity:0;transform:translateY(10px) scale(.96)}
+
+/* ---- O7 + process: big index number, one compact timeline card on phones ---- */
+.hm2-op--num{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 14px;align-items:start;max-width:none;text-align:start}
+.hm2-bignum{font-family:var(--font-display);font-size:4.4rem;line-height:.8;color:var(--violet);opacity:.18;user-select:none}
+.hm2-op-txt{align-self:center}
+.hm2-op-txt h2{margin:0;font-size:clamp(1.55rem,3.4vw + .8rem,2.9rem)}
+.hm2-op--num>p{grid-column:1/-1;margin-top:8px}
+.hm2-proc-media{display:none}
+.hm2-steps{display:grid;margin:0;padding:22px 18px;list-style:none;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow-soft)}
+.hm2-step{position:relative;display:grid;grid-template-columns:40px minmax(0,1fr);gap:14px;padding-bottom:20px}
+.hm2-step:last-child{padding-bottom:0}
+.hm2-step:not(:last-child)::before{content:"";position:absolute;inset-inline-start:19px;top:40px;bottom:0;width:2px;background:rgba(104,71,244,.25);transform-origin:top}
+.hm2-node{position:relative;z-index:1;display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--grad);color:#fff;font-size:.82rem;font-weight:800;box-shadow:0 6px 14px -6px rgba(76,47,216,.6)}
+.hm2-step h3{font-family:var(--font-body);font-size:1.02rem;font-weight:700;line-height:1.35;margin:6px 0 2px}
+.hm2-step p{font-size:.9rem;line-height:1.55;color:var(--muted);margin:0}
+.hm2-proc .pricing-note{margin-top:22px}
+
+@media (min-width:960px){
+.hm2-op--num{grid-template-columns:auto minmax(0,1fr) minmax(0,360px);gap:10px 28px;align-items:center}
+.hm2-bignum{grid-row:1/3;align-self:start;font-size:clamp(5.5rem,9vw + 2rem,9rem)}
+.hm2-op-txt{align-self:end}
+.hm2-op--num>p{grid-column:2;margin:0;align-self:start;max-width:620px}
+.hm2-proc-media{display:block;grid-column:3;grid-row:1/3;border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-soft);border:1px solid var(--line);aspect-ratio:16/10;background:var(--paper-2)}
+.hm2-proc-media img{display:block;width:100%;height:100%;object-fit:cover;object-position:55% 50%}
+.hm2-steps{position:relative;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px;padding:0;background:none;border:0;border-radius:0;box-shadow:none}
+.hm2-steps::before{content:"";position:absolute;top:21px;inset-inline:12.5%;height:2px;border-radius:2px;background:linear-gradient(90deg,#B49CFF,var(--violet));transform-origin:right}
+[dir=ltr] .hm2-steps::before{transform-origin:left}
+.hm2-step{display:flex;flex-direction:column;align-items:center;gap:16px;padding:0;text-align:center}
+.hm2-step:not(:last-child)::before{display:none}
+.hm2-node{width:44px;height:44px;font-size:.88rem;box-shadow:0 0 0 6px var(--paper),0 10px 20px -8px rgba(76,47,216,.6)}
+.hm2-step-body{flex:1;width:100%;padding:18px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);box-shadow:var(--shadow-soft);transition:transform .3s cubic-bezier(.2,.8,.2,1),border-color .3s}
+.hm2-step h3{margin-top:0}
+}
+@media (min-width:960px) and (hover:hover){.hm2-step:hover .hm2-step-body{transform:translateY(-4px);border-color:rgba(104,71,244,.45)}}
+
+/* timeline draws itself once (rail grows, nodes pop); without hm-on everything is in its final state */
+html.hm-on .hm2-steps::before,html.hm-on .hm2-step::before{transition:transform .9s cubic-bezier(.2,.8,.2,1) .2s}
+html.hm-on .hm2-node{transition:transform .6s cubic-bezier(.34,1.56,.64,1) .15s}
+html.hm-on .hm2-step:nth-child(2) .hm2-node{transition-delay:.35s}
+html.hm-on .hm2-step:nth-child(3) .hm2-node{transition-delay:.55s}
+html.hm-on .hm2-step:nth-child(4) .hm2-node{transition-delay:.75s}
+html.hm-on .hm2-step:nth-child(2)::before{transition-delay:.4s}
+html.hm-on .hm2-step:nth-child(3)::before{transition-delay:.6s}
+html.hm-on .hm2-steps:not(.visible)::before{transform:scaleX(0)}
+html.hm-on .hm2-steps:not(.visible) .hm2-step::before{transform:scaleY(0)}
+html.hm-on .hm2-steps:not(.visible) .hm2-node{transform:scale(.6)}
+
+/* =====================================================================
+   quiz v2 (2026-11-17): "the match stage". A dark night card with a drifting violet aurora,
+   an answer trail (each answered dot becomes the picked answer's icon and jumps back to it),
+   glass answer tiles and a result card (headline + scope track + pick chips + WhatsApp).
+   Logic: main.js quiz block. Motion only under .qz.is-ready, off with reduced motion / html.a11y-motion.
+   ===================================================================== */
+.qz-section{position:relative}
+
+/* ---- head: side-aligned, no divider, three meta chips ---- */
+.qz2-head{max-width:640px}
+.qz2-head h2{margin-bottom:12px}
+/* opener of its own: no pill, the eyebrow is led by the quiz's five trail dots (two already "done") */
+.eyebrow.qz2-eb{gap:12px;padding:0;border:0;border-radius:0;background:none;font-size:.8rem;letter-spacing:.12em;color:var(--violet-deep);margin-bottom:14px}
+.eyebrow.qz2-eb::before{width:48px;height:8px;border-radius:0;background:radial-gradient(circle,var(--violet) 0 3px,transparent 3.6px) 100% 50%/10px 8px repeat-x;-webkit-mask-image:linear-gradient(to left,#000 38%,rgba(0,0,0,.28) 40%);mask-image:linear-gradient(to left,#000 38%,rgba(0,0,0,.28) 40%);animation:none;transform:none;opacity:1}
+[dir=ltr] .eyebrow.qz2-eb::before{background-position:0 50%;-webkit-mask-image:linear-gradient(to right,#000 38%,rgba(0,0,0,.28) 40%);mask-image:linear-gradient(to right,#000 38%,rgba(0,0,0,.28) 40%)}
+/* the three meta pills repeat the paragraph, so phones skip them; from 600 up they dress the side column */
+.qz2-meta{display:none;flex-wrap:wrap;gap:8px;margin:18px 0 0;padding:0;list-style:none}
+.qz2-meta li{display:flex;align-items:center;gap:6px;min-height:36px;padding:0 14px;border-radius:999px;background:#fff;border:1px solid var(--line);box-shadow:0 6px 14px -10px rgba(52,32,130,.45);font-size:.84rem;font-weight:700;line-height:1.2;color:var(--violet-ink);white-space:nowrap}
+.qz2-meta svg{flex:none;width:14px;height:14px;color:var(--violet)}
+@media (min-width:600px){.qz2-meta{display:flex}}
+
+/* ---- the stage ---- */
+.qz2-stage{--st:#131020;--st2:#1C1830;--lav:#CFC2FF;--txt:#B9B4D0;--tile:rgba(255,255,255,.05);--tl:rgba(255,255,255,.12);--ax:34%;--ay:-38%;
+  position:relative;color:#fff;background:radial-gradient(120% 70% at 100% 0,rgba(104,71,244,.3),rgba(104,71,244,0) 62%),linear-gradient(165deg,var(--st),var(--st2));
+  border:1px solid rgba(255,255,255,.08);border-radius:26px;padding:18px;
+  box-shadow:0 34px 70px -34px rgba(52,32,130,.85),0 10px 24px -14px rgba(19,16,32,.5);overflow:hidden;isolation:isolate;
+  scroll-margin-top:calc(var(--header-h) + 12px)}
+/* the floating WhatsApp / back-to-top buttons step aside while the stage sits in their bottom band (class set by main.js) */
+html.qz-band .wa-float,html.qz-band .to-top{opacity:0;visibility:hidden;pointer-events:none}
+/* aurora: a full-size layer whose glow sits in its middle; only transform moves, so it stays on the compositor */
+.qz2-stage::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(230px circle at 50% 50%,rgba(139,92,246,.45),rgba(139,92,246,0) 72%);transform:translate3d(var(--ax),var(--ay),0);transition:transform .9s cubic-bezier(.3,.6,.2,1)}
+.qz2-stage::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1.6px);background-size:22px 22px;-webkit-mask-image:linear-gradient(180deg,#000,transparent 75%);mask-image:linear-gradient(180deg,#000,transparent 75%)}
+.qz2-stage[data-step="2"]{--ax:-36%;--ay:-34%}
+.qz2-stage[data-step="3"]{--ax:30%;--ay:8%}
+.qz2-stage[data-step="4"]{--ax:-30%;--ay:30%}
+.qz2-stage[data-step="5"]{--ax:2%;--ay:-44%}
+.qz2-stage[data-step="done"]{--ax:-34%;--ay:-30%}
+.qz2-stage a:not(.btn){color:var(--lav)}
+
+/* ---- answer trail ---- */
+.qz2-top{position:relative;margin:0 0 20px}
+.qz2-line{position:absolute;inset-inline:22px;top:20px;height:3px;border-radius:3px;background:rgba(255,255,255,.12);overflow:hidden}
+.qz2-line span{display:block;height:100%;border-radius:inherit;background:var(--grad);transform:scaleX(0);transform-origin:right center;transition:transform .5s cubic-bezier(.2,.65,.3,1)}
+[dir=ltr] .qz2-line span{transform-origin:left center}
+.qz2-trail{position:relative;display:flex;justify-content:space-between;align-items:center;margin:0;padding:0;list-style:none}
+.qz2-dot{display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:none;color:inherit;font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.qz2-dot:disabled{cursor:default;opacity:.55}
+.qz2-dot-ico{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--st2);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.18);font-size:.85rem;font-weight:700;line-height:1;color:var(--txt);transition:background .3s,box-shadow .3s,color .3s,transform .3s cubic-bezier(.3,1.4,.5,1)}
+.qz2-dot-ico svg{width:16px;height:16px}
+.qz2-dot.is-done .qz2-dot-ico{background:var(--grad);color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.28),0 6px 16px -4px rgba(124,85,232,.85)}
+.qz2-dot.is-now .qz2-dot-ico{color:#fff;box-shadow:inset 0 0 0 2px #fff,0 0 0 5px rgba(139,92,246,.35)}
+.qz2-dot.is-pop .qz2-dot-ico{animation:qz2-pop .45s cubic-bezier(.3,1.5,.5,1)}
+.qz2-dot:focus-visible{outline:3px solid var(--lav);outline-offset:0}
+@media (hover:hover){.qz2-dot:not(:disabled):hover .qz2-dot-ico{transform:scale(1.1)}}
+
+/* ---- question ---- */
+.qz-step{border:0;margin:0;padding:0;min-width:0}
+.qz-q{display:block;padding:0;margin:0 0 6px;font-family:var(--font-display);font-size:clamp(1.4rem,1.5vw + 1rem,2rem);line-height:1.25;color:#fff;text-wrap:balance}
+.qz-q:focus{outline:none}
+.qz-q:focus-visible{outline:3px solid var(--lav);outline-offset:4px;border-radius:6px}
+.qz-num{display:block;margin-bottom:8px;font-family:var(--font-body);font-size:.8rem;font-weight:700;letter-spacing:.02em;color:var(--lav)}
+.qz-hint{margin:0 0 18px;font-size:.98rem;color:var(--txt)}
+
+/* ---- answer tiles ---- */
+.qz-opts{display:grid;grid-template-columns:1fr;gap:10px}
+.qz-opt{position:relative;display:flex;align-items:center;gap:14px;min-height:72px;padding:14px 16px;border-radius:18px;background:var(--tile);border:1px solid var(--tl);cursor:pointer;overflow:hidden;isolation:isolate;-webkit-tap-highlight-color:transparent;transition:background .25s,border-color .25s,box-shadow .25s,transform .25s cubic-bezier(.2,.65,.3,1)}
+.qz-opt input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.qz-opt-ico{flex:none;display:grid;place-items:center;width:48px;height:48px;border-radius:14px;background:radial-gradient(circle at 30% 25%,rgba(196,181,253,.35),rgba(104,71,244,.18) 65%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14);color:#DDD3FF;transition:background .25s,color .25s,box-shadow .25s,transform .35s cubic-bezier(.3,1.4,.5,1)}
+.qz-opt-ico svg{width:24px;height:24px}
+.qz-opt-txt{display:grid;gap:3px;flex:1;min-width:0}
+.qz-opt-txt b{font-size:1.05rem;line-height:1.3;color:#fff}
+.qz-opt-txt small{font-size:.88rem;line-height:1.45;color:var(--txt);transition:color .25s}
+.qz-opt-check{flex:none;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.3);color:transparent;transition:background .25s,color .25s,box-shadow .25s}
+/* tap burst: a white flash that grows out of the tile's middle once, when it's picked */
+.qz-opt::after{content:"";position:absolute;inset:0;z-index:-1;margin:auto;width:140px;height:140px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,255,255,.5),rgba(255,255,255,0));opacity:0;transform:scale(0);pointer-events:none}
+@media (hover:hover){
+.qz-opt:hover{border-color:rgba(167,139,250,.55);background:rgba(255,255,255,.08);transform:translateY(-2px)}
+.qz-opt:hover .qz-opt-ico{transform:rotate(-6deg)}
+}
+.qz-opt:active{transform:scale(.985)}
+.qz-opt:has(input:checked){background:var(--grad);border-color:transparent;box-shadow:0 18px 40px -18px rgba(104,71,244,.95),inset 0 1px 0 rgba(255,255,255,.2)}
+.qz-opt:has(input:checked) small{color:#fff}
+.qz-opt:has(input:checked) .qz-opt-ico{background:rgba(255,255,255,.18);box-shadow:inset 0 0 0 1px rgba(255,255,255,.32);color:#fff;transform:none;animation:qz2-wig .5s cubic-bezier(.3,1.4,.5,1)}
+.qz-opt:has(input:checked) .qz-opt-check{background:#fff;box-shadow:none;color:var(--violet-deep);animation:qz2-pop .4s cubic-bezier(.3,1.5,.5,1)}
+.qz-opt:has(input:checked)::after{animation:qz2-burst .55s ease-out}
+.qz-opt:has(input:focus-visible){outline:3px solid var(--lav);outline-offset:3px}
+/* phones: slimmer rows (one-line titles, all of Q1 + "next" on one screen); no separate check ring,
+   the picked tile's icon turns into the tick instead */
+@media (max-width:599px){
+.qz2-stage{padding:16px 14px 18px;border-radius:24px}
+.qz-opt{gap:12px;min-height:64px;padding:12px;border-radius:16px}
+.qz-opt-ico{position:relative;width:40px;height:40px;border-radius:12px}
+.qz-opt-ico svg{width:20px;height:20px;transition:opacity .2s,transform .3s cubic-bezier(.3,1.4,.5,1)}
+.qz-opt-ico::after{content:"";position:absolute;inset:0;margin:auto;width:22px;height:22px;background:#fff;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") 50% 50%/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") 50% 50%/contain no-repeat;opacity:0;transform:scale(.3);transition:opacity .2s,transform .35s cubic-bezier(.3,1.5,.5,1)}
+.qz-opt:has(input:checked) .qz-opt-ico svg{opacity:0;transform:scale(.4)}
+.qz-opt:has(input:checked) .qz-opt-ico::after{opacity:1;transform:none}
+.qz-opt-txt{gap:2px}
+.qz-opt-txt b{font-size:.98rem}
+.qz-opt-txt small{font-size:.84rem;line-height:1.4}
+.qz-opt-check{display:none}
+}
+
+/* ---- nav ---- */
+.qz-nav{display:flex;align-items:center;gap:8px;margin-top:20px}
+.qz-nav[hidden]{display:none}
+.qz2-back{flex:none;display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:0 10px;border:0;border-radius:999px;background:none;color:var(--lav);font:700 1rem/1 var(--font-body);cursor:pointer;transition:background .2s}
+.qz2-back:hover{background:rgba(255,255,255,.08)}
+.qz2-stage[data-step="1"] .qz2-back{display:none}
+/* under 390 the back button keeps only its arrow (the word stays for screen readers), so the long last "next" never clips */
+@media (max-width:389px){
+.qz2-back{justify-content:center;width:48px;padding:0;box-shadow:inset 0 0 0 1.5px rgba(207,194,255,.35)}
+.qz2-back span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+}
+@media (max-width:339px){.qz2-next{min-width:0;white-space:normal;line-height:1.2}}
+.qz2-next{flex:1;min-height:48px;padding:12px 14px;white-space:nowrap;margin-inline-start:auto;background:#fff;color:var(--ink);box-shadow:0 14px 30px -14px rgba(0,0,0,.7)}
+.qz2-next svg{transition:transform .2s}
+.qz2-next:hover{background:var(--violet-soft)}
+.qz2-next:hover svg{transform:translateX(-4px)}
+[dir=ltr] .qz2-next:hover svg{transform:translateX(4px)}
+.qz2-next[disabled]{background:rgba(255,255,255,.14);color:rgba(255,255,255,.6);box-shadow:none;cursor:not-allowed;transform:none}
+.qz2-next[disabled] svg{transform:none}
+.qz2-back:focus-visible,.qz2-next:focus-visible,.qz2-link:focus-visible,.qz2-restart:focus-visible,.qz2-ctas .btn-wa:focus-visible{outline:3px solid var(--lav);outline-offset:3px}
+
+/* ---- result ---- */
+.qz-result[hidden]{display:none}
+.qz2-result{position:relative;text-align:start}
+.qz2-title:focus{outline:none}
+.qz2-title:focus-visible{outline:3px solid var(--lav);outline-offset:4px;border-radius:8px}
+/* head: the matching answer's icon in a glowing badge, next to the kicker */
+.qz2-rhead{display:flex;align-items:center;gap:12px;margin:0 0 16px}
+.qz2-badge{position:relative;flex:none;display:grid;place-items:center;width:52px;height:52px;border-radius:16px;background:var(--grad);color:#fff;box-shadow:0 0 0 6px rgba(139,92,246,.16),0 14px 30px -10px rgba(124,85,232,.95),inset 0 1px 0 rgba(255,255,255,.3)}
+.qz2-badge svg{width:26px;height:26px}
+.qz2-badge::after{content:"";position:absolute;inset:-6px;border-radius:22px;border:2px solid rgba(207,194,255,.7);opacity:0;pointer-events:none}
+.qz2-kicker{display:inline-flex;align-items:center;gap:8px;margin:0;padding:7px 14px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);font-size:.85rem;font-weight:700;line-height:1.2;color:var(--lav)}
+.qz2-title{margin:0 0 12px;font-size:clamp(2rem,3vw + 1rem,3rem);line-height:1.12;color:#fff}
+.qz2-type{background:linear-gradient(100deg,#fff 0 40%,#C9B8FF 50%,#fff 60% 100%) 0 0/250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.qz2-track{position:relative;top:-.18em;display:inline-flex;align-items:center;vertical-align:middle;padding:6px 14px;border-radius:999px;background:var(--grad);box-shadow:0 8px 20px -8px rgba(124,85,232,.9),inset 0 0 0 1px rgba(255,255,255,.22);font:700 1rem/1.2 var(--font-body);letter-spacing:0;color:#fff;white-space:nowrap}
+.qz2-why{max-width:40em;margin:0;font-size:1.02rem;color:var(--txt)}
+/* everything below the CTA sits in one quiet glass panel */
+.qz2-details{margin-top:24px;padding:18px 16px;border-radius:20px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1)}
+.qz2-label{margin:22px 0 10px;font-size:.95rem;font-weight:700;color:#fff}
+.qz2-details > .qz2-label:first-child{margin-top:0}
+.qz2-scope{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:0;padding:0;list-style:none}
+.qz2-scope li{position:relative;padding-top:20px;font-size:.82rem;line-height:1.3;text-align:center;color:var(--txt)}
+.qz2-scope li::before{content:"";position:absolute;top:4px;inset-inline:0;height:6px;border-radius:6px;background:rgba(255,255,255,.12);transform-origin:right center}
+[dir=ltr] .qz2-scope li::before{transform-origin:left center}
+.qz2-scope li.is-past::before,.qz2-scope li.is-on::before{background:var(--grad)}
+.qz2-scope li.is-on{font-weight:700;color:#fff}
+.qz2-scope li.is-on::after{content:"";position:absolute;top:0;inset-inline-end:0;width:14px;height:14px;border-radius:50%;background:#fff;box-shadow:0 0 0 3px var(--violet),0 0 14px rgba(167,139,250,.9)}
+/* picks: an even grid of equal cells (2 on phones, 3 from 600), never a ragged pill wrap;
+   a leftover last row is shared out so every row runs edge to edge */
+.qz2-chips{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:0;padding:0;list-style:none}
+.qz2-chips li:last-child:nth-child(odd){grid-column:1/-1}
+.qz2-chips li{display:flex;align-items:center;gap:8px;min-width:0;min-height:44px;padding:9px 12px;border-radius:14px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);font-size:.92rem;font-weight:700;line-height:1.3;color:#fff}
+.qz2-chips li::before{content:"";flex:none;width:16px;height:16px;border-radius:50%;background:#22C55E url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") 50% 50%/10px 10px no-repeat}
+.qz2-always{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 14px;margin:18px 0 0;padding:16px 0 0;border-top:1px solid rgba(255,255,255,.1);font-size:.9rem;color:var(--txt)}
+.qz2-always b{grid-column:1/-1;color:#fff}
+.qz2-always span{display:inline-flex;align-items:center;gap:7px}
+.qz2-always span::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--lav)}
+.qz2-ctas{display:grid;gap:10px;margin-top:20px}
+.qz2-ctas .btn-wa{width:100%;min-height:52px;gap:8px;padding:12px;font-size:.94rem;line-height:1.3}
+@media (max-width:389px){.qz2-ctas .btn-wa{padding-inline:10px;gap:6px;font-size:.86rem;white-space:nowrap}}
+.qz2-wa-note{margin:-2px 0 4px;font-size:.84rem;text-align:center;color:var(--txt)}
+.qz2-link{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:12px 22px;border-radius:999px;border:1.5px solid rgba(255,255,255,.3);font-weight:700;text-decoration:none;color:#fff;transition:border-color .2s,background .2s}
+.qz2-stage a.qz2-link{color:#fff}
+.qz2-link svg{flex:none;transition:transform .2s}
+.qz2-link:hover{border-color:#fff;background:rgba(255,255,255,.06)}
+.qz2-link:hover svg{transform:translateX(-4px)}
+[dir=ltr] .qz2-link:hover svg{transform:translateX(4px)}
+.qz2-restart{display:inline-flex;align-items:center;gap:8px;min-height:44px;margin:14px 0 0;margin-inline-start:-14px;padding:0 14px;border:0;border-radius:999px;background:none;color:var(--lav);font:700 .95rem/1 var(--font-body);cursor:pointer;transition:background .2s}
+.qz2-restart:hover{background:rgba(255,255,255,.08)}
+html.a11y-contrast .qz2-stage a.qz2-link{color:#fff}
+html.a11y-contrast .qz2-stage a:not(.btn):not(.qz2-link){color:var(--lav)}
+
+/* ---- no JS: every question readable on the stage, no trail or nav ---- */
+.qz:not(.is-ready) .qz2-top,.qz:not(.is-ready) .qz-nav{display:none}
+.qz:not(.is-ready) .qz-step + .qz-step{margin-top:28px;padding-top:24px;border-top:1px solid rgba(255,255,255,.1)}
+
+/* ---- motion (only once the quiz runs) ---- */
+.qz.is-ready .qz-step:not([hidden]){animation:qz2-in .45s cubic-bezier(.2,.65,.3,1)}
+.qz.is-ready[data-dir=back] .qz-step:not([hidden]){animation-name:qz2-in-b}
+[dir=ltr] .qz.is-ready .qz-step:not([hidden]){animation-name:qz2-in-b}
+[dir=ltr] .qz.is-ready[data-dir=back] .qz-step:not([hidden]){animation-name:qz2-in}
+.qz.is-ready .qz-step:not([hidden]) .qz-opt{animation:qz2-rise .45s cubic-bezier(.2,.65,.3,1) backwards;animation-delay:calc(var(--i,0) * 55ms + 80ms)}
+.qz-opt:nth-child(2){--i:1}
+.qz-opt:nth-child(3){--i:2}
+.qz-opt:nth-child(4){--i:3}
+.qz.is-ready .qz2-result:not([hidden]) > *{animation:qz2-rise .5s cubic-bezier(.2,.65,.3,1) backwards;animation-delay:calc(var(--i,0) * 70ms)}
+.qz2-result > :nth-child(2){--i:1}
+.qz2-result > :nth-child(3){--i:2}
+.qz2-result > :nth-child(4){--i:3}
+.qz2-result > :nth-child(5){--i:4}
+.qz2-result > :nth-child(6){--i:5}
+.qz2-result > :nth-child(7){--i:6}
+.qz.is-ready .qz2-result:not([hidden]) .qz2-badge{animation:qz2-pop .55s .1s cubic-bezier(.3,1.5,.5,1) backwards}
+.qz.is-ready .qz2-result:not([hidden]) .qz2-badge::after{animation:qz2-ring 1.1s .45s ease-out}
+.qz.is-ready .qz2-result:not([hidden]) .qz2-kicker svg{animation:qz2-spin .9s .15s cubic-bezier(.3,1.2,.5,1) backwards}
+.qz.is-ready .qz2-result:not([hidden]) .qz2-type{animation:qz2-shine 1.6s .35s ease-out backwards}
+.qz.is-ready .qz2-result:not([hidden]) .qz2-scope li::before{animation:qz2-grow .6s cubic-bezier(.3,.7,.2,1) backwards;animation-delay:calc(var(--n,0) * 120ms + 320ms)}
+.qz.is-ready .qz2-result:not([hidden]) .qz2-scope li.is-on::after{animation:qz2-pop .45s cubic-bezier(.3,1.5,.5,1) backwards;animation-delay:calc(var(--n,0) * 120ms + 780ms)}
+.qz2-scope li:nth-child(2){--n:1}
+.qz2-scope li:nth-child(3){--n:2}
+.qz.is-ready .qz2-result:not([hidden]) .qz2-chips li{animation:qz2-rise .45s cubic-bezier(.2,.65,.3,1) backwards;animation-delay:calc(var(--n,0) * 60ms + 360ms)}
+.qz2-chips li:nth-child(2){--n:1}
+.qz2-chips li:nth-child(3){--n:2}
+.qz2-chips li:nth-child(4){--n:3}
+.qz2-chips li:nth-child(5){--n:4}
+.qz2-chips li:nth-child(6){--n:5}
+@keyframes qz2-in{from{opacity:0;transform:translateX(-28px)}}
+@keyframes qz2-in-b{from{opacity:0;transform:translateX(28px)}}
+@keyframes qz2-rise{from{opacity:0;transform:translateY(14px)}}
+@keyframes qz2-pop{0%{transform:scale(.6)}60%{transform:scale(1.18)}100%{transform:scale(1)}}
+@keyframes qz2-wig{0%{transform:rotate(-8deg) scale(.9)}100%{transform:none}}
+@keyframes qz2-burst{0%{opacity:.9;transform:scale(0)}100%{opacity:0;transform:scale(2.4)}}
+@keyframes qz2-shine{from{background-position:100% 0}}
+@keyframes qz2-spin{from{opacity:0;transform:rotate(-180deg) scale(.4)}}
+@keyframes qz2-grow{from{transform:scaleX(0)}}
+@keyframes qz2-ring{0%{opacity:.9;transform:scale(.9)}100%{opacity:0;transform:scale(1.45)}}
+
+/* ---- phones: the result title stacks (site type, then the track pill on a line of its own) ---- */
+@media (max-width:599px){
+.qz2-title{display:flex;flex-direction:column;align-items:flex-start;gap:10px;font-size:clamp(1.6rem,6.4vw,1.85rem);text-wrap:balance}
+.qz2-track{top:0;font-size:.95rem}
+.qz2-badge{width:46px;height:46px;border-radius:14px}
+.qz2-badge svg{width:22px;height:22px}
+.qz2-details{padding:16px 12px}
+.qz2-chips li{gap:6px;padding:8px 9px;font-size:.84rem}
+.qz2-chips li::before{width:15px;height:15px;background-size:9px 9px}
+}
+
+/* ---- layout: tablet, then desktop ---- */
+@media (min-width:600px){
+.qz-opts{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.qz-opts.qz2-three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.qz2-three .qz-opt{flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:14px;min-height:172px;padding:20px}
+.qz2-three .qz-opt-ico{width:56px;height:56px;border-radius:16px}
+.qz2-three .qz-opt-ico svg{width:26px;height:26px}
+.qz2-three .qz-opt-txt{flex:none}
+.qz2-three .qz-opt-check{position:absolute;top:16px;inset-inline-end:16px}
+.qz2-next{max-width:280px}
+.qz2-chips{grid-template-columns:repeat(6,minmax(0,1fr))}
+.qz2-chips li{grid-column:span 2}
+.qz2-chips li:last-child:nth-child(odd){grid-column:span 2}
+.qz2-chips li:last-child:nth-child(3n+1){grid-column:span 6}
+.qz2-chips li:nth-last-child(2):nth-child(3n+1),.qz2-chips li:last-child:nth-child(3n+2){grid-column:span 3}
+.qz2-always{display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px}
+.qz2-always b{margin-inline-end:4px}
+.qz2-details{padding:22px 24px}
+.qz2-ctas{grid-template-columns:auto auto;justify-content:start;align-items:center;column-gap:12px}
+.qz2-ctas .btn-wa{grid-row:1;grid-column:1;width:auto;padding-inline:26px;font-size:1rem}
+.qz2-link{grid-row:1;grid-column:2}
+.qz2-wa-note{grid-row:2;grid-column:1 / -1;margin:0;text-align:start}
+}
+@media (min-width:600px) and (max-width:959px){
+.qz2-head,.qz2-stage{max-width:760px;margin-inline:auto}
+.qz2-stage{padding:28px}
+/* tablet: one stage height for every question, with "הבא" pinned to its bottom, so the button never shifts between steps */
+.qz2-stage.is-ready:not([data-step="done"]){display:flex;flex-direction:column;min-height:530px}
+.qz2-stage.is-ready:not([data-step="done"]) .qz-nav{margin-top:auto;padding-top:20px}
+}
+@media (min-width:960px){
+.qz2-wrap{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:56px;align-items:start}
+.qz2-head{position:sticky;top:110px;margin:0;padding-top:16px}
+.qz2-head h2{font-size:clamp(2rem,1.4vw + 1.2rem,2.5rem)}
+.qz2-meta{flex-direction:column;align-items:flex-start;gap:10px;margin-top:22px}
+.qz2-stage{padding:40px}
+.qz2-top{margin-bottom:26px}
+}
+
+/* ---- motion off: everything lands in its final state ---- */
+@media (prefers-reduced-motion:reduce){
+.qz2-stage::before,.qz2-stage *,.qz2-stage *::before,.qz2-stage *::after{animation:none!important;transition:none!important}
+.qz-opt:hover,.qz-opt:active,.qz-opt:hover .qz-opt-ico,.qz2-dot:not(:disabled):hover .qz2-dot-ico,.qz2-next:hover svg,.qz2-link:hover svg{transform:none}
+}
+html.a11y-motion .qz2-stage::before,html.a11y-motion .qz2-stage *,html.a11y-motion .qz2-stage *::before,html.a11y-motion .qz2-stage *::after{animation:none!important;transition:none!important}
+html.a11y-motion :is(.qz-opt:hover,.qz-opt:active,.qz-opt:hover .qz-opt-ico,.qz2-dot:not(:disabled):hover .qz2-dot-ico,.qz2-next:hover svg,.qz2-link:hover svg){transform:none}

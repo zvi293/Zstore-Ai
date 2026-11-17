@@ -49,7 +49,7 @@
  var clearBtn = $('[data-mk-clear]', store), hint = $('[data-mk-hint]', store), slipWrap = $('[data-mk-slipwrap]', store), slipTitle = $('#mk-slip-title');
  ['[data-mk-bar]', '[data-mk-size]', '[data-mk-slipwrap]'].forEach(function (s) { var el = $(s, store); if (el) el.hidden = false; });
 
- var NAMES = {}, byKey = {}, cart = [], size = '', cur = 0;
+ var NAMES = {}, byKey = Object.create(null), cart = [], size = '', cur = 0;
  var SIZE = { small: 'קטלוג ממוקד', mid: 'קטלוג מתרחב', large: 'קטלוג גדול' };
  var REC = { mid: ['unlimited', 'variants', 'filters'], large: ['unlimited', 'variants', 'filters', 'search'] };
  var HINT = {
@@ -139,7 +139,8 @@
   if (!all) select(cur);
   say(all ? 'כל המדף מוצג ברשימה אחת.' : 'המדף מוצג לפי מעברים.');
  });
- $('.mk-top', store).appendChild(allBtn);
+ /* above the tab bar: hiding the bar in list mode must not pull the toggle up from under the finger */
+ $('.mk-top', store).insertBefore(allBtn, bar);
 
  function select(i, focus) {
   cur = i;
@@ -239,7 +240,7 @@
  });
 
  function setSize(v, quiet) {
-  if (!SIZE[v]) return;
+  if (!Object.prototype.hasOwnProperty.call(SIZE, v)) return;
   size = v;
   $$('.mk-size-opt', store).forEach(function (l) {
    var inp = $('input', l), sel = inp.value === v;

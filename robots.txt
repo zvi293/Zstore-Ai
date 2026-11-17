@@ -1,7 +1,8 @@
 # Zstore Ai — robots.txt
 # https://zstore-ai.co.il
 
-# Content signals (https://contentsignals.org): explicit permission for search, AI answers and AI training
+# Content signals (https://contentsignals.org): explicit permission for search, AI answers and AI training.
+# A crawler obeys only its most specific group (RFC 9309), so every named group repeats the signal.
 User-agent: *
 Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
@@ -11,140 +12,179 @@ Allow: /
 # OpenAI (ChatGPT)
 User-agent: GPTBot
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 User-agent: OAI-SearchBot
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 User-agent: ChatGPT-User
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 # Anthropic (Claude)
 User-agent: ClaudeBot
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 User-agent: Claude-User
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 User-agent: Claude-SearchBot
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 User-agent: anthropic-ai
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 # Google (Gemini / AI Overviews)
 User-agent: Google-Extended
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 # Perplexity
 User-agent: PerplexityBot
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 User-agent: Perplexity-User
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 # Google (other AI surfaces)
 User-agent: GoogleOther
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 User-agent: Google-CloudVertexBot
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 # Microsoft / Bing Copilot
 User-agent: bingbot
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 User-agent: BingPreview
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 # Apple (Siri / Apple Intelligence)
 User-agent: Applebot
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 User-agent: Applebot-Extended
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 # Meta AI
 User-agent: Meta-ExternalAgent
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 User-agent: Meta-ExternalFetcher
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 # Amazon (Alexa / Rufus)
 User-agent: Amazonbot
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 # DuckDuckGo AI
 User-agent: DuckAssistBot
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 # Mistral
 User-agent: MistralAI-User
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 # Cohere
 User-agent: cohere-ai
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 # You.com
 User-agent: YouBot
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 # Common Crawl (מאגר האימון והאחזור הנפוץ ביותר של מודלי שפה)
 User-agent: CCBot
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 # AI2 (OLMo)
 User-agent: AI2Bot
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 User-agent: ai2bot-dolma
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 # Diffbot / Timpi / Webz (ספקי אינדוקס למנועי AI)
 User-agent: Diffbot
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 User-agent: Timpibot
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 User-agent: Webzio-Extended
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 User-agent: omgili
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 # Firecrawl / כלי אחזור בזמן אמת של סוכני AI
 User-agent: FirecrawlAgent
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 # ByteDance (Doubao)
 User-agent: Bytespider
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 # Huawei (Petal / Xiaoyi)
 User-agent: PetalBot
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 # ===== Social & messaging preview bots (תצוגה מקדימה של קישורים) =====
 
 User-agent: WhatsApp
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 User-agent: facebookexternalhit
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 User-agent: Twitterbot
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 User-agent: LinkedInBot
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 User-agent: TelegramBot
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 User-agent: Slackbot-LinkExpanding
 Allow: /
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 # ===== Discovery =====
 Sitemap: https://zstore-ai.co.il/sitemap.xml

@@ -39,7 +39,7 @@ html.ab-on .ab-hero h1.st-split:not(.st-in) .ab-hl::after{transform:scaleX(0);tr
 .ab-st svg{width:18px;height:18px;flex:none}
 .ab-st-1{--r:-6deg;--i:0;--t:6s;top:8px;inset-inline-end:0}
 .ab-st-2{--r:7deg;--i:1;--t:7s;top:30%;inset-inline-start:0;background:#A65D00}
-.ab-st-3{--r:5deg;--i:2;--t:5.4s;bottom:15%;inset-inline-end:2px;background:#178A4C}
+.ab-st-3{--r:5deg;--i:2;--t:5.4s;bottom:15%;inset-inline-end:2px;background:#137B44}
 .ab-st-4{--r:-8deg;--i:3;--t:6.6s;bottom:6px;inset-inline-start:10%;background:#2557D6}
 .ab-st-5{--r:3deg;--i:4;--t:5.8s;top:0;inset-inline-start:12%;background:linear-gradient(90deg,#6847F4,#A65D00)}
 .ab-drag-hint{display:none}

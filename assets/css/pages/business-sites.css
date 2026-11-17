@@ -189,6 +189,7 @@ html.bp-on .bp-plates:not(.is-in) .bp-plus{transform:scale(0) rotate(-90deg)}
 .bp-bricks li{grid-column:span 2}
 .bp-bricks li:nth-child(4n+3){grid-column:2/span 2}
 .bp-group ul{grid-template-columns:1fr 1fr}
+.bp-group li:last-child:nth-child(odd){grid-column:1/-1}
 .bp-plates{grid-template-columns:1fr auto 1fr;align-items:center}
 .bp-plus{margin:0 -14px}
 .bp-cross{grid-template-columns:auto 1fr auto;align-items:center;gap:22px;padding:34px 38px}

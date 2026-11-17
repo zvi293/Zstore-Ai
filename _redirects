@@ -1,0 +1,4 @@
+# Zstore Ai — Netlify redirects
+# the Functions source (netlify/functions/*.js) sits inside the publish folder; never serve it as a static file.
+# (the live functions endpoint is /.netlify/functions/..., which this rule does not touch)
+/netlify/*  /404.html  404!

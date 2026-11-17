@@ -1746,30 +1746,6 @@ html.a11y-motion .ai-section .st-split .mark svg { opacity: .95 !important; }
 .pkg-top { display: flex; flex-wrap: wrap; gap: 18px 26px; align-items: flex-end; justify-content: space-between; margin-bottom: 8px; }
 .pkg-top h2 { font-size: clamp(1.55rem, 2vw + 0.75rem, 2.1rem); margin: 0; }
 .pkg-kicker { font-weight: 700; color: var(--violet-deep); font-size: .95rem; }
-/* no public price list: a single cell pointing to a personal quote */
-.pkg-quote-box {
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: var(--r-md);
-  overflow: hidden;
-}
-.pkg-quote-box .pp {
-  padding: 12px 22px;
-  text-align: center;
-}
-.pkg-quote-box .pp span {
-  display: block;
-  font-size: .78rem;
-  font-weight: 700;
-  color: var(--muted);
-  letter-spacing: .02em;
-  margin-bottom: 2px;
-}
-.pkg-quote-box .pp b {
-  font-weight: 700;
-  font-size: 1.1rem;
-  color: var(--violet-deep);
-}
 .pkg-price-note {
   display: block;
   color: var(--muted);
